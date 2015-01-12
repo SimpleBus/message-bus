@@ -1,13 +1,14 @@
 <?php
 
-namespace SimpleBus\Message\Tests\Bus;
+namespace SimpleBus\Message\Tests\Handler;
 
-use SimpleBus\Message\Bus\Middleware\DelegatesToMessageHandlers;
+use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
 use SimpleBus\Message\Message;
 use SimpleBus\Message\Handler\MessageHandler;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
+use SimpleBus\Message\Tests\Fixtures\NextCallableSpy;
 
-class DelegatesToMessageHandlersTest extends \PHPUnit_Framework_TestCase
+class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -18,17 +19,14 @@ class DelegatesToMessageHandlersTest extends \PHPUnit_Framework_TestCase
         $messageHandler = $this->mockMessageHandlerShouldHandle($message);
         $messageHandlerResolver = $this->mockMessageHandlerResolverShouldResolve($message, $messageHandler);
 
-        $messageBus = new DelegatesToMessageHandlers($messageHandlerResolver);
+        $middleware = new DelegatesToMessageHandlerMiddleware($messageHandlerResolver);
 
-        $nextIsCalled = false;
-        $next = function(Message $actualMessage) use (&$nextIsCalled, $message) {
-            $this->assertSame($message, $actualMessage);
-            $nextIsCalled = true;
-        };
+        $next = new NextCallableSpy();
 
-        $messageBus->handle($message, $next);
+        $middleware->handle($message, $next);
 
-        $this->assertTrue($nextIsCalled);
+        $this->assertSame(1, $next->hasBeenCalled());
+        $this->assertSame([$message], $next->receivedMessages());
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleBus\Message\Handler\Resolver\Name;
+namespace SimpleBus\Message\Name;
 
 use SimpleBus\Message\Message;
 

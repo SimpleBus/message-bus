@@ -1,29 +1,28 @@
 <?php
 
-namespace SimpleBus\Message\Tests\Handler\Resolver;
+namespace SimpleBus\Message\Tests\Subscriber\Resolver;
 
-use PHPUnit_Framework_TestCase;
-use SimpleBus\Message\Message;
-use SimpleBus\Message\Handler\Map\MessageHandlerMap;
 use SimpleBus\Message\Handler\MessageHandler;
+use SimpleBus\Message\Message;
 use SimpleBus\Message\Name\MessageNameResolver;
-use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
+use SimpleBus\Message\Subscriber\Collection\MessageSubscriberCollection;
+use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
 
-class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
+class NameBasedMessageSubscriberResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
      */
-    public function it_returns_a_message_handler_from_the_handler_collection_by_its_name()
+    public function it_returns_message_subscribers_from_the_handler_collection_by_its_name()
     {
         $message = $this->dummyMessage();
         $messageName = 'message_name';
         $messageHandler = $this->dummyMessageHandler();
 
         $messageNameResolver = $this->stubMessageNameResolver($message, $messageName);
-        $messageHandlerCollection = $this->stubMessageHandlerCollection([$messageName => $messageHandler]);
+        $messageHandlerCollection = $this->stubMessageSubscribersCollection([$messageName => $messageHandler]);
 
-        $nameBasedHandlerResolver = new NameBasedMessageHandlerResolver(
+        $nameBasedHandlerResolver = new NameBasedMessageSubscriberResolver(
             $messageNameResolver,
             $messageHandlerCollection
         );
@@ -63,23 +62,25 @@ class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param MessageHandler[] $messageHandlersByMessageName
-     * @return \PHPUnit_Framework_MockObject_MockObject|MessageHandlerMap
+     * @param MessageHandler[] $messageSubscribersByMessageName
+     * @return \PHPUnit_Framework_MockObject_MockObject|MessageSubscriberCollection
      */
-    private function stubMessageHandlerCollection(array $messageHandlersByMessageName)
+    private function stubMessageSubscribersCollection(array $messageSubscribersByMessageName)
     {
-        $messageHandlerCollection = $this->getMock('SimpleBus\Message\Handler\Map\MessageHandlerMap');
-        $messageHandlerCollection
+        $messageSubscribersCollection = $this->getMock(
+            'SimpleBus\Message\Subscriber\Collection\MessageSubscriberCollection'
+        );
+        $messageSubscribersCollection
             ->expects($this->any())
-            ->method('handlerByMessageName')
+            ->method('subscribersByMessageName')
             ->will(
                 $this->returnCallback(
-                    function ($messageName) use ($messageHandlersByMessageName) {
-                        return $messageHandlersByMessageName[$messageName];
+                    function ($messageName) use ($messageSubscribersByMessageName) {
+                        return $messageSubscribersByMessageName[$messageName];
                     }
                 )
             );
 
-        return $messageHandlerCollection;
+        return $messageSubscribersCollection;
     }
 }

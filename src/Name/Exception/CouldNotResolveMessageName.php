@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleBus\Message\Handler\Resolver\Name\Exception;
+namespace SimpleBus\Message\Name\Exception;
 
 use LogicException;
 use SimpleBus\Message\Message;

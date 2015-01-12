@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleBus\Message\Handler\Collection\Exception;
+namespace SimpleBus\Message\Handler\Map\Exception;
 
 use LogicException;
 

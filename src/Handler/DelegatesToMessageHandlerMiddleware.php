@@ -1,12 +1,13 @@
 <?php
 
-namespace SimpleBus\Message\Bus\Middleware;
+namespace SimpleBus\Message\Handler;
 
 use SimpleBus\Message\Bus;
+use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 use SimpleBus\Message\Message;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
 
-class DelegatesToMessageHandlers implements MessageBusMiddleware
+class DelegatesToMessageHandlerMiddleware implements MessageBusMiddleware
 {
     private $messageHandlerResolver;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace SimpleBus\Message\Tests\Handler\Resolver\Name;
+namespace SimpleBus\Message\Tests\Name;
 
-use SimpleBus\Message\Handler\Resolver\Name\NamedMessageNameResolver;
-use SimpleBus\Message\Tests\Handler\Resolver\Name\Fixtures\StubNamedMessage;
+use SimpleBus\Message\Name\NamedMessageNameResolver;
+use SimpleBus\Message\Tests\Name\Fixtures\StubNamedMessage;
 use stdClass;
 
 class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
@@ -31,7 +31,7 @@ class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
 
         $resolver = new NamedMessageNameResolver();
 
-        $this->setExpectedException('SimpleBus\Message\Handler\Resolver\Name\Exception\CouldNotResolveMessageName');
+        $this->setExpectedException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
         $resolver->resolve($message);
     }
 
@@ -45,7 +45,7 @@ class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
 
         $resolver = new NamedMessageNameResolver();
 
-        $this->setExpectedException('SimpleBus\Message\Handler\Resolver\Name\Exception\CouldNotResolveMessageName');
+        $this->setExpectedException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
         $resolver->resolve($message);
     }
 
@@ -56,7 +56,7 @@ class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
     {
         $resolver = new NamedMessageNameResolver();
 
-        $this->setExpectedException('SimpleBus\Message\Handler\Resolver\Name\Exception\CouldNotResolveMessageName');
+        $this->setExpectedException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
         $notANamedMessage = $this->dummyMessage();
         $resolver->resolve($notANamedMessage);
     }

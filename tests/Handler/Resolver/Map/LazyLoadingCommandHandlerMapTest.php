@@ -1,11 +1,11 @@
 <?php
 
-namespace SimpleBus\Message\Tests\Handler\Collection;
+namespace SimpleBus\Message\Tests\Handler\Map;
 
-use SimpleBus\Message\Handler\Collection\LazyLoadingMessageHandlerCollection;
+use SimpleBus\Message\Handler\Map\LazyLoadingMessageHandlerMap;
 use stdClass;
 
-class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCase
+class LazyLoadingMessageHandlerMapTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -14,7 +14,7 @@ class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCas
     {
         $messageHandlerService = $this->dummyMessageHandler();
 
-        $collection = new LazyLoadingMessageHandlerCollection(
+        $map = new LazyLoadingMessageHandlerMap(
             [
                 'Known\Message' => 'known_message_handler_service_id'
             ],
@@ -25,7 +25,7 @@ class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCas
             )
         );
 
-        $this->assertSame($messageHandlerService, $collection->getByMessageName('Known\Message'));
+        $this->assertSame($messageHandlerService, $map->handlerByMessageName('Known\Message'));
     }
 
     /**
@@ -33,15 +33,15 @@ class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCas
      */
     public function it_fails_when_there_is_no_message_handler_for_the_given_name()
     {
-        $collection = new LazyLoadingMessageHandlerCollection(
+        $map = new LazyLoadingMessageHandlerMap(
             [],
             $this->stubServiceLocator([])
         );
 
         $this->setExpectedException(
-            'SimpleBus\Message\Handler\Collection\Exception\NoHandlerForMessageName'
+            'SimpleBus\Message\Handler\Map\Exception\NoHandlerForMessageName'
         );
-        $collection->getByMessageName('Unknown\Message');
+        $map->handlerByMessageName('Unknown\Message');
     }
 
     /**
@@ -49,7 +49,7 @@ class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCas
      */
     public function it_fails_when_the_handler_returned_by_the_service_locator_is_not_an_object_of_the_right_class()
     {
-        $collection = new LazyLoadingMessageHandlerCollection(
+        $map = new LazyLoadingMessageHandlerMap(
             [
                 'Message\Name' => 'not_a_message_handler_service_of_the_right_class_id'
             ],
@@ -60,8 +60,8 @@ class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCas
             )
         );
 
-        $this->setExpectedException('SimpleBus\Message\Handler\Collection\Exception\InvalidMessageHandler');
-        $collection->getByMessageName('Message\Name');
+        $this->setExpectedException('\LogicException');
+        $map->handlerByMessageName('Message\Name');
     }
 
     /**
@@ -69,7 +69,7 @@ class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCas
      */
     public function it_fails_when_the_handler_returned_by_the_service_locator_is_not_an_object()
     {
-        $collection = new LazyLoadingMessageHandlerCollection(
+        $map = new LazyLoadingMessageHandlerMap(
             [
                 'Message\Name' => 'not_an_object_service_id'
             ],
@@ -80,8 +80,8 @@ class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCas
             )
         );
 
-        $this->setExpectedException('SimpleBus\Message\Handler\Collection\Exception\InvalidMessageHandler');
-        $collection->getByMessageName('Message\Name');
+        $this->setExpectedException('\LogicException');
+        $map->handlerByMessageName('Message\Name');
     }
 
     /**
@@ -89,7 +89,7 @@ class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCas
      */
     public function it_fails_when_the_service_locator_fails_to_load_the_message_handler_service()
     {
-        $collection = new LazyLoadingMessageHandlerCollection(
+        $map = new LazyLoadingMessageHandlerMap(
             [
                 'Message\Name' => 'invalid_message_handler_service_id'
             ],
@@ -98,8 +98,8 @@ class LazyLoadingMessageHandlerCollectionTest extends \PHPUnit_Framework_TestCas
             }
         );
 
-        $this->setExpectedException('SimpleBus\Message\Handler\Collection\Exception\CouldNotLoadHandlerService');
-        $collection->getByMessageName('Message\Name');
+        $this->setExpectedException('\Exception');
+        $map->handlerByMessageName('Message\Name');
     }
 
     private function dummyMessageHandler()

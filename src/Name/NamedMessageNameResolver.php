@@ -1,8 +1,8 @@
 <?php
 
-namespace SimpleBus\Message\Handler\Resolver\Name;
+namespace SimpleBus\Message\Name;
 
-use SimpleBus\Message\Handler\Resolver\Name\Exception\CouldNotResolveMessageName;
+use SimpleBus\Message\Name\Exception\CouldNotResolveMessageName;
 use SimpleBus\Message\Message;
 use SimpleBus\Message\NamedMessage;
 

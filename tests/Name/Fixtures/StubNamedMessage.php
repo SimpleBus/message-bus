@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleBus\Message\Tests\Handler\Resolver\Name\Fixtures;
+namespace SimpleBus\Message\Tests\Name\Fixtures;
 
 use SimpleBus\Message\NamedMessage;
 

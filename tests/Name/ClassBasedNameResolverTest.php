@@ -1,8 +1,8 @@
 <?php
 
-namespace SimpleBus\Message\Tests\Handler\Resolver\Name;
+namespace SimpleBus\Message\Tests\Name;
 
-use SimpleBus\Message\Handler\Resolver\Name\ClassBasedNameResolver;
+use SimpleBus\Message\Name\ClassBasedNameResolver;
 use SimpleBus\Message\Tests\Handler\Resolver\Fixtures\DummyMessage;
 
 class ClassBasedNameResolverTest extends \PHPUnit_Framework_TestCase

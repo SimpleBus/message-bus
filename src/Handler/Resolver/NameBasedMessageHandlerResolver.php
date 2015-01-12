@@ -3,8 +3,8 @@
 namespace SimpleBus\Message\Handler\Resolver;
 
 use SimpleBus\Message\Message;
-use SimpleBus\Message\Handler\Collection\MessageHandlerCollection;
-use SimpleBus\Message\Handler\Resolver\Name\MessageNameResolver;
+use SimpleBus\Message\Handler\Map\MessageHandlerMap;
+use SimpleBus\Message\Name\MessageNameResolver;
 
 class NameBasedMessageHandlerResolver implements MessageHandlerResolver
 {
@@ -14,11 +14,11 @@ class NameBasedMessageHandlerResolver implements MessageHandlerResolver
     private $messageNameResolver;
 
     /**
-     * @var \SimpleBus\Message\Handler\Collection\MessageHandlerCollection
+     * @var \SimpleBus\Message\Handler\Map\MessageHandlerMap
      */
     private $messageHandlers;
 
-    public function __construct(MessageNameResolver $messageNameResolver, MessageHandlerCollection $messageHandlers)
+    public function __construct(MessageNameResolver $messageNameResolver, MessageHandlerMap $messageHandlers)
     {
         $this->messageNameResolver = $messageNameResolver;
         $this->messageHandlers = $messageHandlers;
@@ -31,6 +31,6 @@ class NameBasedMessageHandlerResolver implements MessageHandlerResolver
     {
         $name = $this->messageNameResolver->resolve($message);
 
-        return $this->messageHandlers->getByMessageName($name);
+        return $this->messageHandlers->handlerByMessageName($name);
     }
 }
