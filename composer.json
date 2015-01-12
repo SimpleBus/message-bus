@@ -19,10 +19,15 @@
     "require-dev": {
         "phpunit/phpunit": "~4.0"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4" : { "SimpleBus\\Message\\" : "src" }
     },
     "autoload-dev": {
         "psr-4" : { "SimpleBus\\Message\\Tests\\" : "tests" }
+    },
+    "extra": {
+        "branch-alias": "1.0"
     }
 }
