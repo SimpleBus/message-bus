@@ -28,6 +28,8 @@
         "psr-4" : { "SimpleBus\\Message\\Tests\\" : "tests" }
     },
     "extra": {
-        "branch-alias": "1.0"
+        "branch-alias": {
+            "dev-master": "1.0"
+        }
     }
 }
