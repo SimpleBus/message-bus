@@ -28,7 +28,11 @@ class HandlesRecordedMessagesMiddleware implements MessageBusMiddleware
     {
         $next($message);
 
-        foreach ($this->messageRecorder->recordedMessages() as $recordedMessage) {
+        $recordedMessages = $this->messageRecorder->recordedMessages();
+
+        $this->messageRecorder->eraseMessages();
+
+        foreach ($recordedMessages as $recordedMessage) {
             $this->messageBus->handle($recordedMessage);
         }
     }

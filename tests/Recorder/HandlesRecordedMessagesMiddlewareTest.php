@@ -15,7 +15,18 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
     public function it_handles_recorded_messages()
     {
         $messages = [$this->dummyMessage(), $this->dummyMessage()];
-        $messageRecorder = new MessageRecorderStub($messages);
+        $messageRecorder = $this->mockMessageRecorder();
+
+        // first recorded messages should be fetched
+        $messageRecorder
+            ->expects($this->at(0))
+            ->method('recordedMessages')
+            ->will($this->returnValue($messages));
+
+        // then immediately erased
+        $messageRecorder
+            ->expects($this->at(1))
+            ->method('eraseMessages');
 
         $actuallyHandledMessages = [];
         $messageBus = $this->messageBusSpy($actuallyHandledMessages);
@@ -52,5 +63,10 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
     private function dummyMessage()
     {
         return $this->getMock('SimpleBus\Message\Message');
+    }
+
+    private function mockMessageRecorder()
+    {
+        return $this->getMock('SimpleBus\Message\Recorder\RecordsMessages');
     }
 }
