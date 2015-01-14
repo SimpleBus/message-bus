@@ -2,6 +2,7 @@
 
 namespace SimpleBus\Message\Tests\Recorder;
 
+use SimpleBus\Message\Message;
 use SimpleBus\Message\Tests\Recorder\Fixtures\MessageRecorderCapabilitiesStub;
 
 class MessageRecorderCapabilitiesTest extends \PHPUnit_Framework_TestCase
@@ -35,6 +36,9 @@ class MessageRecorderCapabilitiesTest extends \PHPUnit_Framework_TestCase
         $this->assertSame([], $messageRecorder->recordedMessages());
     }
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     */
     private function dummyMessage()
     {
         return $this->getMock('SimpleBus\Message\Message');

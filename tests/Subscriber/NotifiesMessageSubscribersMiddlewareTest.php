@@ -4,6 +4,7 @@ namespace SimpleBus\Message\Tests\Subscriber;
 
 use SimpleBus\Message\Message;
 use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
+use SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver;
 use SimpleBus\Message\Tests\Fixtures\NextCallableSpy;
 
 class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCase
@@ -32,6 +33,11 @@ class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCa
         $this->assertSame([$message], $next->receivedMessages());
     }
 
+    /**
+     * @param Message $message
+     * @param array $messageSubscribers
+     * @return \PHPUnit_Framework_MockObject_MockObject|MessageSubscribersResolver
+     */
     private function mockMessageSubscribersResolver(Message $message, array $messageSubscribers)
     {
         $resolver = $this->getMock('SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver');
@@ -45,6 +51,9 @@ class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCa
         return $resolver;
     }
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     */
     private function dummyMessage()
     {
         return $this->getMock('SimpleBus\Message\Message');

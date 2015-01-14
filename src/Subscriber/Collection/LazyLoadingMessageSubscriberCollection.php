@@ -3,8 +3,6 @@
 namespace SimpleBus\Message\Subscriber\Collection;
 
 use Assert\Assertion;
-use SimpleBus\Message\Handler\Map\Exception\CouldNotLoadHandlerService;
-use SimpleBus\Message\Handler\Map\Exception\InvalidMessageHandler;
 
 class LazyLoadingMessageSubscriberCollection implements MessageSubscriberCollection
 {
@@ -26,8 +24,6 @@ class LazyLoadingMessageSubscriberCollection implements MessageSubscriberCollect
 
     /**
      * {@inheritdoc}
-     * @throws CouldNotLoadHandlerService
-     * @throws InvalidMessageHandler
      */
     public function subscribersByMessageName($messageName)
     {

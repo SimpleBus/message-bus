@@ -2,10 +2,11 @@
 
 namespace SimpleBus\Message\Tests\Recorder;
 
+use SimpleBus\Message\Bus\MessageBus;
 use SimpleBus\Message\Message;
 use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
+use SimpleBus\Message\Recorder\RecordsMessages;
 use SimpleBus\Message\Tests\Fixtures\NextCallableSpy;
-use SimpleBus\Message\Tests\Recorder\Fixtures\MessageRecorderStub;
 
 class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,6 +43,10 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($messages, $actuallyHandledMessages);
     }
 
+    /**
+     * @param array $actuallyHandledMessages
+     * @return \PHPUnit_Framework_MockObject_MockObject|MessageBus
+     */
     private function messageBusSpy(array &$actuallyHandledMessages)
     {
         $messageBus = $this->getMock('SimpleBus\Message\Bus\MessageBus');
@@ -60,11 +65,17 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
         return $messageBus;
     }
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     */
     private function dummyMessage()
     {
         return $this->getMock('SimpleBus\Message\Message');
     }
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|RecordsMessages
+     */
     private function mockMessageRecorder()
     {
         return $this->getMock('SimpleBus\Message\Recorder\RecordsMessages');
