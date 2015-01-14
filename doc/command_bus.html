@@ -53,7 +53,7 @@ $commandBus-&gt;addMiddleware(new FinishesHandlingMessageBeforeHandlingNext());<
 <p>Now we also want commands to be handled by exactly one command handler. We first need to define the collection of
 handlers that are available in the application. We should make this <em>command handler map</em> lazy-loading, or every
 command handler will be fully loaded, even though it is not going to be used:</p>
-<pre><code class="language-php">use SimpleBus\Message\Handler\Map\LazyLoadingCommandHandlerCollection;
+<pre><code class="language-php">use SimpleBus\Message\Handler\Map\LazyLoadingMessageHandlerMap;
 
 // provide a service locator callable
 $serviceLocator = function ($serviceId) {
@@ -68,7 +68,7 @@ $commandHandlersByCommandName = [
     'Fully\Qualified\Class\Name\Of\Command' =&gt; 'command_handler_service_id'
 ];
 
-$commandHandlerMap = new LazyLoadingCommandHandlerCollection(
+$commandHandlerMap = new LazyLoadingMessageHandlerMap(
     $commandHandlersByCommandName,
     $serviceLocator
 );</code></pre>
