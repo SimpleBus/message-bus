@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>MessageBus</title>
+
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/highlight.dark.css">
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <a class="navbar-brand" href="/">
+                MessageBus
+                <small class="hidden-xs hidden-sm">
+                    Generic classes and interfaces for command and event buses
+                </small>
+            </a>
+
+            
+        </header>
+
+        <main class="container">
+            <div class="row">
+
+                
+                <section id="content" class="col-sm-12">
+                    <h1>Implementing a command bus</h1>
+<p>The classes and interfaces from this package can be used to set up a command bus. The characteristics of a command bus
+are:</p>
+<ul>
+<li>It handles <em>commands</em>, i.e. imperative messages</li>
+<li>Commands are handled by exactly one <em>command handler</em></li>
+<li>The behavior of the command bus is extensible: <em>middlewares</em> are able to do things before or after handling a command</li>
+</ul>
+<h2>Setting up the command bus</h2>
+<p>At least we need an instance of <code>MessageBusSupportingMiddleware</code>:</p>
+<pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
+
+$commandBus = new MessageBusSupportingMiddleware();</code></pre>
+<h3>Finish handling a command, before handling the next</h3>
+<p>We want to make sure that commands are always fully handled before other commands will be handled, so we add a
+specialized middleware for that:</p>
+<pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
+
+$commandBus-&gt;addMiddleware(new FinishesHandlingMessageBeforeHandlingNext());</code></pre>
+<h3 id="command-handler-map">Defining the command handler map</h3>
+<p>Now we also want commands to be handled by exactly one command handler. We first need to define the collection of
+handlers that are available in the application. We should make this <em>command handler map</em> lazy-loading, or every
+command handler will be fully loaded, even though it is not going to be used:</p>
+<pre><code class="language-php">use SimpleBus\Command\Handler\Collection\LazyLoadingCommandHandlerCollection;
+
+// provide a service locator callable
+$serviceLocator = function ($serviceId) {
+    // lazily load/create an instance of the command handler, e.g. using an IoC container
+    $handler = ...;
+
+    return $handler;
+}
+
+// provide a map of command names to service ids
+$commandHandlersByCommandName = [
+    'Fully\Qualified\Class\Name\Of\Command' =&gt; 'command_handler_service_id'
+];
+
+$commandHandlerMap = new LazyLoadingCommandHandlerCollection(
+    $commandHandlersByCommandName,
+    $serviceLocator
+);</code></pre>
+<h3>Resolving the command handler for a command</h3>
+<h4>The name of a command</h4>
+<p>First we need a way to resolve the name of a command. You can use the fully-qualified class name (FQCN) of a
+command object as its name:</p>
+<pre><code class="language-php">use SimpleBus\Message\Name\ClassBasedNameResolver;
+
+$nameResolver = new ClassBasedNameResolver();</code></pre>
+<p>Or you can ask command objects what their name is:</p>
+<pre><code class="language-php">use SimpleBus\Message\Name\NamedMessageNameResolver;
+
+$nameResolver = new NamedMessageNameResolver();</code></pre>
+<p>In that case your commands have to implement <code>NamedMessage</code>:</p>
+<pre><code class="language-php">use SimpleBus\Message\Type\Command;
+use SimpleBus\Message\NamedMessage;
+
+class YourCommand implements Command, NamedMessage
+{
+    public function name()
+    {
+        return 'your_command';
+    }
+}</code></pre>
+<blockquote>
+<h4>Implementing your own <code>MessageNameResolver</code></h4>
+<p>If you want to use another rule to determine the name of a command, create a class that implements
+<code>SimpleBus\Message\Name\MessageNameResolver</code>.</p>
+</blockquote>
+<h3>Resolving the command based on its name</h3>
+<p>Using the <code>MessageNameResolver</code> of your choice, you can now let the <em>command handler resolver</em> find the right command
+handler for a given command.</p>
+<pre><code class="language-php">use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
+
+$commandHandlerResolver = new NameBasedMessageHandlerResolver(
+    $commandNameResolver,
+    $commandHandlerMap
+);</code></pre>
+<p>Finally, we should add some middleware to the command bus that calls the resolved command handler:</p>
+<pre><code class="language-php">use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
+
+$commandBus-&gt;addMiddleware(
+    new DelegatesToMessageHandlerMiddleware(
+        $commandHandlerResolver
+    )
+);</code></pre>
+<h2>Using the command bus: an example</h2>
+<p>Consider the following command:</p>
+<pre><code class="language-php">use SimpleBus\Message\Type\Command;
+
+class RegisterUser implements Command
+{
+    private $emailAddress;
+    private $plainTextPassword;
+
+    public function __construct($emailAddress, $plainTextPassword)
+    {
+        $this-&gt;emailAddress = $emailAddress;
+        $this-&gt;plainTextPassword = $plainTextPassword;
+    }
+
+    public function emailAddress()
+    {
+        return $this-&gt;emailAddress;
+    }
+
+    public function plainTextPassword()
+    {
+        return $this-&gt;plainTextPassword;
+    }
+}</code></pre>
+<p>This command communicates the intention to "register a new user". The message data consists of an email address and a
+password in plain text. This information is required to execute the desired behavior.</p>
+<p>The handler for this command looks like this:</p>
+<pre><code class="language-php">use SimpleBus\Message\Handler\MessageHandler;
+use SimpleBus\Message\Message;
+
+class RegisterUserCommandHandler implements MessageHandler
+{
+    ...
+
+    public function handle(Message $message)
+    {
+        $user = User::register(
+            $message-&gt;emailAddress(),
+            $message-&gt;plainTextPassword()
+        );
+
+        $this-&gt;userRepository-&gt;add($user);
+    }
+}</code></pre>
+<p>We should register this handler as a service and add the service id to the <a href="#command-handler-map">command handler map</a>.
+Since we have already fully configured the command bus, we can just start creating a new command and let the command bus
+handle it. Eventually the command will be passes as a message to the <code>RegisterUserCommandHandler</code>:</p>
+<pre><code class="language-php">$command = new RegisterUserCommand(
+    'matthiasnoback@gmail.com',
+    's3cr3t'
+);
+
+$commandBus-&gt;handle($command);</code></pre>
+<blockquote>
+<h4>Implementing your own command bus middleware</h4>
+<p>It's very easy to extend the behavior of the command bus. You can create a class that implements
+<code>MessageBusMiddleware</code>:</p>
+<pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
+
+/**
+ * Marker interface for commands that should be handled asynchronously
+ */
+interface IsHandledAsynchronously
+{
+}
+
+class HandleCommandsAsynchronously implements MessageBusMiddleware
+{
+    ...
+
+    public function handle(Message $message, callable $next)
+    {
+        if ($message instanceof IsHandledAsynchronously) {
+            // handle the message asynchronously using a message queue
+            $this-&gt;messageQueue-&gt;add($message);
+        } else {
+            // handle the message synchronously, i.e. right-away
+            $next($message);
+        }
+    }
+}</code></pre>
+<p>You should add an instance of that class as middleware to any <code>MessageBusSupportingMiddleware</code> instance (like the
+command bus we created earlier):</p>
+<pre><code class="language-php">$commandBus-&gt;addMiddleware(new HandleCommandsAsynchronously());</code></pre>
+<p>Make sure that you do this at the right place, before or after you add the other middlewares.</p>
+<p>Calling <code>$next($message)</code> will make sure that the next middleware in line is able to handle the message.</p>
+</blockquote>
+                </section>
+
+            </div>
+        </main>
+
+        <footer>
+            <div class="container">
+                <p class="text-muted">
+                    website generated with <a href="http://couscous.io" title="Markdown website generator">Couscous</a>
+                </p>
+            </div>
+        </footer>
+
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="http://yastatic.net/highlightjs/8.2/highlight.min.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+                // Syntax highlighting
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+    </body>
+</html>
