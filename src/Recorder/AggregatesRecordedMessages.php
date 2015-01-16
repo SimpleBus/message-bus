@@ -14,8 +14,6 @@ class AggregatesRecordedMessages implements RecordsMessages
         foreach ($messageRecorders as $messageRecorder) {
             $this->addMessageRecorder($messageRecorder);
         }
-
-        $this->messageRecorders = $messageRecorders;
     }
 
     /**
