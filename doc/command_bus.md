@@ -188,7 +188,7 @@ Since we have already fully configured the command bus, we can just start creati
 command bus handle it. Eventually the command will be passed as a message to the `RegisterUserCommandHandler`:
 
 ```php
-$command = new RegisterUserCommand(
+$command = new RegisterUser(
     'matthiasnoback@gmail.com',
     's3cr3t'
 );
