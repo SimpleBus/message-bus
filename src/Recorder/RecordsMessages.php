@@ -7,14 +7,14 @@ use SimpleBus\Message\Message;
 interface RecordsMessages
 {
     /**
-     * Fetch messages recorded by the object that uses this trait.
+     * Fetch recorded messages.
      *
      * @return Message[]
      */
     public function recordedMessages();
 
     /**
-     * Erase messages that were recorded since the last call to eraseMessages()
+     * Erase messages that were recorded since the last call to eraseMessages().
      *
      * @return void
      */

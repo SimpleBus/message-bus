@@ -1,3 +1,7 @@
+---
+currentMenu: command_bus
+---
+
 # Implementing a command bus
 
 The classes and interfaces from this package can be used to set up a command bus. The characteristics of a command bus
@@ -5,7 +9,8 @@ are:
 
 - It handles *commands*, i.e. imperative messages
 - Commands are handled by exactly one *command handler*
-- The behavior of the command bus is extensible: *middlewares* are able to do things before or after handling a command
+- The behavior of the command bus is extensible: *middlewares* are allowed to do things before or after handling a
+command
 
 ## Setting up the command bus
 
@@ -35,7 +40,7 @@ handlers that are available in the application. We should make this *command han
 command handler will be fully loaded, even though it is not going to be used:
 
 ```php
-use SimpleBus\Command\Handler\Collection\LazyLoadingCommandHandlerCollection;
+use SimpleBus\Message\Handler\Map\LazyLoadingMessageHandlerMap;
 
 // provide a service locator callable
 $serviceLocator = function ($serviceId) {
@@ -50,7 +55,7 @@ $commandHandlersByCommandName = [
     'Fully\Qualified\Class\Name\Of\Command' => 'command_handler_service_id'
 ];
 
-$commandHandlerMap = new LazyLoadingCommandHandlerCollection(
+$commandHandlerMap = new LazyLoadingMessageHandlerMap(
     $commandHandlersByCommandName,
     $serviceLocator
 );
@@ -66,7 +71,7 @@ command object as its name:
 ```php
 use SimpleBus\Message\Name\ClassBasedNameResolver;
 
-$nameResolver = new ClassBasedNameResolver();
+$commandNameResolver = new ClassBasedNameResolver();
 ```
 
 Or you can ask command objects what their name is:
@@ -74,7 +79,7 @@ Or you can ask command objects what their name is:
 ```php
 use SimpleBus\Message\Name\NamedMessageNameResolver;
 
-$nameResolver = new NamedMessageNameResolver();
+$commandNameResolver = new NamedMessageNameResolver();
 ```
 
 In that case your commands have to implement `NamedMessage`:
@@ -97,7 +102,7 @@ class YourCommand implements Command, NamedMessage
 > If you want to use another rule to determine the name of a command, create a class that implements
 > `SimpleBus\Message\Name\MessageNameResolver`.
 
-### Resolving the command based on its name
+### Resolving the command handler based on the name of the command
 
 Using the `MessageNameResolver` of your choice, you can now let the *command handler resolver* find the right command
 handler for a given command.
@@ -179,8 +184,8 @@ class RegisterUserCommandHandler implements MessageHandler
 ```
 
 We should register this handler as a service and add the service id to the [command handler map](#command-handler-map).
-Since we have already fully configured the command bus, we can just start creating a new command and let the command bus
-handle it. Eventually the command will be passes as a message to the `RegisterUserCommandHandler`:
+Since we have already fully configured the command bus, we can just start creating a new command object and let the
+command bus handle it. Eventually the command will be passed as a message to the `RegisterUserCommandHandler`:
 
 ```php
 $command = new RegisterUserCommand(
@@ -233,3 +238,5 @@ $commandBus->handle($command);
 > Make sure that you do this at the right place, before or after you add the other middlewares.
 >
 > Calling `$next($message)` will make sure that the next middleware in line is able to handle the message.
+
+Continue to read about the perfect complement to the command bus: the [event bus](event_bus.md).

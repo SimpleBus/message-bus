@@ -1,14 +1,10 @@
 <?php
 
-
 namespace SimpleBus\Message\Recorder;
 
 use SimpleBus\Message\Message;
 
-/**
- * Use this trait in classes which implement RecordsMessages to record and later release Message instances, like events.
- */
-trait MessageRecorderCapabilities
+class PublicMessageRecorder implements RecordsMessages
 {
     private $messages = array();
 
@@ -33,7 +29,7 @@ trait MessageRecorderCapabilities
      *
      * @param Message $message
      */
-    protected function record(Message $message)
+    public function record(Message $message)
     {
         $this->messages[] = $message;
     }

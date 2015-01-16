@@ -1,2 +1,19 @@
 title: MessageBus
 subTitle: Generic classes and interfaces for command and event buses
+baseUrl: http://simplebus.github.io/MessageBus
+menu:
+    items:
+        command_bus:
+            itemId: command_bus
+            text: Command bus
+            # You can use relative urls
+            relativeUrl: doc/command_bus.html
+        event_bus:
+            itemId: event_bus
+            text: Event bus
+            # You can use relative urls
+            relativeUrl: doc/event_bus.html
+        message_recorder:
+            itemId: message_recorder
+            text: Recording events
+            relativeUrl: doc/message_recorder.html
