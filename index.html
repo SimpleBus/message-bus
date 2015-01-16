@@ -25,11 +25,34 @@
             
         </header>
 
-        <main class="container">
+        <main class="container-fluid">
             <div class="row">
 
                 
-                <section id="content" class="col-sm-12">
+                    <nav id="sidebar" class="col-sm-3 col-lg-2" role="navigation">
+
+                        <ul class="nav nav-pills nav-stacked">
+                                                            <li class="">
+                                    <a href="http://simplebus.github.io/MessageBus/doc/command_bus.html">
+                                        Command bus
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="http://simplebus.github.io/MessageBus/doc/event_bus.html">
+                                        Event bus
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="http://simplebus.github.io/MessageBus/doc/message_recorder.html">
+                                        Recording events
+                                    </a>
+                                </li>
+                                                    </ul>
+
+                    </nav>
+
+                
+                <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
                     <h1>MessageBus</h1>
 <p><a href="https://travis-ci.org/SimpleBus/MessageBus"><img alt="Build Status" src="https://travis-ci.org/SimpleBus/MessageBus.svg?branch=master" /></a></p>
 <p>By <a href="http://php-and-symfony.matthiasnoback.nl/">Matthias Noback</a></p>
@@ -40,7 +63,7 @@
         </main>
 
         <footer>
-            <div class="container">
+            <div class="container-fluid">
                 <p class="text-muted">
                     website generated with <a href="http://couscous.io" title="Markdown website generator">Couscous</a>
                 </p>

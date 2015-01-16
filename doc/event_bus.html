@@ -25,20 +25,209 @@
             
         </header>
 
-        <main class="container">
+        <main class="container-fluid">
             <div class="row">
 
                 
-                <section id="content" class="col-sm-12">
+                    <nav id="sidebar" class="col-sm-3 col-lg-2" role="navigation">
+
+                        <ul class="nav nav-pills nav-stacked">
+                                                            <li class="">
+                                    <a href="http://simplebus.github.io/MessageBus/doc/command_bus.html">
+                                        Command bus
+                                    </a>
+                                </li>
+                                                            <li class="active">
+                                    <a href="http://simplebus.github.io/MessageBus/doc/event_bus.html">
+                                        Event bus
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="http://simplebus.github.io/MessageBus/doc/message_recorder.html">
+                                        Recording events
+                                    </a>
+                                </li>
+                                                    </ul>
+
+                    </nav>
+
+                
+                <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
                     <h1>Implementing an event bus</h1>
-<p>TODO describe how to set up an event bus and let it handle events</p>
+<p>The classes and interfaces from this package can also be used to set up an event bus. The characteristics of an event
+bus are:</p>
+<ul>
+<li>It handles <em>events</em>, i.e. informational messages</li>
+<li>Zero or more <em>event subscribers</em> will be notified of the occurance of an event</li>
+<li>The behavior of the event bus is extensible: <em>middlewares</em> are allowed to do things before or after handling an event</li>
+</ul>
+<h2>Setting up the event bus</h2>
+<p>At least we need an instance of <code>MessageBusSupportingMiddleware</code>:</p>
+<pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
+
+$eventBus = new MessageBusSupportingMiddleware();</code></pre>
+<h3>Finish handling an event, before handling the next</h3>
+<p>We want to make sure that events are always fully handled before other events will be handled, so we add a
+specialized middleware for that:</p>
+<pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
+
+$eventBus-&gt;addMiddleware(new FinishesHandlingMessageBeforeHandlingNext());</code></pre>
+<h3 id="event-subscriber-collection">Defining the event subscriber collection</h3>
+<p>We want any number of event subscribers to be notified of a given event. We first need to define the collection of event
+subscribers that are available in the application. We should make this <em>event subscriber collection</em> lazy-loading, or
+every event subscriber will be fully loaded, even though it is not going to be used:</p>
+<pre><code class="language-php">use SimpleBus\Message\Subscriber\Collection\LazyLoadingMessageSubscriberCollection;
+
+// provide a service locator callable
+$serviceLocator = function ($serviceId) {
+    // lazily load/create an instance of the event subscriber, e.g. using an IoC container
+    $handler = ...;
+
+    return $handler;
+}
+
+// provide a map of event names to service ids
+$eventSubscribersByEventName = [
+    'Fully\Qualified\Class\Name\Of\Event' =&gt; [
+        'event_subscriber_service_id',
+        'another_event_subscriber_service_id',
+    ]
+];
+
+$eventSubscriberCollection = new LazyLoadingMessageSubscriberCollection(
+    $eventSubscribersByEventName,
+    $serviceLocator
+);</code></pre>
+<h3>Resolving the event subscribers for an event</h3>
+<h4>The name of an event</h4>
+<p>First we need a way to resolve the name of an event. You can use the fully-qualified class name (FQCN) of an
+event object as its name:</p>
+<pre><code class="language-php">use SimpleBus\Message\Name\ClassBasedNameResolver;
+
+$eventNameResolver = new ClassBasedNameResolver();</code></pre>
+<p>Or you can ask event objects what their name is:</p>
+<pre><code class="language-php">use SimpleBus\Message\Name\NamedMessageNameResolver;
+
+$eventNameResolver = new NamedMessageNameResolver();</code></pre>
+<p>In that case your events have to implement <code>NamedMessage</code>:</p>
+<pre><code class="language-php">use SimpleBus\Message\Type\Event;
+use SimpleBus\Message\NamedMessage;
+
+class YourEvent implements Event, NamedMessage
+{
+    public function name()
+    {
+        return 'your_event';
+    }
+}</code></pre>
+<blockquote>
+<h4>Implementing your own <code>MessageNameResolver</code></h4>
+<p>If you want to use another rule to determine the name of an event, create a class that implements
+<code>SimpleBus\Message\Name\MessageNameResolver</code>.</p>
+</blockquote>
+<h3>Resolving the event subscribers based on the name of the event</h3>
+<p>Using the <code>MessageNameResolver</code> of your choice, you can now let the <em>event subscribers resolver</em> find the right event
+subscribers for a given event.</p>
+<pre><code class="language-php">use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
+
+$eventSubscribersResolver = new NameBasedMessageSubscriberResolver(
+    $eventNameResolver,
+    $eventSubscriberCollection
+);</code></pre>
+<p>Finally, we should add some middleware to the event bus that notifies all of the resolved event subscribers:</p>
+<pre><code class="language-php">use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
+
+$eventBus-&gt;addMiddleware(
+    new NotifiesMessageSubscribersMiddleware(
+        $eventSubscribersResolver
+    )
+);</code></pre>
+<h2>Using the event bus: an example</h2>
+<p>Consider the following event:</p>
+<pre><code class="language-php">use SimpleBus\Message\Type\Event;
+
+class UserRegistered implements Event
+{
+    private $userId;
+
+    public function __construct(UserId $userId)
+    {
+        $this-&gt;userId = $userId;
+    }
+
+    public function userId()
+    {
+        return $this-&gt;userId;
+    }
+}</code></pre>
+<p>This event conveys the information that "a new user was registered". The message data consists of the unique identifier
+of the user that was registered. This information is required for event subscribers to act upon the event.</p>
+<p>A subscriber for this event looks like this:</p>
+<pre><code class="language-php">use SimpleBus\Message\Subscriber\MessageSubscriber;
+use SimpleBus\Message\Message;
+
+class SendWelcomeMailWhenUserRegistered implements MessageSubscriber
+{
+    ...
+
+    public function notify(Message $message)
+    {
+        $user = $this-&gt;userRepository-&gt;byId($message-&gt;userId());
+
+        // send the welcome mail
+    }
+}</code></pre>
+<p>We should register this subscriber as a service and add the service id to the <a href="#event-subscriber-collection">event subscriber
+collection</a>. Since we have already fully configured the event bus, we can just start
+creating a new event object and let the event bus handle it. Eventually the event will be passed as a message to the
+<code>SendWelcomeMailWhenUserRegistered</code> event subscriber:</p>
+<pre><code class="language-php">$userId = $this-&gt;userRepository-&gt;nextIdentity();
+
+$event = new UserRegistered($userId);
+
+$eventBus-&gt;handle($event);</code></pre>
+<blockquote>
+<h4>Implementing your own event bus middleware</h4>
+<p>It's very easy to extend the behavior of the event bus. You can create a class that implements
+<code>MessageBusMiddleware</code>:</p>
+<pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
+
+/**
+ * Marker interface for domain events that should be stored in the event store
+ */
+interface DomainEvent
+{
+}
+
+class StoreDomainEvents implements MessageBusMiddleware
+{
+    ...
+
+    public function handle(Message $message, callable $next)
+    {
+        if ($message instanceof DomainEvent) {
+            // store the domain event
+            $this-&gt;eventStore-&gt;add($message);
+        }
+
+        // let other middlewares do their job
+        $next($message);
+    }
+}</code></pre>
+<p>You should add an instance of that class as middleware to any <code>MessageBusSupportingMiddleware</code> instance (like the
+event bus we created earlier):</p>
+<pre><code class="language-php">$eventBus-&gt;addMiddleware(new StoreDomainEvents());</code></pre>
+<p>Make sure that you do this at the right place, before or after you add the other middlewares.</p>
+<p>Calling <code>$next($message)</code> will make sure that the next middleware in line is able to handle the message.</p>
+</blockquote>
+<p>Continue to read about <a href="message_recorder.html">recording events and handling them</a>.</p>
                 </section>
 
             </div>
         </main>
 
         <footer>
-            <div class="container">
+            <div class="container-fluid">
                 <p class="text-muted">
                     website generated with <a href="http://couscous.io" title="Markdown website generator">Couscous</a>
                 </p>
