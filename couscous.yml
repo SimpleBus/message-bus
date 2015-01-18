@@ -19,3 +19,9 @@ menu:
             itemId: message_recorder
             text: Recording events
             relativeUrl: doc/message_recorder.html
+        doctrine_orm_integration:
+            text: Doctrine ORM integration
+            absoluteUrl: http://simplebus.github.io/DoctrineORMBridge/
+        symfony_integration:
+            text: Symfony integration
+            absoluteUrl: http://simplebus.github.io/SymfonyBridge/
