@@ -15,7 +15,8 @@ class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
     public function it_returns_the_name_of_the_named_message()
     {
         $messageName = 'message_name';
-        $message = new StubNamedMessage($messageName);
+        StubNamedMessage::$name = $messageName;
+        $message = new StubNamedMessage();
 
         $resolver = new NamedMessageNameResolver();
 
@@ -28,7 +29,8 @@ class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
     public function it_fails_when_the_name_is_not_a_string()
     {
         $notAString = new stdClass();
-        $message = new StubNamedMessage($notAString);
+        StubNamedMessage::$name = $notAString;
+        $message = new StubNamedMessage();
 
         $resolver = new NamedMessageNameResolver();
 
@@ -42,7 +44,8 @@ class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
     public function it_fails_when_the_name_is_an_empty_string()
     {
         $emptyString = '';
-        $message = new StubNamedMessage($emptyString);
+        StubNamedMessage::$name = $emptyString;
+        $message = new StubNamedMessage();
 
         $resolver = new NamedMessageNameResolver();
 

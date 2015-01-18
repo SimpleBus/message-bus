@@ -88,11 +88,11 @@ In that case your events have to implement `NamedMessage`:
 
 ```php
 use SimpleBus\Message\Type\Event;
-use SimpleBus\Message\NamedMessage;
+use SimpleBus\Message\Name\NamedMessage;
 
 class YourEvent implements Event, NamedMessage
 {
-    public function name()
+    public static function messageName()
     {
         return 'your_event';
     }

@@ -2,19 +2,14 @@
 
 namespace SimpleBus\Message\Tests\Name\Fixtures;
 
-use SimpleBus\Message\NamedMessage;
+use SimpleBus\Message\Name\NamedMessage;
 
 class StubNamedMessage implements NamedMessage
 {
-    private $name;
+    public static $name;
 
-    public function __construct($name)
+    public static function messageName()
     {
-        $this->name = $name;
-    }
-
-    public function name()
-    {
-        return $this->name;
+        return self::$name;
     }
 }

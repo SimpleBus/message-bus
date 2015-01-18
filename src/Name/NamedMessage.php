@@ -1,6 +1,8 @@
 <?php
 
-namespace SimpleBus\Message;
+namespace SimpleBus\Message\Name;
+
+use SimpleBus\Message\Message;
 
 interface NamedMessage extends Message
 {
@@ -9,5 +11,5 @@ interface NamedMessage extends Message
      *
      * @return string
      */
-    public function name();
+    public static function messageName();
 }

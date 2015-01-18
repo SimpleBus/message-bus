@@ -86,11 +86,11 @@ In that case your commands have to implement `NamedMessage`:
 
 ```php
 use SimpleBus\Message\Type\Command;
-use SimpleBus\Message\NamedMessage;
+use SimpleBus\Message\Name\NamedMessage;
 
 class YourCommand implements Command, NamedMessage
 {
-    public function name()
+    public static function messageName()
     {
         return 'your_command';
     }

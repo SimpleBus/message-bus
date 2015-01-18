@@ -4,7 +4,6 @@ namespace SimpleBus\Message\Name;
 
 use SimpleBus\Message\Name\Exception\CouldNotResolveMessageName;
 use SimpleBus\Message\Message;
-use SimpleBus\Message\NamedMessage;
 
 class NamedMessageNameResolver implements MessageNameResolver
 {
@@ -17,13 +16,13 @@ class NamedMessageNameResolver implements MessageNameResolver
             throw CouldNotResolveMessageName::forMessage($message, 'Message should be an instance of NamedMessage');
         }
 
-        $name = $message->name();
+        $name = $message::messageName();
 
         if (!is_string($name) || empty($name)) {
             throw CouldNotResolveMessageName::forMessage(
                 $message,
                 sprintf(
-                    'Method "%s::name()" should return a non-empty string',
+                    'Static method "%s::messageName()" should return a non-empty string',
                     get_class($message)
                 )
             );
