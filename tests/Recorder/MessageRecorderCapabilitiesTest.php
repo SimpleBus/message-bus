@@ -3,7 +3,7 @@
 namespace SimpleBus\Message\Tests\Recorder;
 
 use SimpleBus\Message\Message;
-use SimpleBus\Message\Tests\Recorder\Fixtures\MessageRecorderCapabilitiesStub;
+use SimpleBus\Message\Tests\Recorder\Fixtures\PrivateMessageRecorderCapabilitiesStub;
 
 class MessageRecorderCapabilitiesStubTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class MessageRecorderCapabilitiesStubTest extends \PHPUnit_Framework_TestCase
      */
     public function it_records_messages()
     {
-        $messageRecorder = new MessageRecorderCapabilitiesStub();
+        $messageRecorder = new PrivateMessageRecorderCapabilitiesStub();
         $message1 = $this->dummyMessage();
         $message2 = $this->dummyMessage();
 
@@ -27,7 +27,7 @@ class MessageRecorderCapabilitiesStubTest extends \PHPUnit_Framework_TestCase
      */
     public function it_erases_messages()
     {
-        $messageRecorder = new MessageRecorderCapabilitiesStub();
+        $messageRecorder = new PrivateMessageRecorderCapabilitiesStub();
         $messageRecorder->publicRecord($this->dummyMessage());
         $messageRecorder->publicRecord($this->dummyMessage());
 

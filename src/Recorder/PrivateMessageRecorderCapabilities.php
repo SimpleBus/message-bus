@@ -6,9 +6,10 @@ namespace SimpleBus\Message\Recorder;
 use SimpleBus\Message\Message;
 
 /**
- * Use this trait in classes which implement RecordsMessages to record and later release Message instances, like events.
+ * Use this trait in classes which implement ContainsRecordedMessages to privately record and later release Message
+ * instances, like events.
  */
-trait MessageRecorderCapabilities
+trait PrivateMessageRecorderCapabilities
 {
     private $messages = array();
 

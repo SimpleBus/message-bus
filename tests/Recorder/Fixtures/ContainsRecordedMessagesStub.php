@@ -2,9 +2,9 @@
 
 namespace SimpleBus\Message\Tests\Recorder\Fixtures;
 
-use SimpleBus\Message\Recorder\RecordsMessages;
+use SimpleBus\Message\Recorder\ContainsRecordedMessages;
 
-class MessageRecorderStub implements RecordsMessages
+class ContainsRecordedMessagesStub implements ContainsRecordedMessages
 {
     private $messages;
 

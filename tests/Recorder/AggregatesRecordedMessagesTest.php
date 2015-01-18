@@ -3,7 +3,7 @@
 namespace SimpleBus\Message\Tests\Recorder;
 
 use SimpleBus\Message\Recorder\AggregatesRecordedMessages;
-use SimpleBus\Message\Tests\Recorder\Fixtures\MessageRecorderStub;
+use SimpleBus\Message\Tests\Recorder\Fixtures\ContainsRecordedMessagesStub;
 
 class AggregatesRecordedMessagesTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,8 +17,8 @@ class AggregatesRecordedMessagesTest extends \PHPUnit_Framework_TestCase
 
         $aggregator = new AggregatesRecordedMessages(
             array(
-                new MessageRecorderStub(array($message1)),
-                new MessageRecorderStub(array($message2))
+                new ContainsRecordedMessagesStub(array($message1)),
+                new ContainsRecordedMessagesStub(array($message2))
             )
         );
 
@@ -37,10 +37,10 @@ class AggregatesRecordedMessagesTest extends \PHPUnit_Framework_TestCase
     public function it_erases_messages_recorded_by_all_message_recorders()
     {
         $message1 = $this->dummyMessage();
-        $messageRecorder1 = new MessageRecorderStub(array($message1));
+        $messageRecorder1 = new ContainsRecordedMessagesStub(array($message1));
 
         $message2 = $this->dummyMessage();
-        $messageRecorder2 = new MessageRecorderStub(array($message2));
+        $messageRecorder2 = new ContainsRecordedMessagesStub(array($message2));
 
         $aggregator = new AggregatesRecordedMessages(
             array(

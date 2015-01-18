@@ -9,7 +9,7 @@ use SimpleBus\Message\Message;
 class HandlesRecordedMessagesMiddleware implements MessageBusMiddleware
 {
     /**
-     * @var RecordsMessages
+     * @var ContainsRecordedMessages
      */
     private $messageRecorder;
 
@@ -18,7 +18,7 @@ class HandlesRecordedMessagesMiddleware implements MessageBusMiddleware
      */
     private $messageBus;
 
-    public function __construct(RecordsMessages $messageRecorder, MessageBus $messageBus)
+    public function __construct(ContainsRecordedMessages $messageRecorder, MessageBus $messageBus)
     {
         $this->messageRecorder = $messageRecorder;
         $this->messageBus = $messageBus;

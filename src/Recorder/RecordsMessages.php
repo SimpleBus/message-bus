@@ -4,19 +4,12 @@ namespace SimpleBus\Message\Recorder;
 
 use SimpleBus\Message\Message;
 
-interface RecordsMessages
+interface RecordsMessages extends ContainsRecordedMessages
 {
     /**
-     * Fetch recorded messages.
+     * Record a message.
      *
-     * @return Message[]
+     * @param Message $message
      */
-    public function recordedMessages();
-
-    /**
-     * Erase messages that were recorded since the last call to eraseMessages().
-     *
-     * @return void
-     */
-    public function eraseMessages();
+    public function record(Message $message);
 }

@@ -2,10 +2,10 @@
 
 namespace SimpleBus\Message\Recorder;
 
-class AggregatesRecordedMessages implements RecordsMessages
+class AggregatesRecordedMessages implements ContainsRecordedMessages
 {
     /**
-     * @var RecordsMessages[]
+     * @var ContainsRecordedMessages[]
      */
     private $messageRecorders;
 
@@ -44,7 +44,7 @@ class AggregatesRecordedMessages implements RecordsMessages
         }
     }
 
-    private function addMessageRecorder(RecordsMessages $messageRecorder)
+    private function addMessageRecorder(ContainsRecordedMessages $messageRecorder)
     {
         $this->messageRecorders[] = $messageRecorder;
     }
