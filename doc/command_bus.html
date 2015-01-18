@@ -109,11 +109,11 @@ $commandNameResolver = new ClassBasedNameResolver();</code></pre>
 $commandNameResolver = new NamedMessageNameResolver();</code></pre>
 <p>In that case your commands have to implement <code>NamedMessage</code>:</p>
 <pre><code class="language-php">use SimpleBus\Message\Type\Command;
-use SimpleBus\Message\NamedMessage;
+use SimpleBus\Message\Name\NamedMessage;
 
 class YourCommand implements Command, NamedMessage
 {
-    public function name()
+    public static function messageName()
     {
         return 'your_command';
     }
@@ -188,7 +188,7 @@ class RegisterUserCommandHandler implements MessageHandler
 <p>We should register this handler as a service and add the service id to the <a href="#command-handler-map">command handler map</a>.
 Since we have already fully configured the command bus, we can just start creating a new command object and let the
 command bus handle it. Eventually the command will be passed as a message to the <code>RegisterUserCommandHandler</code>:</p>
-<pre><code class="language-php">$command = new RegisterUserCommand(
+<pre><code class="language-php">$command = new RegisterUser(
     'matthiasnoback@gmail.com',
     's3cr3t'
 );

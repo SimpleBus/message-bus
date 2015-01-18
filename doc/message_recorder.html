@@ -59,7 +59,7 @@
 that were recorded.</p>
 <p>This can be accomplished by using <em>message recorders</em>. These are objects with the ability to record messages. From the
 outside these messages can be retrieved, and erased:</p>
-<pre><code class="language-php">interface RecordsMessages
+<pre><code class="language-php">interface ContainsRecordedMessages
 {
     public function recordedMessages();
 
@@ -96,13 +96,13 @@ foreach ($events as $event) {
     $eventBus-&gt;handle($event);
 }</code></pre>
 <p>You can give your entities the ability to record their own events by letting them implement the <code>RecordsMessages</code>
-interface and using the <code>MessageRecorderCapabilities</code> trait:</p>
+interface and using the <code>PrivateMessageRecorderCapabilities</code> trait:</p>
 <pre><code class="language-php">use SimpleBus\Message\Recorder\RecordsMessages;
-use SimpleBus\Message\Recorder\MessageRecorderCapabilities;
+use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
 
 class YourEntity implements RecordsMessages
 {
-    use MessageRecorderCapabilities;
+    use PrivateMessageRecorderCapabilities;
 
     public function changeSomething()
     {

@@ -111,11 +111,11 @@ $eventNameResolver = new ClassBasedNameResolver();</code></pre>
 $eventNameResolver = new NamedMessageNameResolver();</code></pre>
 <p>In that case your events have to implement <code>NamedMessage</code>:</p>
 <pre><code class="language-php">use SimpleBus\Message\Type\Event;
-use SimpleBus\Message\NamedMessage;
+use SimpleBus\Message\Name\NamedMessage;
 
 class YourEvent implements Event, NamedMessage
 {
-    public function name()
+    public static function messageName()
     {
         return 'your_event';
     }
