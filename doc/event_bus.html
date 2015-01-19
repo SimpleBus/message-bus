@@ -33,6 +33,11 @@
 
                         <ul class="nav nav-pills nav-stacked">
                                                             <li class="">
+                                    <a href="http://simplebus.github.io/MessageBus/">
+                                        Home
+                                    </a>
+                                </li>
+                                                            <li class="">
                                     <a href="http://simplebus.github.io/MessageBus/doc/getting_started.html">
                                         Getting started
                                     </a>
@@ -86,7 +91,7 @@ $eventBus = new MessageBusSupportingMiddleware();</code></pre>
 specialized middleware for that:</p>
 <pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 
-$eventBus-&gt;addMiddleware(new FinishesHandlingMessageBeforeHandlingNext());</code></pre>
+$eventBus-&gt;appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());</code></pre>
 <h3 id="event-subscriber-collection">Defining the event subscriber collection</h3>
 <p>We want any number of event subscribers to be notified of a given event. We first need to define the collection of event
 subscribers that are available in the application. We should make this <em>event subscriber collection</em> lazy-loading, or
@@ -152,7 +157,7 @@ $eventSubscribersResolver = new NameBasedMessageSubscriberResolver(
 <p>Finally, we should add some middleware to the event bus that notifies all of the resolved event subscribers:</p>
 <pre><code class="language-php">use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 
-$eventBus-&gt;addMiddleware(
+$eventBus-&gt;appendMiddleware(
     new NotifiesMessageSubscribersMiddleware(
         $eventSubscribersResolver
     )
@@ -231,7 +236,7 @@ class StoreDomainEvents implements MessageBusMiddleware
 }</code></pre>
 <p>You should add an instance of that class as middleware to any <code>MessageBusSupportingMiddleware</code> instance (like the
 event bus we created earlier):</p>
-<pre><code class="language-php">$eventBus-&gt;addMiddleware(new StoreDomainEvents());</code></pre>
+<pre><code class="language-php">$eventBus-&gt;appendMiddleware(new StoreDomainEvents());</code></pre>
 <p>Make sure that you do this at the right place, before or after you add the other middlewares.</p>
 <p>Calling <code>$next($message)</code> will make sure that the next middleware in line is able to handle the message.</p>
 </blockquote>

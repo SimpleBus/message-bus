@@ -33,6 +33,11 @@
 
                         <ul class="nav nav-pills nav-stacked">
                                                             <li class="">
+                                    <a href="http://simplebus.github.io/MessageBus/">
+                                        Home
+                                    </a>
+                                </li>
+                                                            <li class="">
                                     <a href="http://simplebus.github.io/MessageBus/doc/getting_started.html">
                                         Getting started
                                     </a>
@@ -87,7 +92,7 @@ $commandBus = new MessageBusSupportingMiddleware();</code></pre>
 specialized middleware for that:</p>
 <pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 
-$commandBus-&gt;addMiddleware(new FinishesHandlingMessageBeforeHandlingNext());</code></pre>
+$commandBus-&gt;appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());</code></pre>
 <h3 id="command-handler-map">Defining the command handler map</h3>
 <p>Now we also want commands to be handled by exactly one command handler. We first need to define the collection of
 handlers that are available in the application. We should make this <em>command handler map</em> lazy-loading, or every
@@ -150,7 +155,7 @@ $commandHandlerResolver = new NameBasedMessageHandlerResolver(
 <p>Finally, we should add some middleware to the command bus that calls the resolved command handler:</p>
 <pre><code class="language-php">use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
 
-$commandBus-&gt;addMiddleware(
+$commandBus-&gt;appendMiddleware(
     new DelegatesToMessageHandlerMiddleware(
         $commandHandlerResolver
     )
@@ -239,7 +244,7 @@ class HandleCommandsAsynchronously implements MessageBusMiddleware
 }</code></pre>
 <p>You should add an instance of that class as middleware to any <code>MessageBusSupportingMiddleware</code> instance (like the
 command bus we created earlier):</p>
-<pre><code class="language-php">$commandBus-&gt;addMiddleware(new HandleCommandsAsynchronously());</code></pre>
+<pre><code class="language-php">$commandBus-&gt;appendMiddleware(new HandleCommandsAsynchronously());</code></pre>
 <p>Make sure that you do this at the right place, before or after you add the other middlewares.</p>
 <p>Calling <code>$next($message)</code> will make sure that the next middleware in line is able to handle the message.</p>
 </blockquote>
