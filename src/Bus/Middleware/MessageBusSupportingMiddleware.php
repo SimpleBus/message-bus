@@ -15,20 +15,32 @@ class MessageBusSupportingMiddleware implements MessageBus
     public function __construct(array $middlewares = [])
     {
         foreach ($middlewares as $middleware) {
-            $this->addMiddleware($middleware);
+            $this->appendMiddleware($middleware);
         }
     }
 
     /**
-     * Provide new middleware for this message bus. Should only be used at configuration time.
+     * Appends new middleware for this message bus. Should only be used at configuration time.
      *
      * @private
      * @param MessageBusMiddleware $middleware
      * @return void
      */
-    public function addMiddleware(MessageBusMiddleware $middleware)
+    public function appendMiddleware(MessageBusMiddleware $middleware)
     {
         $this->middlewares[] = $middleware;
+    }
+
+    /**
+     * Prepends new middleware for this message bus. Should only be used at configuration time.
+     *
+     * @private
+     * @param MessageBusMiddleware $middleware
+     * @return void
+     */
+    public function prependMiddleware(MessageBusMiddleware $middleware)
+    {
+        array_unshift($this->middlewares, $middleware);
     }
 
     public function handle(Message $message)

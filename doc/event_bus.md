@@ -29,7 +29,7 @@ specialized middleware for that:
 ```php
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 
-$eventBus->addMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
+$eventBus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
 ```
 
 ### Defining the event subscriber collection {#event-subscriber-collection}
@@ -123,7 +123,7 @@ Finally, we should add some middleware to the event bus that notifies all of the
 ```php
 use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 
-$eventBus->addMiddleware(
+$eventBus->appendMiddleware(
     new NotifiesMessageSubscribersMiddleware(
         $eventSubscribersResolver
     )
@@ -224,7 +224,7 @@ $eventBus->handle($event);
 > event bus we created earlier):
 >
 > ```php
-> $eventBus->addMiddleware(new StoreDomainEvents());
+> $eventBus->appendMiddleware(new StoreDomainEvents());
 > ```
 >
 > Make sure that you do this at the right place, before or after you add the other middlewares.

@@ -30,7 +30,7 @@ specialized middleware for that:
 ```php
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 
-$commandBus->addMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
+$commandBus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
 ```
 
 ### Defining the command handler map {#command-handler-map}
@@ -121,7 +121,7 @@ Finally, we should add some middleware to the command bus that calls the resolve
 ```php
 use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
 
-$commandBus->addMiddleware(
+$commandBus->appendMiddleware(
     new DelegatesToMessageHandlerMiddleware(
         $commandHandlerResolver
     )
@@ -232,7 +232,7 @@ $commandBus->handle($command);
 > command bus we created earlier):
 >
 > ```php
-> $commandBus->addMiddleware(new HandleCommandsAsynchronously());
+> $commandBus->appendMiddleware(new HandleCommandsAsynchronously());
 > ```
 >
 > Make sure that you do this at the right place, before or after you add the other middlewares.

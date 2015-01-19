@@ -19,8 +19,8 @@ class FinishesMessageBeforeHandlingNextTest extends \PHPUnit_Framework_TestCase
         $whatHappened = [];
 
         $messageBus = new MessageBusSupportingMiddleware();
-        $messageBus->addMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
-        $messageBus->addMiddleware(
+        $messageBus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
+        $messageBus->appendMiddleware(
             // the next message bus that will be called
             new StubMessageBusMiddleware(
                 function (Message $actualMessage) use ($originalMessage, $newMessage, $messageBus, &$whatHappened) {
