@@ -139,7 +139,7 @@ command bus. This middleware needs the <em>message recorder</em> to find out whi
 handling of a command, and it needs the <em>event bus</em> to actually handle the recorded events:</p>
 <pre><code class="language-php">use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 
-$commandBus-&gt;add(new HandlesRecordedMessagesMiddleware(
+$commandBus-&gt;appendMiddleware(new HandlesRecordedMessagesMiddleware(
     $publicMessageRecorder,
     $eventBus
 ));</code></pre>
@@ -170,7 +170,7 @@ $aggregatingMessageRecorder(
 )</code></pre>
 <p>Finally, you can provide this aggregating message recorder to the <code>HandlesRecordedMessagesMiddleware</code> and it will act as
 if it is a single message recorder.</p>
-<pre><code class="language-php">$commandBus-&gt;add(new HandlesRecordedMessagesMiddleware(
+<pre><code class="language-php">$commandBus-&gt;appendMiddleware(new HandlesRecordedMessagesMiddleware(
     $aggregatingMessageRecorder,
     $eventBus
 ));</code></pre>
