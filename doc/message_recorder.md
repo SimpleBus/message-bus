@@ -93,7 +93,7 @@ handling of a command, and it needs the *event bus* to actually handle the recor
 ```php
 use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 
-$commandBus->add(new HandlesRecordedMessagesMiddleware(
+$commandBus->appendMiddleware(new HandlesRecordedMessagesMiddleware(
     $publicMessageRecorder,
     $eventBus
 ));
@@ -136,7 +136,7 @@ Finally, you can provide this aggregating message recorder to the `HandlesRecord
 if it is a single message recorder.
 
 ```php
-$commandBus->add(new HandlesRecordedMessagesMiddleware(
+$commandBus->appendMiddleware(new HandlesRecordedMessagesMiddleware(
     $aggregatingMessageRecorder,
     $eventBus
 ));
