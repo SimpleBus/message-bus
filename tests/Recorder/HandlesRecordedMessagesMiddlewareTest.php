@@ -2,6 +2,7 @@
 
 namespace SimpleBus\Message\Tests\Recorder;
 
+use Exception;
 use SimpleBus\Message\Bus\MessageBus;
 use SimpleBus\Message\Message;
 use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
@@ -44,6 +45,33 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_rethrows_a_caught_exception_but_first_clears_any_recorded_messages()
+    {
+        $messageRecorder = $this->mockMessageRecorder();
+
+        $middleware = new HandlesRecordedMessagesMiddleware($messageRecorder, $this->dummyMessageBus());
+
+        $exception = new Exception();
+        $nextAlwaysFails = function() use ($exception) {
+            throw $exception;
+        };
+
+        $messageRecorder
+            ->expects($this->once())
+            ->method('eraseMessages');
+
+        try {
+            $middleware->handle($this->dummyMessage(), $nextAlwaysFails);
+
+            $this->fail('An exception should have been thrown');
+        } catch (Exception $actualException) {
+            $this->assertSame($exception, $actualException);
+        }
+    }
+
+    /**
      * @param array $actuallyHandledMessages
      * @return \PHPUnit_Framework_MockObject_MockObject|MessageBus
      */
@@ -79,5 +107,13 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
     private function mockMessageRecorder()
     {
         return $this->getMock('SimpleBus\Message\Recorder\ContainsRecordedMessages');
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|MessageBus
+     */
+    private function dummyMessageBus()
+    {
+        return $this->getMock('SimpleBus\Message\Bus\MessageBus');
     }
 }

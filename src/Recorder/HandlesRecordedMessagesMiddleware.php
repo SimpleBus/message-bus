@@ -2,6 +2,7 @@
 
 namespace SimpleBus\Message\Recorder;
 
+use Exception;
 use SimpleBus\Message\Bus\MessageBus;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 use SimpleBus\Message\Message;
@@ -26,7 +27,13 @@ class HandlesRecordedMessagesMiddleware implements MessageBusMiddleware
 
     public function handle(Message $message, callable $next)
     {
-        $next($message);
+        try {
+            $next($message);
+        } catch (Exception $exception) {
+            $this->messageRecorder->eraseMessages();
+
+            throw $exception;
+        }
 
         $recordedMessages = $this->messageRecorder->recordedMessages();
 
