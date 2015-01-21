@@ -23,7 +23,7 @@
 - Import of classes and interfaces from SimpleBus/CommandBus and SimpleBus/EventBus 1.0
 - This library applies generically to all kinds of messages.
 
-[unreleased]: https://github.com/simple-bus/message-bus/compare/v2.0.1...HEAD
-[2.0.2]: https://github.com/simple-bus/message-bus/compare/v2.0.1...v2.0.2
-[2.0.1]: https://github.com/simple-bus/message-bus/compare/v2.0.0...v2.0.1
-[2.0.0]: https://github.com/simple-bus/message-bus/compare/v1.0.0...v2.0.0
+[unreleased]: https://github.com/SimpleBus/MessageBus/compare/v2.0.1...HEAD
+[2.0.2]: https://github.com/SimpleBus/MessageBus/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/SimpleBus/MessageBus/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/SimpleBus/MessageBus/compare/v1.0.0...v2.0.0
