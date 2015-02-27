@@ -239,6 +239,17 @@ event bus we created earlier):</p>
 <pre><code class="language-php">$eventBus-&gt;appendMiddleware(new StoreDomainEvents());</code></pre>
 <p>Make sure that you do this at the right place, before or after you add the other middlewares.</p>
 <p>Calling <code>$next($message)</code> will make sure that the next middleware in line is able to handle the message.</p>
+<h4>Logging messages</h4>
+<p>To log every message that passes through the event bus, add the <code>LoggingMiddleware</code> right before the
+<code>NotifiesMessageSubscribersMiddleware</code>. Make sure to set up a <a href="http://www.php-fig.org/psr/psr-3/">PSR-3 compliant
+logger</a> first:</p>
+<pre><code class="language-php">use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
+
+// $logger is an instance of LoggerInterface
+$logger = ...;
+$loggingMiddleware = new LoggingMiddleware($logger, LogLevel::DEBUG);
+$eventBus-&gt;appendMiddleware($loggingMiddleware);</code></pre>
 </blockquote>
 <p>Continue to read about <a href="message_recorder.html">recording events and handling them</a>.</p>
                 </section>
