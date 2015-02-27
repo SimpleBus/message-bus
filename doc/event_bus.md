@@ -231,4 +231,20 @@ $eventBus->handle($event);
 >
 > Calling `$next($message)` will make sure that the next middleware in line is able to handle the message.
 
+> #### Logging messages
+>
+> To log every message that passes through the event bus, add the `LoggingMiddleware` right before the
+> `NotifiesMessageSubscribersMiddleware`. Make sure to set up a [PSR-3 compliant
+> logger](http://www.php-fig.org/psr/psr-3/) first:
+>
+> ```php
+> use Psr\Log\LoggerInterface;
+> use Psr\Log\LogLevel;
+>
+> // $logger is an instance of LoggerInterface
+> $logger = ...;
+> $loggingMiddleware = new LoggingMiddleware($logger, LogLevel::DEBUG);
+> $eventBus->appendMiddleware($loggingMiddleware);
+> ```
+
 Continue to read about [recording events and handling them](message_recorder.md).

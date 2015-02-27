@@ -239,4 +239,20 @@ $commandBus->handle($command);
 >
 > Calling `$next($message)` will make sure that the next middleware in line is able to handle the message.
 
+> #### Logging messages
+>
+> To log every message that passes through the command bus, add the `LoggingMiddleware` right before the
+> `DelegatesToMessageHandlerMiddleware`. Make sure to set up a [PSR-3 compliant
+> logger](http://www.php-fig.org/psr/psr-3/) first:
+>
+> ```php
+> use Psr\Log\LoggerInterface;
+> use Psr\Log\LogLevel;
+>
+> // $logger is an instance of LoggerInterface
+> $logger = ...;
+> $loggingMiddleware = new LoggingMiddleware($logger, LogLevel::DEBUG);
+> $commandBus->appendMiddleware($loggingMiddleware);
+> ```
+
 Continue to read about the perfect complement to the command bus: the [event bus](event_bus.md).

@@ -2,8 +2,13 @@
 
 ## [Unreleased][unreleased]
 
+n/a
+
+## [1.1.0] - 27-02-2015
+
 ### Added
 
+- Added a message bus middleware for logging messages.
 - Added a change log.
 
 ## [1.0.2] - 20-01-2015
