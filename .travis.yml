@@ -14,5 +14,11 @@ before_script:
   - composer selfupdate
   - composer install --prefer-dist
 
+script:
+  - vendor/bin/phpunit
+
+after_script:
+  - vendor/bin/coveralls
+
 notifications:
   email: matthiasnoback@gmail.com
