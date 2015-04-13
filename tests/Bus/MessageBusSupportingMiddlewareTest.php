@@ -76,6 +76,21 @@ class MessageBusSupportingMiddlewareTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($appended, $actualMessageBusesCalled[1]);
     }
 
+    /**
+     * @test
+     */
+    public function it_can_return_an_array_with_its_middlewares()
+    {
+        $stackedMessageBuses = [
+            $this->getMock('SimpleBus\Message\Bus\Middleware\MessageBusMiddleware'),
+            $this->getMock('SimpleBus\Message\Bus\Middleware\MessageBusMiddleware')
+        ];
+
+        $messageBusStack = new MessageBusSupportingMiddleware($stackedMessageBuses);
+
+        $this->assertEquals($stackedMessageBuses, $messageBusStack->getMiddlewares());
+    }
+
     private function mockStackedMessageBus(&$actualMessageBusesCalled)
     {
         $messageBus = $this->getMock('SimpleBus\Message\Bus\Middleware\MessageBusMiddleware');

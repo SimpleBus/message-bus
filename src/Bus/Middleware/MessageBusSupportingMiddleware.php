@@ -32,6 +32,17 @@ class MessageBusSupportingMiddleware implements MessageBus
     }
 
     /**
+     * Returns a list of middlewares. Should only be used for introspection.
+     *
+     * @private
+     * @return array<MessageBusMiddleware>
+     */
+    public function getMiddlewares()
+    {
+        return $this->middlewares;
+    }
+
+    /**
      * Prepends new middleware for this message bus. Should only be used at configuration time.
      *
      * @private
