@@ -2,15 +2,13 @@
 
 namespace SimpleBus\Message\Subscriber;
 
-use SimpleBus\Message\Message;
-
 interface MessageSubscriber
 {
     /**
      * Provide the given message as a notification to this subscriber
      *
-     * @param Message $message
+     * @param object $message
      * @return void
      */
-    public function notify(Message $message);
+    public function notify($message);
 }

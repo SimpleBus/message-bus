@@ -3,8 +3,6 @@
 
 namespace SimpleBus\Message\Recorder;
 
-use SimpleBus\Message\Message;
-
 /**
  * Use this trait in classes which implement ContainsRecordedMessages to privately record and later release Message
  * instances, like events.
@@ -32,9 +30,9 @@ trait PrivateMessageRecorderCapabilities
     /**
      * Record a message.
      *
-     * @param Message $message
+     * @param object $message
      */
-    protected function record(Message $message)
+    protected function record($message)
     {
         $this->messages[] = $message;
     }

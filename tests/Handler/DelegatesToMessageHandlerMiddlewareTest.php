@@ -3,7 +3,6 @@
 namespace SimpleBus\Message\Tests\Handler;
 
 use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
-use SimpleBus\Message\Message;
 use SimpleBus\Message\Handler\MessageHandler;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
 use SimpleBus\Message\Tests\Fixtures\NextCallableSpy;
@@ -30,18 +29,18 @@ class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit_Framework_TestCas
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
      */
     private function dummyMessage()
     {
-        return $this->getMock('SimpleBus\Message\Message');
+        return new \stdClass();
     }
 
     /**
-     * @param Message $message
+     * @param object $message
      * @return \PHPUnit_Framework_MockObject_MockObject|MessageHandler
      */
-    private function mockMessageHandlerShouldHandle(Message $message)
+    private function mockMessageHandlerShouldHandle($message)
     {
         $messageHandler = $this->getMock('SimpleBus\Message\Handler\MessageHandler');
 
@@ -54,11 +53,11 @@ class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit_Framework_TestCas
     }
 
     /**
-     * @param Message $message
+     * @param object $message
      * @param MessageHandler $resolvedMessageHandler
      * @return \PHPUnit_Framework_MockObject_MockObject|MessageHandlerResolver
      */
-    private function mockMessageHandlerResolverShouldResolve(Message $message, MessageHandler $resolvedMessageHandler)
+    private function mockMessageHandlerResolverShouldResolve($message, MessageHandler $resolvedMessageHandler)
     {
         $messageHandlerResolver = $this->getMock('SimpleBus\Message\Handler\Resolver\MessageHandlerResolver');
 

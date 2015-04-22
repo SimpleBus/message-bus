@@ -4,7 +4,6 @@ namespace SimpleBus\Message\Tests\Logging;
 
 use Psr\Log\LogLevel;
 use SimpleBus\Message\Logging\LoggingMiddleware;
-use SimpleBus\Message\Message;
 
 class LoggingMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +29,7 @@ class LoggingMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $middleware = new LoggingMiddleware($logger, $logLevel);
 
-        $next = function (Message $actualMessage) use (&$orderOfEvents, $message) {
+        $next = function ($actualMessage) use (&$orderOfEvents, $message) {
             $orderOfEvents[] = 'Called next middleware';
             $this->assertSame($message, $actualMessage);
         };
@@ -48,6 +47,6 @@ class LoggingMiddlewareTest extends \PHPUnit_Framework_TestCase
 
     private function dummyMessage()
     {
-        return $this->getMock('SimpleBus\Message\Message');
+        return new \stdClass();
     }
 }

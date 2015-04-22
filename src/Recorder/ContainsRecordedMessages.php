@@ -2,14 +2,12 @@
 
 namespace SimpleBus\Message\Recorder;
 
-use SimpleBus\Message\Message;
-
 interface ContainsRecordedMessages
 {
     /**
      * Fetch recorded messages.
      *
-     * @return Message[]
+     * @return object[]
      */
     public function recordedMessages();
 

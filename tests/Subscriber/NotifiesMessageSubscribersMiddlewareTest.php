@@ -2,7 +2,6 @@
 
 namespace SimpleBus\Message\Tests\Subscriber;
 
-use SimpleBus\Message\Message;
 use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 use SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver;
 use SimpleBus\Message\Tests\Fixtures\NextCallableSpy;
@@ -34,11 +33,11 @@ class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCa
     }
 
     /**
-     * @param Message $message
+     * @param object $message
      * @param array $messageSubscribers
      * @return \PHPUnit_Framework_MockObject_MockObject|MessageSubscribersResolver
      */
-    private function mockMessageSubscribersResolver(Message $message, array $messageSubscribers)
+    private function mockMessageSubscribersResolver($message, array $messageSubscribers)
     {
         $resolver = $this->getMock('SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver');
 
@@ -52,14 +51,14 @@ class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCa
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
      */
     private function dummyMessage()
     {
-        return $this->getMock('SimpleBus\Message\Message');
+        return new \stdClass();
     }
 
-    private function mockMessageSubscriberShouldBeNotifiedOf(Message $message)
+    private function mockMessageSubscriberShouldBeNotifiedOf($message)
     {
         $messageSubscriber = $this->getMock('SimpleBus\Message\Subscriber\MessageSubscriber');
 

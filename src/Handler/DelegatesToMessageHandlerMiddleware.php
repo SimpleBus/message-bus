@@ -4,7 +4,6 @@ namespace SimpleBus\Message\Handler;
 
 use SimpleBus\Message\Bus;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
-use SimpleBus\Message\Message;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
 
 class DelegatesToMessageHandlerMiddleware implements MessageBusMiddleware
@@ -21,7 +20,7 @@ class DelegatesToMessageHandlerMiddleware implements MessageBusMiddleware
      *
      * {@inheritdoc}
      */
-    public function handle(Message $message, callable $next)
+    public function handle($message, callable $next)
     {
         $this->messageHandlerResolver->resolve($message)->handle($message);
 

@@ -3,7 +3,6 @@
 namespace SimpleBus\Message\Bus\Middleware;
 
 use SimpleBus\Message\Bus\MessageBus;
-use SimpleBus\Message\Message;
 
 class MessageBusSupportingMiddleware implements MessageBus
 {
@@ -54,7 +53,7 @@ class MessageBusSupportingMiddleware implements MessageBus
         array_unshift($this->middlewares, $middleware);
     }
 
-    public function handle(Message $message)
+    public function handle($message)
     {
         call_user_func($this->callableForNextMiddleware(0), $message);
     }
@@ -67,7 +66,7 @@ class MessageBusSupportingMiddleware implements MessageBus
 
         $middleware = $this->middlewares[$index];
 
-        return function(Message $message) use ($middleware, $index) {
+        return function($message) use ($middleware, $index) {
             $middleware->handle($message, $this->callableForNextMiddleware($index + 1));
         };
     }

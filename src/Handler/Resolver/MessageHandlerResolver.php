@@ -2,7 +2,6 @@
 
 namespace SimpleBus\Message\Handler\Resolver;
 
-use SimpleBus\Message\Message;
 use SimpleBus\Message\Handler\MessageHandler;
 
 interface MessageHandlerResolver
@@ -10,8 +9,8 @@ interface MessageHandlerResolver
     /**
      * Resolve the MessageHandler for the given Message.
      *
-     * @param Message $message
+     * @param object $message
      * @return MessageHandler
      */
-    public function resolve(Message $message);
+    public function resolve($message);
 }

@@ -2,9 +2,7 @@
 
 namespace SimpleBus\Message\Name;
 
-use SimpleBus\Message\Message;
-
-interface NamedMessage extends Message
+interface NamedMessage
 {
     /**
      * The name of this particular type of message.

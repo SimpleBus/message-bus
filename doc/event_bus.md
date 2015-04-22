@@ -87,10 +87,9 @@ $eventNameResolver = new NamedMessageNameResolver();
 In that case your events have to implement `NamedMessage`:
 
 ```php
-use SimpleBus\Message\Type\Event;
 use SimpleBus\Message\Name\NamedMessage;
 
-class YourEvent implements Event, NamedMessage
+class YourEvent implements NamedMessage
 {
     public static function messageName()
     {
@@ -135,9 +134,7 @@ $eventBus->appendMiddleware(
 Consider the following event:
 
 ```php
-use SimpleBus\Message\Type\Event;
-
-class UserRegistered implements Event
+class UserRegistered
 {
     private $userId;
 
@@ -160,13 +157,12 @@ A subscriber for this event looks like this:
 
 ```php
 use SimpleBus\Message\Subscriber\MessageSubscriber;
-use SimpleBus\Message\Message;
 
 class SendWelcomeMailWhenUserRegistered implements MessageSubscriber
 {
     ...
 
-    public function notify(Message $message)
+    public function notify($message)
     {
         $user = $this->userRepository->byId($message->userId());
 
@@ -207,7 +203,7 @@ $eventBus->handle($event);
 > {
 >     ...
 >
->     public function handle(Message $message, callable $next)
+>     public function handle($message, callable $next)
 >     {
 >         if ($message instanceof DomainEvent) {
 >             // store the domain event

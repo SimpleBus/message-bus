@@ -3,14 +3,13 @@
 namespace SimpleBus\Message\Name;
 
 use SimpleBus\Message\Name\Exception\CouldNotResolveMessageName;
-use SimpleBus\Message\Message;
 
 class NamedMessageNameResolver implements MessageNameResolver
 {
     /**
      * {@inheritdoc}
      */
-    public function resolve(Message $message)
+    public function resolve($message)
     {
         if (!($message instanceof NamedMessage)) {
             throw CouldNotResolveMessageName::forMessage($message, 'Message should be an instance of NamedMessage');

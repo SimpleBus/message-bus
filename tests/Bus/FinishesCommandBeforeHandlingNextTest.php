@@ -4,7 +4,6 @@ namespace SimpleBus\Message\Tests\Message;
 
 use Exception;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
-use SimpleBus\Message\Message;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 use SimpleBus\Message\Tests\Bus\Fixtures\StubMessageBusMiddleware;
 
@@ -24,7 +23,7 @@ class FinishesMessageBeforeHandlingNextTest extends \PHPUnit_Framework_TestCase
         $messageBus->appendMiddleware(
             // the next message bus that will be called
             new StubMessageBusMiddleware(
-                function (Message $actualMessage) use ($originalMessage, $newMessage, $messageBus, &$whatHappened) {
+                function ($actualMessage) use ($originalMessage, $newMessage, $messageBus, &$whatHappened) {
                     if ($actualMessage === $originalMessage) {
                         $whatHappened[] = 'start handling original message';
                         // while handling the original we trigger a new message
@@ -66,7 +65,7 @@ class FinishesMessageBeforeHandlingNextTest extends \PHPUnit_Framework_TestCase
         $messageBus->appendMiddleware(
             // the next message bus that will be called
             new StubMessageBusMiddleware(
-                function (Message $actualMessage) use ($message1, $message2, $exceptionForMessage1, &$handledMessages) {
+                function ($actualMessage) use ($message1, $message2, $exceptionForMessage1, &$handledMessages) {
                     $handledMessages[] = $actualMessage;
 
                     if ($message1 === $actualMessage) {
@@ -91,10 +90,10 @@ class FinishesMessageBeforeHandlingNextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
      */
     private function dummyMessage()
     {
-        return $this->getMock('SimpleBus\Message\Message');
+        return new \stdClass();
     }
 }

@@ -57,6 +57,6 @@ class AggregatesRecordedMessagesTest extends \PHPUnit_Framework_TestCase
 
     private function dummyMessage()
     {
-        return $this->getMock('SimpleBus\Message\Message');
+        return new \stdClass();
     }
 }

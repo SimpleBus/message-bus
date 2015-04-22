@@ -2,11 +2,11 @@
 
 namespace SimpleBus\Message\Type;
 
-use SimpleBus\Message\Message;
-
 /**
  * A particular type of message: it is informational by nature.
+ *
+ * @deprecated Messages don't need to implement any interface anymore
  */
-interface Event extends Message
+interface Event
 {
 }

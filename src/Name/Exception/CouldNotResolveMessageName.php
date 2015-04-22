@@ -3,11 +3,10 @@
 namespace SimpleBus\Message\Name\Exception;
 
 use LogicException;
-use SimpleBus\Message\Message;
 
 class CouldNotResolveMessageName extends \LogicException
 {
-    public static function forMessage(Message $message, $exceptionMessage)
+    public static function forMessage($message, $exceptionMessage)
     {
         return new self(
             sprintf(

@@ -2,8 +2,6 @@
 
 namespace SimpleBus\Message\Recorder;
 
-use SimpleBus\Message\Message;
-
 class PublicMessageRecorder implements RecordsMessages
 {
     private $messages = array();
@@ -27,9 +25,9 @@ class PublicMessageRecorder implements RecordsMessages
     /**
      * Record a message.
      *
-     * @param Message $message
+     * @param object $message
      */
-    public function record(Message $message)
+    public function record($message)
     {
         $this->messages[] = $message;
     }

@@ -3,7 +3,6 @@
 namespace SimpleBus\Message\Bus\Middleware;
 
 use Exception;
-use SimpleBus\Message\Message;
 
 class FinishesHandlingMessageBeforeHandlingNext implements MessageBusMiddleware
 {
@@ -23,7 +22,7 @@ class FinishesHandlingMessageBeforeHandlingNext implements MessageBusMiddleware
      *
      * {@inheritdoc}
      */
-    public function handle(Message $message, callable $next)
+    public function handle($message, callable $next)
     {
         $this->queue[] = $message;
 
@@ -35,7 +34,7 @@ class FinishesHandlingMessageBeforeHandlingNext implements MessageBusMiddleware
                     $next($message);
                 } catch (Exception $exception) {
                     $this->isHandling = false;
-                    
+
                     throw $exception;
                 }
             }

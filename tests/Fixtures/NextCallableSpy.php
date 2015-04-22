@@ -2,14 +2,13 @@
 
 namespace SimpleBus\Message\Tests\Fixtures;
 
-use SimpleBus\Message\Message;
 
 class NextCallableSpy
 {
     private $hasBeenCalled = 0;
     private $receivedMessages = [];
 
-    public function __invoke(Message $message)
+    public function __invoke($message)
     {
         $this->hasBeenCalled++;
         $this->receivedMessages[] = $message;

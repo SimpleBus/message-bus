@@ -2,14 +2,12 @@
 
 namespace SimpleBus\Message\Recorder;
 
-use SimpleBus\Message\Message;
-
 interface RecordsMessages extends ContainsRecordedMessages
 {
     /**
      * Record a message.
      *
-     * @param Message $message
+     * @param object $message
      */
-    public function record(Message $message);
+    public function record($message);
 }

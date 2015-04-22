@@ -2,13 +2,11 @@
 
 namespace SimpleBus\Message\Bus;
 
-use SimpleBus\Message\Message;
-
 interface MessageBus
 {
     /**
-     * @param Message $message
+     * @param object $message
      * @return void
      */
-    public function handle(Message $message);
+    public function handle($message);
 }

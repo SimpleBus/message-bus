@@ -2,7 +2,6 @@
 
 namespace SimpleBus\Message\Subscriber\Resolver;
 
-use SimpleBus\Message\Message;
 use SimpleBus\Message\Name\MessageNameResolver;
 use SimpleBus\Message\Subscriber\Collection\MessageSubscriberCollection;
 
@@ -29,7 +28,7 @@ class NameBasedMessageSubscriberResolver implements MessageSubscribersResolver
     /**
      * {@inheritdoc}
      */
-    public function resolve(Message $message)
+    public function resolve($message)
     {
         $name = $this->messageNameResolver->resolve($message);
 

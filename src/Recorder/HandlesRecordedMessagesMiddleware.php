@@ -5,7 +5,6 @@ namespace SimpleBus\Message\Recorder;
 use Exception;
 use SimpleBus\Message\Bus\MessageBus;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
-use SimpleBus\Message\Message;
 
 class HandlesRecordedMessagesMiddleware implements MessageBusMiddleware
 {
@@ -25,7 +24,7 @@ class HandlesRecordedMessagesMiddleware implements MessageBusMiddleware
         $this->messageBus = $messageBus;
     }
 
-    public function handle(Message $message, callable $next)
+    public function handle($message, callable $next)
     {
         try {
             $next($message);

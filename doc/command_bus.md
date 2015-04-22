@@ -85,10 +85,9 @@ $commandNameResolver = new NamedMessageNameResolver();
 In that case your commands have to implement `NamedMessage`:
 
 ```php
-use SimpleBus\Message\Type\Command;
 use SimpleBus\Message\Name\NamedMessage;
 
-class YourCommand implements Command, NamedMessage
+class YourCommand implements NamedMessage
 {
     public static function messageName()
     {
@@ -133,9 +132,7 @@ $commandBus->appendMiddleware(
 Consider the following command:
 
 ```php
-use SimpleBus\Message\Type\Command;
-
-class RegisterUser implements Command
+class RegisterUser
 {
     private $emailAddress;
     private $plainTextPassword;
@@ -165,13 +162,12 @@ The handler for this command looks like this:
 
 ```php
 use SimpleBus\Message\Handler\MessageHandler;
-use SimpleBus\Message\Message;
 
 class RegisterUserCommandHandler implements MessageHandler
 {
     ...
 
-    public function handle(Message $message)
+    public function handle($message)
     {
         $user = User::register(
             $message->emailAddress(),
@@ -215,7 +211,7 @@ $commandBus->handle($command);
 > {
 >     ...
 >
->     public function handle(Message $message, callable $next)
+>     public function handle($message, callable $next)
 >     {
 >         if ($message instanceof IsHandledAsynchronously) {
 >             // handle the message asynchronously using a message queue

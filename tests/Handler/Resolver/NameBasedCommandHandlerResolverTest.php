@@ -3,7 +3,6 @@
 namespace SimpleBus\Message\Tests\Handler\Resolver;
 
 use PHPUnit_Framework_TestCase;
-use SimpleBus\Message\Message;
 use SimpleBus\Message\Handler\Map\MessageHandlerMap;
 use SimpleBus\Message\Handler\MessageHandler;
 use SimpleBus\Message\Name\MessageNameResolver;
@@ -37,11 +36,11 @@ class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
      */
     private function dummyMessage()
     {
-        return $this->getMock('SimpleBus\Message\Message');
+        return new \stdClass();
     }
 
     /**

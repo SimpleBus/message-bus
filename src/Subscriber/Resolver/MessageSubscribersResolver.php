@@ -2,7 +2,6 @@
 
 namespace SimpleBus\Message\Subscriber\Resolver;
 
-use SimpleBus\Message\Message;
 use SimpleBus\Message\Subscriber\MessageSubscriber;
 
 interface MessageSubscribersResolver
@@ -10,8 +9,8 @@ interface MessageSubscribersResolver
     /**
      * Resolve the MessageSubscriber instances that should be notified
      *
-     * @param Message $message
+     * @param object $message
      * @return MessageSubscriber[]
      */
-    public function resolve(Message $message);
+    public function resolve($message);
 }

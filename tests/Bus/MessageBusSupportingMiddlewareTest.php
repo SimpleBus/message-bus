@@ -3,7 +3,6 @@
 namespace SimpleBus\Message\Tests\Bus;
 
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
-use SimpleBus\Message\Message;
 
 class MessageBusSupportingMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
@@ -100,7 +99,7 @@ class MessageBusSupportingMiddlewareTest extends \PHPUnit_Framework_TestCase
             ->method('handle')
             ->will(
                 $this->returnCallback(
-                    function (Message $message, callable $next) use (&$actualMessageBusesCalled, $messageBus) {
+                    function ($message, callable $next) use (&$actualMessageBusesCalled, $messageBus) {
                         $actualMessageBusesCalled[] = $messageBus;
                         $next($message);
                     }
@@ -111,10 +110,10 @@ class MessageBusSupportingMiddlewareTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
      */
     private function dummyMessage()
     {
-        return $this->getMock('SimpleBus\Message\Message');
+        return new \stdClass();
     }
 }

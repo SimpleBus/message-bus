@@ -4,7 +4,6 @@ namespace SimpleBus\Message\Tests\Recorder;
 
 use Exception;
 use SimpleBus\Message\Bus\MessageBus;
-use SimpleBus\Message\Message;
 use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 use SimpleBus\Message\Recorder\ContainsRecordedMessages;
 use SimpleBus\Message\Tests\Fixtures\NextCallableSpy;
@@ -84,7 +83,7 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
             ->method('handle')
             ->will(
                 $this->returnCallback(
-                    function (Message $message) use (&$actuallyHandledMessages) {
+                    function ($message) use (&$actuallyHandledMessages) {
                         $actuallyHandledMessages[] = $message;
                     }
                 )
@@ -94,11 +93,11 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
      */
     private function dummyMessage()
     {
-        return $this->getMock('SimpleBus\Message\Message');
+        return new \stdClass();
     }
 
     /**

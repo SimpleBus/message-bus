@@ -2,8 +2,6 @@
 
 namespace SimpleBus\Message\Name;
 
-use SimpleBus\Message\Message;
-
 class ClassBasedNameResolver implements MessageNameResolver
 {
     /**
@@ -11,7 +9,7 @@ class ClassBasedNameResolver implements MessageNameResolver
      *
      * {@inheritdoc}
      */
-    public function resolve(Message $message)
+    public function resolve($message)
     {
         return get_class($message);
     }
