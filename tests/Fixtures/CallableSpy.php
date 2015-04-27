@@ -3,7 +3,7 @@
 namespace SimpleBus\Message\Tests\Fixtures;
 
 
-class NextCallableSpy
+class CallableSpy
 {
     private $hasBeenCalled = 0;
     private $receivedMessages = [];

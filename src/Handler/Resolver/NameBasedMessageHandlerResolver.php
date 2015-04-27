@@ -2,7 +2,8 @@
 
 namespace SimpleBus\Message\Handler\Resolver;
 
-use SimpleBus\Message\Handler\Map\MessageHandlerMap;
+use SimpleBus\Message\CallableResolver\CallableCollection;
+use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\Name\MessageNameResolver;
 
 class NameBasedMessageHandlerResolver implements MessageHandlerResolver
@@ -13,11 +14,11 @@ class NameBasedMessageHandlerResolver implements MessageHandlerResolver
     private $messageNameResolver;
 
     /**
-     * @var \SimpleBus\Message\Handler\Map\MessageHandlerMap
+     * @var CallableCollection
      */
     private $messageHandlers;
 
-    public function __construct(MessageNameResolver $messageNameResolver, MessageHandlerMap $messageHandlers)
+    public function __construct(MessageNameResolver $messageNameResolver, CallableMap $messageHandlers)
     {
         $this->messageNameResolver = $messageNameResolver;
         $this->messageHandlers = $messageHandlers;
@@ -30,6 +31,6 @@ class NameBasedMessageHandlerResolver implements MessageHandlerResolver
     {
         $name = $this->messageNameResolver->resolve($message);
 
-        return $this->messageHandlers->handlerByMessageName($name);
+        return $this->messageHandlers->get($name);
     }
 }

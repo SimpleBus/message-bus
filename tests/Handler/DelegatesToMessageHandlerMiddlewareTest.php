@@ -3,9 +3,8 @@
 namespace SimpleBus\Message\Tests\Handler;
 
 use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
-use SimpleBus\Message\Handler\MessageHandler;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
-use SimpleBus\Message\Tests\Fixtures\NextCallableSpy;
+use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
 class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,17 +14,16 @@ class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit_Framework_TestCas
     public function it_resolves_the_message_handler_and_lets_it_handle_the_message()
     {
         $message = $this->dummyMessage();
-        $messageHandler = $this->mockMessageHandlerShouldHandle($message);
+        $messageHandler = new CallableSpy();
+        $nextMiddleware = new CallableSpy();
         $messageHandlerResolver = $this->mockMessageHandlerResolverShouldResolve($message, $messageHandler);
 
         $middleware = new DelegatesToMessageHandlerMiddleware($messageHandlerResolver);
 
-        $next = new NextCallableSpy();
+        $middleware->handle($message, $nextMiddleware);
 
-        $middleware->handle($message, $next);
-
-        $this->assertSame(1, $next->hasBeenCalled());
-        $this->assertSame([$message], $next->receivedMessages());
+        $this->assertSame([$message], $nextMiddleware->receivedMessages());
+        $this->assertSame([$message], $messageHandler->receivedMessages());
     }
 
     /**
@@ -38,26 +36,10 @@ class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit_Framework_TestCas
 
     /**
      * @param object $message
-     * @return \PHPUnit_Framework_MockObject_MockObject|MessageHandler
-     */
-    private function mockMessageHandlerShouldHandle($message)
-    {
-        $messageHandler = $this->getMock('SimpleBus\Message\Handler\MessageHandler');
-
-        $messageHandler
-            ->expects($this->once())
-            ->method('handle')
-            ->with($this->identicalTo($message));
-
-        return $messageHandler;
-    }
-
-    /**
-     * @param object $message
-     * @param MessageHandler $resolvedMessageHandler
+     * @param callable $resolvedMessageHandler
      * @return \PHPUnit_Framework_MockObject_MockObject|MessageHandlerResolver
      */
-    private function mockMessageHandlerResolverShouldResolve($message, MessageHandler $resolvedMessageHandler)
+    private function mockMessageHandlerResolverShouldResolve($message, $resolvedMessageHandler)
     {
         $messageHandlerResolver = $this->getMock('SimpleBus\Message\Handler\Resolver\MessageHandlerResolver');
 

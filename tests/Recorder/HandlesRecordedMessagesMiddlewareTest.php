@@ -6,7 +6,7 @@ use Exception;
 use SimpleBus\Message\Bus\MessageBus;
 use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 use SimpleBus\Message\Recorder\ContainsRecordedMessages;
-use SimpleBus\Message\Tests\Fixtures\NextCallableSpy;
+use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
 class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
             $messageBus
         );
 
-        $next = new NextCallableSpy();
+        $next = new CallableSpy();
 
         $middleware->handle($this->dummyMessage(), $next);
         $this->assertSame(1, $next->hasBeenCalled());

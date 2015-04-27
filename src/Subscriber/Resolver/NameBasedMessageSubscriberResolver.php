@@ -2,8 +2,8 @@
 
 namespace SimpleBus\Message\Subscriber\Resolver;
 
+use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\Name\MessageNameResolver;
-use SimpleBus\Message\Subscriber\Collection\MessageSubscriberCollection;
 
 class NameBasedMessageSubscriberResolver implements MessageSubscribersResolver
 {
@@ -13,16 +13,14 @@ class NameBasedMessageSubscriberResolver implements MessageSubscribersResolver
     private $messageNameResolver;
 
     /**
-     * @var MessageSubscriberCollection
+     * @var CallableCollection
      */
     private $messageSubscribers;
 
-    public function __construct(
-        MessageNameResolver $messageNameResolver,
-        MessageSubscriberCollection $messageSubscriberCollection
-    ) {
+    public function __construct(MessageNameResolver $messageNameResolver, CallableCollection $messageSubscribers)
+    {
         $this->messageNameResolver = $messageNameResolver;
-        $this->messageSubscribers = $messageSubscriberCollection;
+        $this->messageSubscribers = $messageSubscribers;
     }
 
     /**
@@ -32,6 +30,6 @@ class NameBasedMessageSubscriberResolver implements MessageSubscribersResolver
     {
         $name = $this->messageNameResolver->resolve($message);
 
-        return $this->messageSubscribers->subscribersByMessageName($name);
+        return $this->messageSubscribers->filter($name);
     }
 }

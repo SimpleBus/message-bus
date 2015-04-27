@@ -2,15 +2,13 @@
 
 namespace SimpleBus\Message\Handler\Resolver;
 
-use SimpleBus\Message\Handler\MessageHandler;
-
 interface MessageHandlerResolver
 {
     /**
-     * Resolve the MessageHandler for the given Message.
+     * Resolve the message handler callable for the given message.
      *
      * @param object $message
-     * @return MessageHandler
+     * @return callable
      */
     public function resolve($message);
 }

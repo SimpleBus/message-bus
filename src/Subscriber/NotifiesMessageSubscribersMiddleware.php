@@ -22,7 +22,7 @@ class NotifiesMessageSubscribersMiddleware implements MessageBusMiddleware
         $messageSubscribers = $this->messageSubscribersResolver->resolve($message);
 
         foreach ($messageSubscribers as $messageSubscriber) {
-            $messageSubscriber->notify($message);
+            call_user_func($messageSubscriber, $message);
         }
 
         $next($message);

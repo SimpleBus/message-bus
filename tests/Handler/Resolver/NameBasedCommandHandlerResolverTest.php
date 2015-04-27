@@ -3,8 +3,7 @@
 namespace SimpleBus\Message\Tests\Handler\Resolver;
 
 use PHPUnit_Framework_TestCase;
-use SimpleBus\Message\Handler\Map\MessageHandlerMap;
-use SimpleBus\Message\Handler\MessageHandler;
+use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\Name\MessageNameResolver;
 use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
 
@@ -20,7 +19,7 @@ class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
         $messageHandler = $this->dummyMessageHandler();
 
         $messageNameResolver = $this->stubMessageNameResolver($message, $messageName);
-        $messageHandlerCollection = $this->stubMessageHandlerCollection([$messageName => $messageHandler]);
+        $messageHandlerCollection = $this->messageHandlerMap([$messageName => $messageHandler]);
 
         $nameBasedHandlerResolver = new NameBasedMessageHandlerResolver(
             $messageNameResolver,
@@ -32,7 +31,8 @@ class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
 
     private function dummyMessageHandler()
     {
-        return $this->getMock('SimpleBus\Message\Handler\MessageHandler');
+        return function () {
+        };
     }
 
     /**
@@ -62,15 +62,15 @@ class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param MessageHandler[] $messageHandlersByMessageName
-     * @return \PHPUnit_Framework_MockObject_MockObject|MessageHandlerMap
+     * @param callable[] $messageHandlersByMessageName
+     * @return \PHPUnit_Framework_MockObject_MockObject|CallableMap
      */
-    private function stubMessageHandlerCollection(array $messageHandlersByMessageName)
+    private function messageHandlerMap(array $messageHandlersByMessageName)
     {
-        $messageHandlerCollection = $this->getMock('SimpleBus\Message\Handler\Map\MessageHandlerMap');
-        $messageHandlerCollection
+        $messageHandlerMap = $this->getMockBuilder(CallableMap::class)->disableOriginalConstructor()->getMock();
+        $messageHandlerMap
             ->expects($this->any())
-            ->method('handlerByMessageName')
+            ->method('get')
             ->will(
                 $this->returnCallback(
                     function ($messageName) use ($messageHandlersByMessageName) {
@@ -79,6 +79,6 @@ class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
                 )
             );
 
-        return $messageHandlerCollection;
+        return $messageHandlerMap;
     }
 }

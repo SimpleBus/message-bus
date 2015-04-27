@@ -4,7 +4,7 @@ namespace SimpleBus\Message\Tests\Subscriber;
 
 use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 use SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver;
-use SimpleBus\Message\Tests\Fixtures\NextCallableSpy;
+use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
 class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,21 +15,24 @@ class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCa
     {
         $message = $this->dummyMessage();
 
+        $messageSubscriber1 = new CallableSpy();
+        $messageSubscriber2 = new CallableSpy();
+
         $messageSubscribers = [
-            $this->mockMessageSubscriberShouldBeNotifiedOf($message),
-            $this->mockMessageSubscriberShouldBeNotifiedOf($message),
-            $this->mockMessageSubscriberShouldBeNotifiedOf($message),
+            $messageSubscriber1,
+            $messageSubscriber2
         ];
 
         $resolver = $this->mockMessageSubscribersResolver($message, $messageSubscribers);
         $middleware = new NotifiesMessageSubscribersMiddleware($resolver);
 
-        $next = new NextCallableSpy();
+        $next = new CallableSpy();
 
         $middleware->handle($message, $next);
 
-        $this->assertSame(1, $next->hasBeenCalled());
         $this->assertSame([$message], $next->receivedMessages());
+        $this->assertSame([$message], $messageSubscriber1->receivedMessages());
+        $this->assertSame([$message], $messageSubscriber2->receivedMessages());
     }
 
     /**
@@ -56,17 +59,5 @@ class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCa
     private function dummyMessage()
     {
         return new \stdClass();
-    }
-
-    private function mockMessageSubscriberShouldBeNotifiedOf($message)
-    {
-        $messageSubscriber = $this->getMock('SimpleBus\Message\Subscriber\MessageSubscriber');
-
-        $messageSubscriber
-            ->expects($this->once())
-            ->method('notify')
-            ->with($this->identicalTo($message));
-
-        return $messageSubscriber;
     }
 }

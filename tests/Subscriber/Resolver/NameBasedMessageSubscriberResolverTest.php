@@ -2,9 +2,8 @@
 
 namespace SimpleBus\Message\Tests\Subscriber\Resolver;
 
-use SimpleBus\Message\Handler\MessageHandler;
+use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\Name\MessageNameResolver;
-use SimpleBus\Message\Subscriber\Collection\MessageSubscriberCollection;
 use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
 
 class NameBasedMessageSubscriberResolverTest extends \PHPUnit_Framework_TestCase
@@ -61,17 +60,18 @@ class NameBasedMessageSubscriberResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param MessageHandler[] $messageSubscribersByMessageName
-     * @return \PHPUnit_Framework_MockObject_MockObject|MessageSubscriberCollection
+     * @param callable[] $messageSubscribersByMessageName
+     * @return \PHPUnit_Framework_MockObject_MockObject|CallableCollection
      */
     private function stubMessageSubscribersCollection(array $messageSubscribersByMessageName)
     {
-        $messageSubscribersCollection = $this->getMock(
-            'SimpleBus\Message\Subscriber\Collection\MessageSubscriberCollection'
-        );
+        $messageSubscribersCollection = $this->getMockBuilder(CallableCollection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $messageSubscribersCollection
             ->expects($this->any())
-            ->method('subscribersByMessageName')
+            ->method('filter')
             ->will(
                 $this->returnCallback(
                     function ($messageName) use ($messageSubscribersByMessageName) {

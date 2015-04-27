@@ -8,6 +8,9 @@ use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
 
 class DelegatesToMessageHandlerMiddleware implements MessageBusMiddleware
 {
+    /**
+     * @var MessageHandlerResolver
+     */
     private $messageHandlerResolver;
 
     public function __construct(MessageHandlerResolver $messageHandlerResolver)
@@ -16,13 +19,14 @@ class DelegatesToMessageHandlerMiddleware implements MessageBusMiddleware
     }
 
     /**
-     * Handles the message by resolving the correct MessageHandler and calling it.
+     * Handles the message by resolving the correct message handler and calling it.
      *
      * {@inheritdoc}
      */
     public function handle($message, callable $next)
     {
-        $this->messageHandlerResolver->resolve($message)->handle($message);
+        $handler = $this->messageHandlerResolver->resolve($message);
+        call_user_func($handler, $message);
 
         $next($message);
     }
