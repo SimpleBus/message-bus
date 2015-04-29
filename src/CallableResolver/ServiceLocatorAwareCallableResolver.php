@@ -31,6 +31,16 @@ class ServiceLocatorAwareCallableResolver implements CallableResolver
             return $this->resolve($this->loadService($maybeCallable));
         }
 
+        // to make the upgrade process easier: auto-select the "handle" method
+        if (is_object($maybeCallable) && method_exists($maybeCallable, 'handle')) {
+            return [$maybeCallable, 'handle'];
+        }
+
+        // to make the upgrade process easier: auto-select the "handle" method
+        if (is_object($maybeCallable) && method_exists($maybeCallable, 'notify')) {
+            return [$maybeCallable, 'notify'];
+        }
+
         if (is_array($maybeCallable) && count($maybeCallable) === 2) {
             list($serviceId, $method) = $maybeCallable;
             if (is_string($serviceId)) {

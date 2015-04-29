@@ -3,6 +3,8 @@
 namespace SimpleBus\Message\Tests\CallableResolver;
 
 use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
+use SimpleBus\Message\Tests\CallableResolver\Fixtures\LegacyHandler;
+use SimpleBus\Message\Tests\CallableResolver\Fixtures\LegacySubscriber;
 
 class ServiceLocatorAwareCallableResolverTest extends \PHPUnit_Framework_TestCase
 {
@@ -88,5 +90,25 @@ class ServiceLocatorAwareCallableResolverTest extends \PHPUnit_Framework_TestCas
 
         $this->setExpectedException('SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable');
         $this->resolver->resolve(['callable_service_id', 'nonExistingMethod']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_uses_the_handle_method_if_it_exists()
+    {
+        $legacyHandler = new LegacyHandler();
+
+        $this->assertSame([$legacyHandler, 'handle'], $this->resolver->resolve($legacyHandler));
+    }
+
+    /**
+     * @test
+     */
+    public function it_uses_the_notify_method_if_it_exists()
+    {
+        $legacySubscriber = new LegacySubscriber();
+
+        $this->assertSame([$legacySubscriber, 'notify'], $this->resolver->resolve($legacySubscriber));
     }
 }
