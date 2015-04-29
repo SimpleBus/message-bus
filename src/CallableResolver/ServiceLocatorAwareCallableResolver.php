@@ -48,7 +48,7 @@ class ServiceLocatorAwareCallableResolver implements CallableResolver
             }
         }
 
-        throw new CouldNotResolveCallable();
+        throw CouldNotResolveCallable::createFor($maybeCallable);
     }
 
     private function loadService($serviceId)
