@@ -9,7 +9,7 @@ namespace SimpleBus\Message\Recorder;
  */
 trait PrivateMessageRecorderCapabilities
 {
-    private $messages = array();
+    private $messages = [];
 
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ trait PrivateMessageRecorderCapabilities
      */
     public function eraseMessages()
     {
-        $this->messages = array();
+        $this->messages = [];
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace SimpleBus\Message\Tests\CallableResolver;
 
-use SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable;
 use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 
 class ServiceLocatorAwareCallableResolverTest extends \PHPUnit_Framework_TestCase
@@ -65,7 +64,7 @@ class ServiceLocatorAwareCallableResolverTest extends \PHPUnit_Framework_TestCas
      */
     public function it_fails_if_object_and_method_array_is_not_a_callable()
     {
-        $this->setExpectedException(CouldNotResolveCallable::class);
+        $this->setExpectedException('SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable');
         $this->resolver->resolve([new \stdClass(), 'nonExistingMethod']);
     }
 
@@ -76,7 +75,7 @@ class ServiceLocatorAwareCallableResolverTest extends \PHPUnit_Framework_TestCas
     {
         $this->services['not_a_callable'] = new \stdClass();
 
-        $this->setExpectedException(CouldNotResolveCallable::class);
+        $this->setExpectedException('SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable');
         $this->resolver->resolve('not_a_callable');
     }
 
@@ -87,7 +86,7 @@ class ServiceLocatorAwareCallableResolverTest extends \PHPUnit_Framework_TestCas
     {
         $this->services['callable_service_id'] = new \stdClass();
 
-        $this->setExpectedException(CouldNotResolveCallable::class);
+        $this->setExpectedException('SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable');
         $this->resolver->resolve(['callable_service_id', 'nonExistingMethod']);
     }
 }

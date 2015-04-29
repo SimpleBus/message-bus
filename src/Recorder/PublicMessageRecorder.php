@@ -4,7 +4,7 @@ namespace SimpleBus\Message\Recorder;
 
 class PublicMessageRecorder implements RecordsMessages
 {
-    private $messages = array();
+    private $messages = [];
 
     /**
      * {@inheritdoc}
@@ -19,7 +19,7 @@ class PublicMessageRecorder implements RecordsMessages
      */
     public function eraseMessages()
     {
-        $this->messages = array();
+        $this->messages = [];
     }
 
     /**

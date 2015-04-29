@@ -65,7 +65,7 @@ class NameBasedMessageSubscriberResolverTest extends \PHPUnit_Framework_TestCase
      */
     private function stubMessageSubscribersCollection(array $messageSubscribersByMessageName)
     {
-        $messageSubscribersCollection = $this->getMockBuilder(CallableCollection::class)
+        $messageSubscribersCollection = $this->getMockBuilder('SimpleBus\Message\CallableResolver\CallableCollection')
             ->disableOriginalConstructor()
             ->getMock();
 

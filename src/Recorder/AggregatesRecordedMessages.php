@@ -23,7 +23,7 @@ class AggregatesRecordedMessages implements ContainsRecordedMessages
      */
     public function recordedMessages()
     {
-        $allRecordedMessages = array();
+        $allRecordedMessages = [];
 
         foreach ($this->messageRecorders as $messageRecorder) {
             $allRecordedMessages = array_merge($allRecordedMessages, $messageRecorder->recordedMessages());

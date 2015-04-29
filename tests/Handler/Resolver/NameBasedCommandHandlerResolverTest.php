@@ -67,7 +67,9 @@ class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
      */
     private function messageHandlerMap(array $messageHandlersByMessageName)
     {
-        $messageHandlerMap = $this->getMockBuilder(CallableMap::class)->disableOriginalConstructor()->getMock();
+        $messageHandlerMap = $this->getMockBuilder('SimpleBus\Message\CallableResolver\CallableMap')
+            ->disableOriginalConstructor()
+            ->getMock();
         $messageHandlerMap
             ->expects($this->any())
             ->method('get')

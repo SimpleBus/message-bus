@@ -14,7 +14,7 @@ class CallableCollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->callableResolver = $this->getMock(CallableResolver::class);
+        $this->callableResolver = $this->getMock('SimpleBus\Message\CallableResolver\CallableResolver');
     }
 
     /**
