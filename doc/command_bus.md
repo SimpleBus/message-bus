@@ -35,29 +35,30 @@ $commandBus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
 
 ### Defining the command handler map {#command-handler-map}
 
-Now we also want commands to be handled by exactly one command handler. We first need to define the collection of
+Now we also want commands to be handled by exactly one command handler (which can be any [callable](http://php.net/manual/en/language.types.callable.php)). We first need to define the collection of
 handlers that are available in the application. We should make this *command handler map* lazy-loading, or every
 command handler will be fully loaded, even though it is not going to be used:
 
 ```php
-use SimpleBus\Message\Handler\Map\LazyLoadingMessageHandlerMap;
+use SimpleBus\Message\CallableResolver\CallableMap;
+use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 
-// provide a service locator callable
+// Provide a map of command names to callables. You can provide actual callables, or lazy-loading ones.
+$commandHandlersByCommandName = [
+    // the "command_handler_service_id" service will be resolved when needed (see below)
+    'Fully\Qualified\Class\Name\Of\Command' => ['command_handler_service_id', 'handle']
+];
+
+// Provide a service locator callable. It will be used to instantiate a handler service whenever requested.
 $serviceLocator = function ($serviceId) {
-    // lazily load/create an instance of the command handler, e.g. using an IoC container
     $handler = ...;
 
     return $handler;
 }
 
-// provide a map of command names to service ids
-$commandHandlersByCommandName = [
-    'Fully\Qualified\Class\Name\Of\Command' => 'command_handler_service_id'
-];
-
-$commandHandlerMap = new LazyLoadingMessageHandlerMap(
+$commandHandlerMap = new CallableMap(
     $commandHandlersByCommandName,
-    $serviceLocator
+    new ServiceLocatorAwareCallableResolver($serviceLocator)
 );
 ```
 
@@ -161,17 +162,15 @@ password in plain text. This information is required to execute the desired beha
 The handler for this command looks like this:
 
 ```php
-use SimpleBus\Message\Handler\MessageHandler;
-
-class RegisterUserCommandHandler implements MessageHandler
+class RegisterUserCommandHandler
 {
     ...
 
-    public function handle($message)
+    public function handle(RegisterUser $command)
     {
         $user = User::register(
-            $message->emailAddress(),
-            $message->plainTextPassword()
+            $command->emailAddress(),
+            $command->plainTextPassword()
         );
 
         $this->userRepository->add($user);

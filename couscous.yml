@@ -23,6 +23,10 @@ menu:
             itemId: message_recorder
             text: Recording events
             relativeUrl: doc/message_recorder.html
+        upgrade_guide:
+            itemId: upgrade_guide
+            text: Upgrade guide
+            relativeUrl: doc/upgrade_guide.html
         doctrine_orm_integration:
             text: Doctrine ORM integration
             absoluteUrl: http://simplebus.github.io/DoctrineORMBridge/

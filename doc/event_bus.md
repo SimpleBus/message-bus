@@ -39,27 +39,27 @@ subscribers that are available in the application. We should make this *event su
 every event subscriber will be fully loaded, even though it is not going to be used:
 
 ```php
-use SimpleBus\Message\Subscriber\Collection\LazyLoadingMessageSubscriberCollection;
+use SimpleBus\Message\CallableResolver\CallableCollection;
+use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 
-// provide a service locator callable
+// Provide a map of event names to callables. You can provide actual callables, or lazy-loading ones.
+$eventSubscribersByEventName = [
+    'Fully\Qualified\Class\Name\Of\Event' => [
+        ['event_subscriber_service_id', 'notify']
+        ['another_event_subscriber_service_id', 'notify']
+    ]
+];
+
+// Provide a service locator callable. It will be used to instantiate a subscriber service whenever requested.
 $serviceLocator = function ($serviceId) {
-    // lazily load/create an instance of the event subscriber, e.g. using an IoC container
     $handler = ...;
 
     return $handler;
 }
 
-// provide a map of event names to service ids
-$eventSubscribersByEventName = [
-    'Fully\Qualified\Class\Name\Of\Event' => [
-        'event_subscriber_service_id',
-        'another_event_subscriber_service_id',
-    ]
-];
-
-$eventSubscriberCollection = new LazyLoadingMessageSubscriberCollection(
+$eventSubscriberCollection = new CallableCollection(
     $eventSubscribersByEventName,
-    $serviceLocator
+    new ServiceLocatorAwareCallableResolver($serviceLocator)
 );
 ```
 
@@ -156,9 +156,7 @@ of the user that was registered. This information is required for event subscrib
 A subscriber for this event looks like this:
 
 ```php
-use SimpleBus\Message\Subscriber\MessageSubscriber;
-
-class SendWelcomeMailWhenUserRegistered implements MessageSubscriber
+class SendWelcomeMailWhenUserRegistered
 {
     ...
 
