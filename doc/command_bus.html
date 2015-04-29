@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>MessageBus</title>
+        <title>SimpleBus/MessageBus</title>
 
         <link rel="stylesheet" href="http://simplebus.github.io/MessageBus/css/bootstrap.min.css">
         <link rel="stylesheet" href="http://simplebus.github.io/MessageBus/css/font-awesome.min.css">
@@ -16,7 +16,7 @@
         <header class="navbar navbar-default navbar-fixed-top">
 
             <a class="navbar-brand" href="http://simplebus.github.io/MessageBus/">
-                MessageBus
+                SimpleBus/MessageBus
                 <small class="hidden-xs hidden-sm">
                     Generic classes and interfaces for command and event buses
                 </small>
@@ -58,6 +58,11 @@
                                     </a>
                                 </li>
                                                             <li class="">
+                                    <a href="http://simplebus.github.io/MessageBus/doc/upgrade_guide.html">
+                                        Upgrade guide
+                                    </a>
+                                </li>
+                                                            <li class="">
                                     <a href="http://simplebus.github.io/DoctrineORMBridge/">
                                         Doctrine ORM integration
                                     </a>
@@ -94,27 +99,28 @@ specialized middleware for that:</p>
 
 $commandBus-&gt;appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());</code></pre>
 <h3 id="command-handler-map">Defining the command handler map</h3>
-<p>Now we also want commands to be handled by exactly one command handler. We first need to define the collection of
+<p>Now we also want commands to be handled by exactly one command handler (which can be any <a href="http://php.net/manual/en/language.types.callable.php">callable</a>). We first need to define the collection of
 handlers that are available in the application. We should make this <em>command handler map</em> lazy-loading, or every
 command handler will be fully loaded, even though it is not going to be used:</p>
-<pre><code class="language-php">use SimpleBus\Message\Handler\Map\LazyLoadingMessageHandlerMap;
+<pre><code class="language-php">use SimpleBus\Message\CallableResolver\CallableMap;
+use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 
-// provide a service locator callable
+// Provide a map of command names to callables. You can provide actual callables, or lazy-loading ones.
+$commandHandlersByCommandName = [
+    // the "command_handler_service_id" service will be resolved when needed (see below)
+    'Fully\Qualified\Class\Name\Of\Command' =&gt; ['command_handler_service_id', 'handle']
+];
+
+// Provide a service locator callable. It will be used to instantiate a handler service whenever requested.
 $serviceLocator = function ($serviceId) {
-    // lazily load/create an instance of the command handler, e.g. using an IoC container
     $handler = ...;
 
     return $handler;
 }
 
-// provide a map of command names to service ids
-$commandHandlersByCommandName = [
-    'Fully\Qualified\Class\Name\Of\Command' =&gt; 'command_handler_service_id'
-];
-
-$commandHandlerMap = new LazyLoadingMessageHandlerMap(
+$commandHandlerMap = new CallableMap(
     $commandHandlersByCommandName,
-    $serviceLocator
+    new ServiceLocatorAwareCallableResolver($serviceLocator)
 );</code></pre>
 <h3>Resolving the command handler for a command</h3>
 <h4>The name of a command</h4>
@@ -128,10 +134,9 @@ $commandNameResolver = new ClassBasedNameResolver();</code></pre>
 
 $commandNameResolver = new NamedMessageNameResolver();</code></pre>
 <p>In that case your commands have to implement <code>NamedMessage</code>:</p>
-<pre><code class="language-php">use SimpleBus\Message\Type\Command;
-use SimpleBus\Message\Name\NamedMessage;
+<pre><code class="language-php">use SimpleBus\Message\Name\NamedMessage;
 
-class YourCommand implements Command, NamedMessage
+class YourCommand implements NamedMessage
 {
     public static function messageName()
     {
@@ -162,9 +167,7 @@ $commandBus-&gt;appendMiddleware(
 );</code></pre>
 <h2>Using the command bus: an example</h2>
 <p>Consider the following command:</p>
-<pre><code class="language-php">use SimpleBus\Message\Type\Command;
-
-class RegisterUser implements Command
+<pre><code class="language-php">class RegisterUser
 {
     private $emailAddress;
     private $plainTextPassword;
@@ -188,18 +191,15 @@ class RegisterUser implements Command
 <p>This command communicates the intention to "register a new user". The message data consists of an email address and a
 password in plain text. This information is required to execute the desired behavior.</p>
 <p>The handler for this command looks like this:</p>
-<pre><code class="language-php">use SimpleBus\Message\Handler\MessageHandler;
-use SimpleBus\Message\Message;
-
-class RegisterUserCommandHandler implements MessageHandler
+<pre><code class="language-php">class RegisterUserCommandHandler
 {
     ...
 
-    public function handle(Message $message)
+    public function handle(RegisterUser $command)
     {
         $user = User::register(
-            $message-&gt;emailAddress(),
-            $message-&gt;plainTextPassword()
+            $command-&gt;emailAddress(),
+            $command-&gt;plainTextPassword()
         );
 
         $this-&gt;userRepository-&gt;add($user);
@@ -231,7 +231,7 @@ class HandleCommandsAsynchronously implements MessageBusMiddleware
 {
     ...
 
-    public function handle(Message $message, callable $next)
+    public function handle($message, callable $next)
     {
         if ($message instanceof IsHandledAsynchronously) {
             // handle the message asynchronously using a message queue

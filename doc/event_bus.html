@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>MessageBus</title>
+        <title>SimpleBus/MessageBus</title>
 
         <link rel="stylesheet" href="http://simplebus.github.io/MessageBus/css/bootstrap.min.css">
         <link rel="stylesheet" href="http://simplebus.github.io/MessageBus/css/font-awesome.min.css">
@@ -16,7 +16,7 @@
         <header class="navbar navbar-default navbar-fixed-top">
 
             <a class="navbar-brand" href="http://simplebus.github.io/MessageBus/">
-                MessageBus
+                SimpleBus/MessageBus
                 <small class="hidden-xs hidden-sm">
                     Generic classes and interfaces for command and event buses
                 </small>
@@ -58,6 +58,11 @@
                                     </a>
                                 </li>
                                                             <li class="">
+                                    <a href="http://simplebus.github.io/MessageBus/doc/upgrade_guide.html">
+                                        Upgrade guide
+                                    </a>
+                                </li>
+                                                            <li class="">
                                     <a href="http://simplebus.github.io/DoctrineORMBridge/">
                                         Doctrine ORM integration
                                     </a>
@@ -96,27 +101,27 @@ $eventBus-&gt;appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
 <p>We want any number of event subscribers to be notified of a given event. We first need to define the collection of event
 subscribers that are available in the application. We should make this <em>event subscriber collection</em> lazy-loading, or
 every event subscriber will be fully loaded, even though it is not going to be used:</p>
-<pre><code class="language-php">use SimpleBus\Message\Subscriber\Collection\LazyLoadingMessageSubscriberCollection;
+<pre><code class="language-php">use SimpleBus\Message\CallableResolver\CallableCollection;
+use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 
-// provide a service locator callable
+// Provide a map of event names to callables. You can provide actual callables, or lazy-loading ones.
+$eventSubscribersByEventName = [
+    'Fully\Qualified\Class\Name\Of\Event' =&gt; [
+        ['event_subscriber_service_id', 'notify']
+        ['another_event_subscriber_service_id', 'notify']
+    ]
+];
+
+// Provide a service locator callable. It will be used to instantiate a subscriber service whenever requested.
 $serviceLocator = function ($serviceId) {
-    // lazily load/create an instance of the event subscriber, e.g. using an IoC container
     $handler = ...;
 
     return $handler;
 }
 
-// provide a map of event names to service ids
-$eventSubscribersByEventName = [
-    'Fully\Qualified\Class\Name\Of\Event' =&gt; [
-        'event_subscriber_service_id',
-        'another_event_subscriber_service_id',
-    ]
-];
-
-$eventSubscriberCollection = new LazyLoadingMessageSubscriberCollection(
+$eventSubscriberCollection = new CallableCollection(
     $eventSubscribersByEventName,
-    $serviceLocator
+    new ServiceLocatorAwareCallableResolver($serviceLocator)
 );</code></pre>
 <h3>Resolving the event subscribers for an event</h3>
 <h4>The name of an event</h4>
@@ -130,10 +135,9 @@ $eventNameResolver = new ClassBasedNameResolver();</code></pre>
 
 $eventNameResolver = new NamedMessageNameResolver();</code></pre>
 <p>In that case your events have to implement <code>NamedMessage</code>:</p>
-<pre><code class="language-php">use SimpleBus\Message\Type\Event;
-use SimpleBus\Message\Name\NamedMessage;
+<pre><code class="language-php">use SimpleBus\Message\Name\NamedMessage;
 
-class YourEvent implements Event, NamedMessage
+class YourEvent implements NamedMessage
 {
     public static function messageName()
     {
@@ -164,9 +168,7 @@ $eventBus-&gt;appendMiddleware(
 );</code></pre>
 <h2>Using the event bus: an example</h2>
 <p>Consider the following event:</p>
-<pre><code class="language-php">use SimpleBus\Message\Type\Event;
-
-class UserRegistered implements Event
+<pre><code class="language-php">class UserRegistered
 {
     private $userId;
 
@@ -183,14 +185,11 @@ class UserRegistered implements Event
 <p>This event conveys the information that "a new user was registered". The message data consists of the unique identifier
 of the user that was registered. This information is required for event subscribers to act upon the event.</p>
 <p>A subscriber for this event looks like this:</p>
-<pre><code class="language-php">use SimpleBus\Message\Subscriber\MessageSubscriber;
-use SimpleBus\Message\Message;
-
-class SendWelcomeMailWhenUserRegistered implements MessageSubscriber
+<pre><code class="language-php">class SendWelcomeMailWhenUserRegistered
 {
     ...
 
-    public function notify(Message $message)
+    public function notify($message)
     {
         $user = $this-&gt;userRepository-&gt;byId($message-&gt;userId());
 
@@ -223,7 +222,7 @@ class StoreDomainEvents implements MessageBusMiddleware
 {
     ...
 
-    public function handle(Message $message, callable $next)
+    public function handle($message, callable $next)
     {
         if ($message instanceof DomainEvent) {
             // store the domain event
