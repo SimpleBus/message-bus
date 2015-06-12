@@ -1,6 +1,6 @@
 title: SimpleBus/MessageBus
 subTitle: Generic classes and interfaces for command and event buses
-baseUrl: http://simplebus.github.io/MessageBus
+baseUrl: //simplebus.github.io/MessageBus
 menu:
     items:
         home:
