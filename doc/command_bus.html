@@ -78,7 +78,7 @@
 
                 
                 <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <h1>Implementing a command bus</h1>
+                    <h1 id="implementing-a-command-bus">Implementing a command bus</h1>
 <p>The classes and interfaces from this package can be used to set up a command bus. The characteristics of a command bus
 are:</p>
 <ul>
@@ -87,12 +87,12 @@ are:</p>
 <li>The behavior of the command bus is extensible: <em>middlewares</em> are allowed to do things before or after handling a
 command</li>
 </ul>
-<h2>Setting up the command bus</h2>
+<h2 id="setting-up-the-command-bus">Setting up the command bus</h2>
 <p>At least we need an instance of <code>MessageBusSupportingMiddleware</code>:</p>
 <pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 $commandBus = new MessageBusSupportingMiddleware();</code></pre>
-<h3>Finish handling a command, before handling the next</h3>
+<h3 id="finish-handling-a-command-before-handling-the-next">Finish handling a command, before handling the next</h3>
 <p>We want to make sure that commands are always fully handled before other commands will be handled, so we add a
 specialized middleware for that:</p>
 <pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
@@ -122,8 +122,8 @@ $commandHandlerMap = new CallableMap(
     $commandHandlersByCommandName,
     new ServiceLocatorAwareCallableResolver($serviceLocator)
 );</code></pre>
-<h3>Resolving the command handler for a command</h3>
-<h4>The name of a command</h4>
+<h3 id="resolving-the-command-handler-for-a-command">Resolving the command handler for a command</h3>
+<h4 id="the-name-of-a-command">The name of a command</h4>
 <p>First we need a way to resolve the name of a command. You can use the fully-qualified class name (FQCN) of a
 command object as its name:</p>
 <pre><code class="language-php">use SimpleBus\Message\Name\ClassBasedNameResolver;
@@ -144,11 +144,11 @@ class YourCommand implements NamedMessage
     }
 }</code></pre>
 <blockquote>
-<h4>Implementing your own <code>MessageNameResolver</code></h4>
+<h4 id="implementing-your-own">Implementing your own <code>MessageNameResolver</code></h4>
 <p>If you want to use another rule to determine the name of a command, create a class that implements
 <code>SimpleBus\Message\Name\MessageNameResolver</code>.</p>
 </blockquote>
-<h3>Resolving the command handler based on the name of the command</h3>
+<h3 id="resolving-the-command-handler-based-on-the-name-of-the-command">Resolving the command handler based on the name of the command</h3>
 <p>Using the <code>MessageNameResolver</code> of your choice, you can now let the <em>command handler resolver</em> find the right command
 handler for a given command.</p>
 <pre><code class="language-php">use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
@@ -165,7 +165,7 @@ $commandBus-&gt;appendMiddleware(
         $commandHandlerResolver
     )
 );</code></pre>
-<h2>Using the command bus: an example</h2>
+<h2 id="using-the-command-bus-an-example">Using the command bus: an example</h2>
 <p>Consider the following command:</p>
 <pre><code class="language-php">class RegisterUser
 {
@@ -188,7 +188,7 @@ $commandBus-&gt;appendMiddleware(
         return $this-&gt;plainTextPassword;
     }
 }</code></pre>
-<p>This command communicates the intention to "register a new user". The message data consists of an email address and a
+<p>This command communicates the intention to &quot;register a new user&quot;. The message data consists of an email address and a
 password in plain text. This information is required to execute the desired behavior.</p>
 <p>The handler for this command looks like this:</p>
 <pre><code class="language-php">class RegisterUserCommandHandler
@@ -215,7 +215,7 @@ command bus handle it. Eventually the command will be passed as a message to the
 
 $commandBus-&gt;handle($command);</code></pre>
 <blockquote>
-<h4>Implementing your own command bus middleware</h4>
+<h4 id="implementing-your-own-command-bus-middleware">Implementing your own command bus middleware</h4>
 <p>It's very easy to extend the behavior of the command bus. You can create a class that implements
 <code>MessageBusMiddleware</code>:</p>
 <pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
@@ -247,7 +247,7 @@ command bus we created earlier):</p>
 <pre><code class="language-php">$commandBus-&gt;appendMiddleware(new HandleCommandsAsynchronously());</code></pre>
 <p>Make sure that you do this at the right place, before or after you add the other middlewares.</p>
 <p>Calling <code>$next($message)</code> will make sure that the next middleware in line is able to handle the message.</p>
-<h4>Logging messages</h4>
+<h4 id="logging-messages">Logging messages</h4>
 <p>To log every message that passes through the command bus, add the <code>LoggingMiddleware</code> right before the
 <code>DelegatesToMessageHandlerMiddleware</code>. Make sure to set up a <a href="http://www.php-fig.org/psr/psr-3/">PSR-3 compliant
 logger</a> first:</p>

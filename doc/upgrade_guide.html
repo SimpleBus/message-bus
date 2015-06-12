@@ -78,8 +78,8 @@
 
                 
                 <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <h2>How to upgrade from MessageBus <code>1.x</code> to <code>2.0</code></h2>
-<h3>The <code>Message</code>, <code>Command</code> and <code>Event</code> interfaces have been removed</h3>
+                    <h2 id="how-to-upgrade-from-messagebus">How to upgrade from MessageBus <code>1.x</code> to <code>2.0</code></h2>
+<h3 id="the">The <code>Message</code>, <code>Command</code> and <code>Event</code> interfaces have been removed</h3>
 <p>A message (command, event, etc.) can be any object now, so just remove any type-hint or replace type-hints by more
 specific ones.</p>
 <p>The <code>Message</code> type-hint has been removed from the following methods:</p>
@@ -90,10 +90,10 @@ specific ones.</p>
 <li><code>SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver::resolve</code></li>
 <li><code>SimpleBus\Message\Name\MessageNameResolver::resolve</code></li>
 </ul>
-<h3>The <code>MessageHandler</code> interface has been removed</h3>
+<h3 id="the-1">The <code>MessageHandler</code> interface has been removed</h3>
 <p>Message handlers can be any callable now, so just remove the <code>implements MessageHandler</code> from your message handler
 class definitions.</p>
-<h3>The <code>MessageSubscriber</code> interface has been removed</h3>
+<h3 id="the-2">The <code>MessageSubscriber</code> interface has been removed</h3>
 <p>Message subscribers can be any callable now, so just remove the <code>implements MessageSubscriber</code> from your message
 handler class definitions.</p>
 <h3><code>MessageHandlerMap</code> and <code>MessageSubscriberCollection</code> have been removed</h3>
