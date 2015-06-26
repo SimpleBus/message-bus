@@ -71,6 +71,58 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_handles_messages_recorded_during_handling()
+    {
+        $messages = [$this->dummyMessage(), $this->dummyMessage()];
+        $messages2 = [$this->dummyMessage(), $this->dummyMessage()];
+        $messageRecorder = $this->mockMessageRecorder();
+
+        // first recorded messages should be fetched
+        $messageRecorder
+            ->expects($this->at(0))
+            ->method('recordedMessages')
+            ->will($this->returnValue($messages));
+
+        // then immediately erased
+        $messageRecorder
+            ->expects($this->at(1))
+            ->method('eraseMessages');
+
+        // it should check if new messages were recorded
+        $messageRecorder
+            ->expects($this->at(2))
+            ->method('recordedMessages')
+            ->will($this->returnValue($messages2));
+
+        // messages recorded during handling should be fetched
+        $messageRecorder
+            ->expects($this->at(3))
+            ->method('recordedMessages')
+            ->will($this->returnValue($messages2));
+
+        // then immediately erased
+        $messageRecorder
+            ->expects($this->at(4))
+            ->method('eraseMessages');
+
+        $actuallyHandledMessages = [];
+        $messageBus = $this->messageBusSpy($actuallyHandledMessages);
+        $middleware = new HandlesRecordedMessagesMiddleware(
+            $messageRecorder,
+            $messageBus
+        );
+
+        $next = new CallableSpy();
+
+        $middleware->handle($this->dummyMessage(), $next);
+        // $next should be after each iteration
+        $this->assertSame(2, $next->hasBeenCalled());
+        $this->assertSame(array_merge($messages, $messages2), $actuallyHandledMessages);
+    }
+
+    /**
      * @param array $actuallyHandledMessages
      * @return \PHPUnit_Framework_MockObject_MockObject|MessageBus
      */
