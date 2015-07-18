@@ -150,6 +150,12 @@ $commandBus-&gt;appendMiddleware(new HandlesRecordedMessagesMiddleware(
 ));</code></pre>
 <p>Make sure to add this middleware <em>first</em>, before adding any other middleware. Like mentioned before: we only want events
 to be handled when we know that everything else has gone well.</p>
+<blockquote>
+<h2 id="only-the-command-bus-handled-recorded-events-automatically">Only the command bus handled recorded events automatically</h2>
+<p>When using a standard setup (like described above), <em>only</em> the command bus automatically handles recorded events. If
+you want to dispatch new events in for example event subscribers, you shouldn't record the event, but just inject the
+event bus as a constructor argument and let it handle the new event right-away.</p>
+</blockquote>
 <h2 id="handling-domain-events">Handling domain events</h2>
 <p>When you privately record events inside your domain entities, you need to collect those recorded events manually. Your
 database abstraction library, ORM or ODM probably offers a way to hook into the process of persisting the entities and
