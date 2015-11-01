@@ -172,13 +172,13 @@ can collect recorded events from Doctrine ORM entities. See its
 you can combine those into one message recorder, which aggregates the recorded messages:</p>
 <pre><code class="language-php">use SimpleBus\Message\Recorder\AggregatesRecordedMessages;
 
-$aggregatingMessageRecorder(
+$aggregatingMessageRecorder = new AggregatesRecordedMessages(
     [
         $publicMessageRecorder,
         $domainEventsMessagesRecorder,
         ...
     ]
-)</code></pre>
+);</code></pre>
 <p>Finally, you can provide this aggregating message recorder to the <code>HandlesRecordedMessagesMiddleware</code> and it will act as
 if it is a single message recorder.</p>
 <pre><code class="language-php">$commandBus-&gt;appendMiddleware(new HandlesRecordedMessagesMiddleware(
