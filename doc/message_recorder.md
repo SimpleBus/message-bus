@@ -129,13 +129,13 @@ you can combine those into one message recorder, which aggregates the recorded m
 ```php
 use SimpleBus\Message\Recorder\AggregatesRecordedMessages;
 
-$aggregatingMessageRecorder(
+$aggregatingMessageRecorder = new AggregatesRecordedMessages(
     [
         $publicMessageRecorder,
         $domainEventsMessagesRecorder,
         ...
     ]
-)
+);
 ```
 
 Finally, you can provide this aggregating message recorder to the `HandlesRecordedMessagesMiddleware` and it will act as
