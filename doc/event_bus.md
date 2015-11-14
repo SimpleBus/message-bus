@@ -55,7 +55,7 @@ $serviceLocator = function ($serviceId) {
     $handler = ...;
 
     return $handler;
-}
+};
 
 $eventSubscriberCollection = new CallableCollection(
     $eventSubscribersByEventName,
