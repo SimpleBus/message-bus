@@ -234,6 +234,7 @@ $eventBus->handle($event);
 > ```php
 > use Psr\Log\LoggerInterface;
 > use Psr\Log\LogLevel;
+> use SimpleBus\Message\Logging\LoggingMiddleware;
 >
 > // $logger is an instance of LoggerInterface
 > $logger = ...;
