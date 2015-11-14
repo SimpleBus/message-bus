@@ -117,7 +117,7 @@ $serviceLocator = function ($serviceId) {
     $handler = ...;
 
     return $handler;
-}
+};
 
 $eventSubscriberCollection = new CallableCollection(
     $eventSubscribersByEventName,
@@ -244,6 +244,7 @@ event bus we created earlier):</p>
 logger</a> first:</p>
 <pre><code class="language-php">use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use SimpleBus\Message\Logging\LoggingMiddleware;
 
 // $logger is an instance of LoggerInterface
 $logger = ...;
