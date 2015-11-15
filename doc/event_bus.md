@@ -45,7 +45,7 @@ use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 // Provide a map of event names to callables. You can provide actual callables, or lazy-loading ones.
 $eventSubscribersByEventName = [
     'Fully\Qualified\Class\Name\Of\Event' => [
-        ['event_subscriber_service_id', 'notify']
+        ['event_subscriber_service_id', 'notify'],
         ['another_event_subscriber_service_id', 'notify']
     ]
 ];
