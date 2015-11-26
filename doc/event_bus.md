@@ -45,11 +45,11 @@ use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 // Provide a map of event names to callables. You can provide actual callables, or lazy-loading ones using a ServiceLocator
 $eventSubscribersByEventName = [
     Fully\Qualified\Class\Name\Of\Event::class => [
-        $fqcn = My\Class\Name::class, //Will use ServiceLocator for instantiation and invoke $instance->notify()
-        $object = new My\Class\Name(), //Will not use ServiceLocator and invoke $object->notify()
-        $callable1 = [My\Class\Name::class, 'notify'], //Will not use ServiceLocator and invoke My\Class\Name::notify() statically
-        $callable2 = [new My\Class\Name(), 'notify'], //Will not use ServiceLocator and invoke $serviceInstance->notify()
-        $callable3 = ['event_subscriber_service_id', 'notify'], //Will use ServiceLocator to instantiate service and invoke '$object->notify()' method
+        $fqcn = My\Class\Name::class, // Will use ServiceLocator for instantiation and invoke $instance->notify() if that function exists on the $instance
+        $object = new My\Class\Name(), // Will not use ServiceLocator and invoke $object->notify()
+        $callable1 = [My\Class\Name::class, 'notify'], // Will not use ServiceLocator and invoke My\Class\Name::notify() statically
+        $callable2 = [new My\Class\Name(), 'notify'], // Will not use ServiceLocator and invoke $serviceInstance->notify()
+        $callable3 = ['event_subscriber_service_id', 'notify'], // Will use ServiceLocator to instantiate service and invoke '$object->notify()' method
         ['another_event_subscriber_service_id', 'notify']
     ]
 ];
