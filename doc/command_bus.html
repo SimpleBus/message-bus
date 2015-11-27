@@ -107,11 +107,16 @@ use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 
 // Provide a map of command names to callables. You can provide actual callables, or lazy-loading ones.
 $commandHandlersByCommandName = [
-    // the "command_handler_service_id" service will be resolved when needed (see below)
-    'Fully\Qualified\Class\Name\Of\Command' =&gt; ['command_handler_service_id', 'handle']
-];
-
-// Provide a service locator callable. It will be used to instantiate a handler service whenever requested.
+    'Fully\Qualified\Class\Name\Of\Command' =&gt; ... // a "callable"
+];</code></pre>
+<p>Each of the provided &quot;callables&quot; can be one of the following things:</p>
+<ul>
+<li>An actual <a href="http://php.net/manual/en/language.types.callable.php">PHP callable</a>,</li>
+<li>A service id (string) which the service locator (see below) can resolve to a PHP callable,</li>
+<li>An array of which the first value is a service id (string), which the service locator can resolve to a regular object, and the second value is a method name.</li>
+</ul>
+<p>For backwards compatibility an object with a <code>handle()</code> method also counts as a &quot;callable&quot;.</p>
+<pre><code class="language-php">// Provide a service locator callable. It will be used to instantiate a handler service whenever requested.
 $serviceLocator = function ($serviceId) {
     $handler = ...;
 
