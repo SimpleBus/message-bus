@@ -44,12 +44,23 @@ use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 
 // Provide a map of event names to callables. You can provide actual callables, or lazy-loading ones.
 $eventSubscribersByEventName = [
-    'Fully\Qualified\Class\Name\Of\Event' => [
-        ['event_subscriber_service_id', 'notify'],
-        ['another_event_subscriber_service_id', 'notify']
+    Fully\Qualified\Class\Name\Of\Event::class => [ // an array of "callables",
+        ...,
+        ...
     ]
+    ...
 ];
+```
 
+Each of the provided "callables" can be one of the following things:
+
+- An actual [PHP callable](http://php.net/manual/en/language.types.callable.php),
+- A service id (string) which the service locator (see below) can resolve to a PHP callable,
+- An array of which the first value is a service id (string), which the service locator can resolve to a regular object, and the second value is a method name.
+
+For backwards compatibility an object with a `notify()` method also counts as a "callable".
+
+```php
 // Provide a service locator callable. It will be used to instantiate a subscriber service whenever requested.
 $serviceLocator = function ($serviceId) {
     $handler = ...;
