@@ -79,7 +79,24 @@ class ServiceLocatorAwareCallableResolverTest extends \PHPUnit_Framework_TestCas
 
         $this->setExpectedException(
             'SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable',
-            'stdClass Object() could not be resolved to a valid callable'
+            'stdClass could not be resolved to a valid callable'
+        );
+        $this->resolver->resolve('not_a_callable');
+    }
+
+    /**
+     * @test
+     */
+    public function it_fails_if_the_loaded_service_is_not_callable_does_not_list_child_service()
+    {
+        $handler = new \stdClass();
+        $handler->childService = new \stdClass();
+
+        $this->services['not_a_callable'] = $handler;
+
+        $this->setExpectedException(
+            'SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable',
+            'stdClass could not be resolved to a valid callable'
         );
         $this->resolver->resolve('not_a_callable');
     }
@@ -93,7 +110,24 @@ class ServiceLocatorAwareCallableResolverTest extends \PHPUnit_Framework_TestCas
 
         $this->setExpectedException(
             'SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable',
-            'Array([0] => stdClass Object()[1] => nonExistingMethod) could not be resolved to a valid callable'
+            'Array([0] => stdClass[1] => nonExistingMethod) could not be resolved to a valid callable'
+        );
+        $this->resolver->resolve(['callable_service_id', 'nonExistingMethod']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_fails_if_the_loaded_service_and_method_array_is_not_callable_does_not_list_child_service()
+    {
+        $handler = new \stdClass();
+        $handler->childService = new \stdClass();
+
+        $this->services['callable_service_id'] = $handler;
+
+        $this->setExpectedException(
+            'SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable',
+            'Array([0] => stdClass[1] => nonExistingMethod) could not be resolved to a valid callable'
         );
         $this->resolver->resolve(['callable_service_id', 'nonExistingMethod']);
     }
