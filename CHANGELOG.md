@@ -1,8 +1,8 @@
 # Change log
 
-## [Unreleased][unreleased]
+## [Unreleased]
 
-n/a
+_None yet._
 
 ## [1.1.0] - 27-02-2015
 
@@ -28,6 +28,7 @@ n/a
 - Import of classes and interfaces from SimpleBus/CommandBus and SimpleBus/EventBus 1.0
 - This library applies generically to all kinds of messages.
 
-[unreleased]: https://github.com/SimpleBus/MessageBus/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/SimpleBus/MessageBus/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/SimpleBus/MessageBus/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/SimpleBus/MessageBus/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/SimpleBus/MessageBus/compare/v1.0.0...v1.0.1
