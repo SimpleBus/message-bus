@@ -22,7 +22,7 @@ class CouldNotResolveCallable extends \LogicException
     private static function convertValue($value)
     {
         if (is_array($value)) {
-            return array_map(function($value){
+            return array_map(function ($value) {
                 return self::convertObject($value);
             }, $value);
         }
