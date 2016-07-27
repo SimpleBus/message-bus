@@ -25,8 +25,11 @@ class NotifiesMessageSubscribersMiddleware implements MessageBusMiddleware
      */
     private $level;
 
-    public function __construct(MessageSubscribersResolver $messageSubscribersResolver, LoggerInterface $logger = null, $level = LogLevel::DEBUG)
-    {
+    public function __construct(
+        MessageSubscribersResolver $messageSubscribersResolver,
+        LoggerInterface $logger = null,
+        $level = LogLevel::DEBUG
+    ) {
         $this->messageSubscribersResolver = $messageSubscribersResolver;
 
         if (null === $logger) {
