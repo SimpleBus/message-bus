@@ -7,6 +7,10 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Cliff Odijk",
+            "email": "cliff@jcid.nl"
+        },
+        {
             "name": "Matthias Noback",
             "email": "matthiasnoback@gmail.com",
             "homepage": "http://php-and-symfony.matthiasnoback.nl"
@@ -22,9 +26,13 @@
         "satooshi/php-coveralls": "~0.6"
     },
     "autoload": {
-        "psr-4" : { "SimpleBus\\Message\\" : "src" }
+        "psr-4": {
+            "SimpleBus\\Message\\": "src"
+        }
     },
     "autoload-dev": {
-        "psr-4" : { "SimpleBus\\Message\\Tests\\" : "tests" }
+        "psr-4": {
+            "SimpleBus\\Message\\Tests\\": "tests"
+        }
     }
 }
