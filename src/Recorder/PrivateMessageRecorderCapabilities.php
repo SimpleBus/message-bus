@@ -32,7 +32,7 @@ trait PrivateMessageRecorderCapabilities
      *
      * @param object $message
      */
-    protected function record($message)
+    public function record($message)
     {
         $this->messages[] = $message;
     }
