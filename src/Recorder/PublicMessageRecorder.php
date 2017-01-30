@@ -4,5 +4,5 @@ namespace SimpleBus\Message\Recorder;
 
 class PublicMessageRecorder implements RecordsMessages
 {
-    use PrivateMessageRecorderCapabilities;
+    use PrivateMessageRecorderCapabilities { record as public; }
 }
