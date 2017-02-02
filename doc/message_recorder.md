@@ -61,14 +61,14 @@ foreach ($events as $event) {
 }
 ```
 
-You can give your entities the ability to record their own events by letting them implement the `RecordsMessages`
+You can give your entities the ability to record their own events by letting them implement the `ContainsRecordedMessages`
 interface and using the `PrivateMessageRecorderCapabilities` trait:
 
 ```php
-use SimpleBus\Message\Recorder\RecordsMessages;
+use SimpleBus\Message\Recorder\ContainsRecordedMessages;
 use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
 
-class YourEntity implements RecordsMessages
+class YourEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 
