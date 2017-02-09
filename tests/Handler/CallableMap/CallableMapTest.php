@@ -4,8 +4,7 @@ namespace SimpleBus\Message\Tests\Handler\CallableMap;
 use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable;
 use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
-use SimpleBus\Message\Tests\Handler\CallableMap\Fixtures\DummyCommand;
-use SimpleBus\Message\Tests\Handler\CallableMap\Fixtures\DummyCommandHandler;
+use SimpleBus\Message\Tests\Handler\CallableMap\Fixtures\CommandToHandlerMapper;
 
 class CallableMapTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +14,7 @@ class CallableMapTest extends \PHPUnit_Framework_TestCase
     function it_accepts_ArrayAccess_interface_as_a_map()
     {
         $commandHandlerMap = new CallableMap(
-            $this->sampleArrayAccess(),
+            new CommandToHandlerMapper(),
             new ServiceLocatorAwareCallableResolver($this->sampleServiceLocator())
         );
         
@@ -55,38 +54,6 @@ class CallableMapTest extends \PHPUnit_Framework_TestCase
             new ServiceLocatorAwareCallableResolver($this->sampleServiceLocator())
         );
         
-    }
-    
-    private function sampleArrayAccess()
-    {
-        return (new class() implements \ArrayAccess
-        {
-            public function offsetExists($index)
-            {
-                return class_exists($this->mapCommandToHandler($index), true);
-            }
-            
-            public function offsetGet($index)
-            {
-                return $this->mapCommandToHandler($index);
-            }
-            
-            public function offsetSet($offset, $value)
-            {
-                
-            }
-            
-            public function offsetUnset($offset)
-            {
-                
-            }
-            
-            private function mapCommandToHandler($command_FQCN)
-            {
-                // this is the strategy to map command to handler
-                return $command_FQCN . "Handler";
-            }
-        });
     }
     
     
