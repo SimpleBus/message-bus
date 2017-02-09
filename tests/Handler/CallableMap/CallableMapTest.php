@@ -2,7 +2,6 @@
 namespace SimpleBus\Message\Tests\Handler\CallableMap;
 
 use SimpleBus\Message\CallableResolver\CallableMap;
-use SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable;
 use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 use SimpleBus\Message\Tests\Handler\CallableMap\Fixtures\CommandToHandlerMapper;
 
@@ -47,7 +46,7 @@ class CallableMapTest extends \PHPUnit_Framework_TestCase
      */
     function it_wont_accept_wrong_types()
     {
-        $this->setExpectedException(CouldNotResolveCallable::class);
+        $this->setExpectedException('SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable');
         
         new CallableMap(
             "wrong type",
