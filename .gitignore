@@ -3,3 +3,4 @@ phpunit.xml
 .couscous/
 composer.lock
 /build/
+.idea
