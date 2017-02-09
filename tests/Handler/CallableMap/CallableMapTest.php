@@ -19,8 +19,8 @@ class CallableMapTest extends \PHPUnit_Framework_TestCase
             new ServiceLocatorAwareCallableResolver($this->sampleServiceLocator())
         );
         
-        $command_fqcn          = DummyCommand::class;
-        $expected_handler_fqcn = DummyCommandHandler::class;
+        $command_fqcn          = 'SimpleBus\Message\Tests\Handler\CallableMap\Fixtures\DummyCommand';
+        $expected_handler_fqcn = 'SimpleBus\Message\Tests\Handler\CallableMap\Fixtures\DummyCommandHandler';
         
         $this->assertEquals($expected_handler_fqcn, $commandHandlerMap->get($command_fqcn)[0]);
     }
@@ -30,8 +30,8 @@ class CallableMapTest extends \PHPUnit_Framework_TestCase
      */
     function it_accepts_array_as_a_map()
     {
-        $command_fqcn = DummyCommand::class;
-        $handler_fqcn = DummyCommandHandler::class;
+        $command_fqcn = 'SimpleBus\Message\Tests\Handler\CallableMap\Fixtures\DummyCommand';
+        $handler_fqcn = 'SimpleBus\Message\Tests\Handler\CallableMap\Fixtures\DummyCommandHandler';
         
         $commandHandlerMap = new CallableMap(
             [
