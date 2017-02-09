@@ -21,7 +21,7 @@ class CallableMap
         $callablesByName,
         CallableResolver $callableResolver
     ) {
-        if(!is_array($callablesByName) && !is_a($callablesByName, \ArrayAccess::class)) {
+        if(!is_array($callablesByName) && !is_a($callablesByName, '\ArrayAccess')) {
             throw new CouldNotResolveCallable("Unexpected callables map - pass array or object implementing ArrayAccess");
         }
         
