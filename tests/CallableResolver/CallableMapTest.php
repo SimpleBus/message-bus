@@ -5,7 +5,7 @@ namespace SimpleBus\Message\Tests\CallableResolver;
 use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\CallableResolver\CallableResolver;
 
-class CallableMapTest extends \PHPUnit_Framework_TestCase
+class CallableMapTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|CallableResolver
@@ -15,7 +15,7 @@ class CallableMapTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->callableResolver = $this->getMock('SimpleBus\Message\CallableResolver\CallableResolver');
+        $this->callableResolver = $this->createMock('SimpleBus\Message\CallableResolver\CallableResolver');
     }
 
     /**
@@ -25,7 +25,7 @@ class CallableMapTest extends \PHPUnit_Framework_TestCase
     {
         $map = new CallableMap([], $this->callableResolver);
 
-        $this->setExpectedException('SimpleBus\Message\CallableResolver\Exception\UndefinedCallable');
+        $this->expectException('SimpleBus\Message\CallableResolver\Exception\UndefinedCallable');
         $map->get('undefined_name');
     }
 

@@ -7,7 +7,7 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 use SimpleBus\Message\Tests\Bus\Fixtures\StubMessageBusMiddleware;
 
-class FinishesMessageBeforeHandlingNextTest extends \PHPUnit_Framework_TestCase
+class FinishesMessageBeforeHandlingNextTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

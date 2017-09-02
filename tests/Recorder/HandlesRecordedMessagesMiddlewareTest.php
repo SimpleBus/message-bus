@@ -8,7 +8,7 @@ use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 use SimpleBus\Message\Recorder\ContainsRecordedMessages;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
-class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
+class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -76,7 +76,7 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     private function messageBusSpy(array &$actuallyHandledMessages)
     {
-        $messageBus = $this->getMock('SimpleBus\Message\Bus\MessageBus');
+        $messageBus = $this->createMock('SimpleBus\Message\Bus\MessageBus');
 
         $messageBus
             ->expects($this->any())
@@ -105,7 +105,7 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     private function mockMessageRecorder()
     {
-        return $this->getMock('SimpleBus\Message\Recorder\ContainsRecordedMessages');
+        return $this->createMock('SimpleBus\Message\Recorder\ContainsRecordedMessages');
     }
 
     /**
@@ -113,6 +113,6 @@ class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     private function dummyMessageBus()
     {
-        return $this->getMock('SimpleBus\Message\Bus\MessageBus');
+        return $this->createMock('SimpleBus\Message\Bus\MessageBus');
     }
 }

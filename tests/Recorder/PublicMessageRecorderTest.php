@@ -4,7 +4,7 @@ namespace SimpleBus\Message\Tests\Recorder;
 
 use SimpleBus\Message\Recorder\PublicMessageRecorder;
 
-class PublicMessageRecorderTest extends \PHPUnit_Framework_TestCase
+class PublicMessageRecorderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

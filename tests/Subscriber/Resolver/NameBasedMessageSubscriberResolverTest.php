@@ -6,7 +6,7 @@ use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\Name\MessageNameResolver;
 use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
 
-class NameBasedMessageSubscriberResolverTest extends \PHPUnit_Framework_TestCase
+class NameBasedMessageSubscriberResolverTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -30,7 +30,7 @@ class NameBasedMessageSubscriberResolverTest extends \PHPUnit_Framework_TestCase
 
     private function dummyMessageHandler()
     {
-        return $this->getMock('SimpleBus\Message\Handler\MessageHandler');
+        return $this->getMockBuilder('SimpleBus\Message\Handler\MessageHandler')->getMock();
     }
 
     /**
@@ -48,7 +48,7 @@ class NameBasedMessageSubscriberResolverTest extends \PHPUnit_Framework_TestCase
      */
     private function stubMessageNameResolver($message, $messageName)
     {
-        $messageNameResolver = $this->getMock('SimpleBus\Message\Name\MessageNameResolver');
+        $messageNameResolver = $this->createMock('SimpleBus\Message\Name\MessageNameResolver');
 
         $messageNameResolver
             ->expects($this->any())

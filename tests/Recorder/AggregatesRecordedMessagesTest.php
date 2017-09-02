@@ -5,7 +5,7 @@ namespace SimpleBus\Message\Tests\Recorder;
 use SimpleBus\Message\Recorder\AggregatesRecordedMessages;
 use SimpleBus\Message\Tests\Recorder\Fixtures\ContainsRecordedMessagesStub;
 
-class AggregatesRecordedMessagesTest extends \PHPUnit_Framework_TestCase
+class AggregatesRecordedMessagesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
