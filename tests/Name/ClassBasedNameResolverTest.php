@@ -5,7 +5,7 @@ namespace SimpleBus\Message\Tests\Name;
 use SimpleBus\Message\Name\ClassBasedNameResolver;
 use SimpleBus\Message\Tests\Handler\Resolver\Fixtures\DummyMessage;
 
-class ClassBasedNameResolverTest extends \PHPUnit_Framework_TestCase
+class ClassBasedNameResolverTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

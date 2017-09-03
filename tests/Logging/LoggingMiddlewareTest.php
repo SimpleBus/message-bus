@@ -5,7 +5,7 @@ namespace SimpleBus\Message\Tests\Logging;
 use Psr\Log\LogLevel;
 use SimpleBus\Message\Logging\LoggingMiddleware;
 
-class LoggingMiddlewareTest extends \PHPUnit_Framework_TestCase
+class LoggingMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -17,7 +17,7 @@ class LoggingMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $logLevel = LogLevel::DEBUG;
 
-        $logger = $this->getMock('Psr\Log\LoggerInterface');
+        $logger = $this->createMock('Psr\Log\LoggerInterface');
         $logger
             ->expects($this->exactly(2))
             ->method('log')

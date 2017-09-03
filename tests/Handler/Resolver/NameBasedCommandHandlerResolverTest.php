@@ -2,12 +2,12 @@
 
 namespace SimpleBus\Message\Tests\Handler\Resolver;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\Name\MessageNameResolver;
 use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
 
-class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
+class NameBasedMessageHandlerResolverTest extends TestCase
 {
     /**
      * @test
@@ -50,7 +50,7 @@ class NameBasedMessageHandlerResolverTest extends PHPUnit_Framework_TestCase
      */
     private function stubMessageNameResolver($message, $messageName)
     {
-        $messageNameResolver = $this->getMock('SimpleBus\Message\Name\MessageNameResolver');
+        $messageNameResolver = $this->createMock('SimpleBus\Message\Name\MessageNameResolver');
 
         $messageNameResolver
             ->expects($this->any())

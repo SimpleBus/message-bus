@@ -4,7 +4,7 @@ namespace SimpleBus\Message\Tests\Recorder;
 
 use SimpleBus\Message\Tests\Recorder\Fixtures\PrivateMessageRecorderCapabilitiesStub;
 
-class MessageRecorderCapabilitiesStubTest extends \PHPUnit_Framework_TestCase
+class MessageRecorderCapabilitiesStubTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

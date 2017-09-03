@@ -5,7 +5,7 @@ namespace SimpleBus\Message\Tests\CallableResolver;
 use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\CallableResolver\CallableResolver;
 
-class CallableCollectionTest extends \PHPUnit_Framework_TestCase
+class CallableCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|CallableResolver
@@ -14,7 +14,7 @@ class CallableCollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->callableResolver = $this->getMock('SimpleBus\Message\CallableResolver\CallableResolver');
+        $this->callableResolver = $this->createMock('SimpleBus\Message\CallableResolver\CallableResolver');
     }
 
     /**

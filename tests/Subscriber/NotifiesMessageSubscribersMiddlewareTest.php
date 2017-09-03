@@ -7,7 +7,7 @@ use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 use SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
-class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCase
+class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -52,7 +52,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCa
         ];
 
         $resolver = $this->mockMessageSubscribersResolver($message, $messageSubscribers);
-        $logger = $this->getMock('Psr\Log\LoggerInterface');
+        $logger = $this->createMock('Psr\Log\LoggerInterface');
         $level = LogLevel::CRITICAL;
 
         $middleware = new NotifiesMessageSubscribersMiddleware($resolver, $logger, $level);
@@ -89,7 +89,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit_Framework_TestCa
      */
     private function mockMessageSubscribersResolver($message, array $messageSubscribers)
     {
-        $resolver = $this->getMock('SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver');
+        $resolver = $this->createMock('SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver');
 
         $resolver
             ->expects($this->any())

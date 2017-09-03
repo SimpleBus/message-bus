@@ -6,7 +6,7 @@ use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
-class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit_Framework_TestCase
+class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -41,7 +41,7 @@ class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit_Framework_TestCas
      */
     private function mockMessageHandlerResolverShouldResolve($message, $resolvedMessageHandler)
     {
-        $messageHandlerResolver = $this->getMock('SimpleBus\Message\Handler\Resolver\MessageHandlerResolver');
+        $messageHandlerResolver = $this->createMock('SimpleBus\Message\Handler\Resolver\MessageHandlerResolver');
 
         $messageHandlerResolver
             ->expects($this->once())

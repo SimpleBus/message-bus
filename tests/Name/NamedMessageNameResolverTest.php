@@ -6,7 +6,7 @@ use SimpleBus\Message\Name\NamedMessageNameResolver;
 use SimpleBus\Message\Tests\Name\Fixtures\StubNamedMessage;
 use stdClass;
 
-class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
+class NamedMessageNameResolverTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -33,7 +33,7 @@ class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
 
         $resolver = new NamedMessageNameResolver();
 
-        $this->setExpectedException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
+        $this->expectException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
         $resolver->resolve($message);
     }
 
@@ -48,7 +48,7 @@ class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
 
         $resolver = new NamedMessageNameResolver();
 
-        $this->setExpectedException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
+        $this->expectException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
         $resolver->resolve($message);
     }
 
@@ -59,7 +59,7 @@ class NamedMessageNameResolverTest extends \PHPUnit_Framework_TestCase
     {
         $resolver = new NamedMessageNameResolver();
 
-        $this->setExpectedException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
+        $this->expectException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
         $notANamedMessage = $this->dummyMessage();
         $resolver->resolve($notANamedMessage);
     }
