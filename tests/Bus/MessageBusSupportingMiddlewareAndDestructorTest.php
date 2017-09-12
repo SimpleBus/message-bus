@@ -29,11 +29,13 @@ class MessageBusSupportingMiddlewareAndDestructorTest extends \PHPUnit\Framework
         $messageToStoreLocally = 'Hello World';
 
         $messageBusStack = new MessageBusSupportingMiddlewareAndDestructorFunction([], $callback, $messageToStoreLocally);
+        unset($messageBusStack); //Trigger object destruction
+        $this->assertEquals($anonymousCallbackObject->locallyStoredMessage, null); //No message is handled yet, callback should not be invoked
 
+        $messageBusStack = new MessageBusSupportingMiddlewareAndDestructorFunction([], $callback, $messageToStoreLocally);
         $messageBusStack->handle(new \stdClass());
         unset($messageBusStack); //Trigger object destruction
-
-        $this->assertEquals($anonymousCallbackObject->locallyStoredMessage, $messageToStoreLocally);
+        $this->assertEquals($anonymousCallbackObject->locallyStoredMessage, $messageToStoreLocally); //Message is handled, callback should be invoked
     }
-    
+
 }
