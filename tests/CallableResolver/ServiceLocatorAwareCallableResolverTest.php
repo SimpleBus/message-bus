@@ -5,6 +5,7 @@ namespace SimpleBus\Message\Tests\CallableResolver;
 use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 use SimpleBus\Message\Tests\CallableResolver\Fixtures\LegacyHandler;
 use SimpleBus\Message\Tests\CallableResolver\Fixtures\LegacySubscriber;
+use SimpleBus\Message\Tests\CallableResolver\Fixtures\SubscriberWithCustomNotify;
 
 class ServiceLocatorAwareCallableResolverTest extends \PHPUnit\Framework\TestCase
 {
@@ -146,5 +147,21 @@ class ServiceLocatorAwareCallableResolverTest extends \PHPUnit\Framework\TestCas
         $legacySubscriber = new LegacySubscriber();
 
         $this->assertSame([$legacySubscriber, 'notify'], $this->resolver->resolve($legacySubscriber));
+    }
+
+    /**
+     * @test
+     */
+    public function it_supports_class_based_services()
+    {
+        $subscriber = new SubscriberWithCustomNotify();
+
+        $this->services['SimpleBus\Message\Tests\CallableResolver\Fixtures\SubscriberWithCustomNotify'] = $subscriber;
+
+        $callable = [
+            'serviceId' => 'SimpleBus\Message\Tests\CallableResolver\Fixtures\SubscriberWithCustomNotify',
+            'method'    => 'customNotifyMethod',
+        ];
+        $this->assertSame([$subscriber, 'customNotifyMethod'], $this->resolver->resolve($callable));
     }
 }
