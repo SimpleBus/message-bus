@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>SimpleBus/MessageBus</title>
+
+        <link rel="stylesheet" href="//simplebus.github.io/MessageBus/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//simplebus.github.io/MessageBus/css/font-awesome.min.css">
+        <link rel="stylesheet" href="//simplebus.github.io/MessageBus/css/highlight.dark.css">
+        <link rel="stylesheet" href="//simplebus.github.io/MessageBus/css/main.css">
+    </head>
+    <body>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <a class="navbar-brand" href="//simplebus.github.io/MessageBus/">
+                SimpleBus/MessageBus
+                <small class="hidden-xs hidden-sm">
+                    Generic classes and interfaces for command and event buses
+                </small>
+            </a>
+
+            
+        </header>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                
+                    <nav id="sidebar" class="col-sm-3 col-lg-2" role="navigation">
+
+                        <ul class="nav nav-pills nav-stacked">
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/">
+                                        Home
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/doc/getting_started.html">
+                                        Getting started
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/doc/command_bus.html">
+                                        Command bus
+                                    </a>
+                                </li>
+                                                            <li class="active">
+                                    <a href="//simplebus.github.io/MessageBus/doc/event_bus.html">
+                                        Event bus
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/doc/message_recorder.html">
+                                        Recording events
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/doc/upgrade_guide.html">
+                                        Upgrade guide
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="http://simplebus.github.io/DoctrineORMBridge/">
+                                        Doctrine ORM integration
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="http://simplebus.github.io/SymfonyBridge/">
+                                        Symfony integration
+                                    </a>
+                                </li>
+                                                    </ul>
+
+                    </nav>
+
+                
+                <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
+                    <h1 id="implementing-an-event-bus">Implementing an event bus</h1>
+<p>The classes and interfaces from this package can also be used to set up an event bus. The characteristics of an event
+bus are:</p>
+<ul>
+<li>It handles <em>events</em>, i.e. informational messages</li>
+<li>Zero or more <em>event subscribers</em> will be notified of the occurance of an event</li>
+<li>The behavior of the event bus is extensible: <em>middlewares</em> are allowed to do things before or after handling an event</li>
+</ul>
+<h2 id="setting-up-the-event-bus">Setting up the event bus</h2>
+<p>At least we need an instance of <code>MessageBusSupportingMiddleware</code>:</p>
+<pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
+
+$eventBus = new MessageBusSupportingMiddleware();</code></pre>
+<h3 id="finish-handling-an-event-before-handling-the-next">Finish handling an event, before handling the next</h3>
+<p>We want to make sure that events are always fully handled before other events will be handled, so we add a
+specialized middleware for that:</p>
+<pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
+
+$eventBus-&gt;appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());</code></pre>
+<h3 id="event-subscriber-collection">Defining the event subscriber collection</h3>
+<p>We want any number of event subscribers to be notified of a given event. We first need to define the collection of event
+subscribers that are available in the application. We should make this <em>event subscriber collection</em> lazy-loading, or
+every event subscriber will be fully loaded, even though it is not going to be used:</p>
+<pre><code class="language-php">use SimpleBus\Message\CallableResolver\CallableCollection;
+use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
+
+// Provide a map of event names to callables. You can provide actual callables, or lazy-loading ones.
+$eventSubscribersByEventName = [
+    Fully\Qualified\Class\Name\Of\Event::class =&gt; [ // an array of "callables",
+        ...,
+        ...
+    ]
+    ...
+];</code></pre>
+<p>Each of the provided &quot;callables&quot; can be one of the following things:</p>
+<ul>
+<li>An actual <a href="http://php.net/manual/en/language.types.callable.php">PHP callable</a>,</li>
+<li>A service id (string) which the service locator (see below) can resolve to a PHP callable,</li>
+<li>An array of which the first value is a service id (string), which the service locator can resolve to a regular object, and the second value is a method name.</li>
+</ul>
+<p>For backwards compatibility an object with a <code>notify()</code> method also counts as a &quot;callable&quot;.</p>
+<pre><code class="language-php">// Provide a service locator callable. It will be used to instantiate a subscriber service whenever requested.
+$serviceLocator = function ($serviceId) {
+    $handler = ...;
+
+    return $handler;
+};
+
+$eventSubscriberCollection = new CallableCollection(
+    $eventSubscribersByEventName,
+    new ServiceLocatorAwareCallableResolver($serviceLocator)
+);</code></pre>
+<h3 id="resolving-the-event-subscribers-for-an-event">Resolving the event subscribers for an event</h3>
+<h4 id="the-name-of-an-event">The name of an event</h4>
+<p>First we need a way to resolve the name of an event. You can use the fully-qualified class name (FQCN) of an
+event object as its name:</p>
+<pre><code class="language-php">use SimpleBus\Message\Name\ClassBasedNameResolver;
+
+$eventNameResolver = new ClassBasedNameResolver();</code></pre>
+<p>Or you can ask event objects what their name is:</p>
+<pre><code class="language-php">use SimpleBus\Message\Name\NamedMessageNameResolver;
+
+$eventNameResolver = new NamedMessageNameResolver();</code></pre>
+<p>In that case your events have to implement <code>NamedMessage</code>:</p>
+<pre><code class="language-php">use SimpleBus\Message\Name\NamedMessage;
+
+class YourEvent implements NamedMessage
+{
+    public static function messageName()
+    {
+        return 'your_event';
+    }
+}</code></pre>
+<blockquote>
+<h4 id="implementing-your-own">Implementing your own <code>MessageNameResolver</code></h4>
+<p>If you want to use another rule to determine the name of an event, create a class that implements
+<code>SimpleBus\Message\Name\MessageNameResolver</code>.</p>
+</blockquote>
+<h3 id="resolving-the-event-subscribers-based-on-the-name-of-the-event">Resolving the event subscribers based on the name of the event</h3>
+<p>Using the <code>MessageNameResolver</code> of your choice, you can now let the <em>event subscribers resolver</em> find the right event
+subscribers for a given event.</p>
+<pre><code class="language-php">use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
+
+$eventSubscribersResolver = new NameBasedMessageSubscriberResolver(
+    $eventNameResolver,
+    $eventSubscriberCollection
+);</code></pre>
+<p>Finally, we should add some middleware to the event bus that notifies all of the resolved event subscribers:</p>
+<pre><code class="language-php">use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
+
+$eventBus-&gt;appendMiddleware(
+    new NotifiesMessageSubscribersMiddleware(
+        $eventSubscribersResolver
+    )
+);</code></pre>
+<h2 id="using-the-event-bus-an-example">Using the event bus: an example</h2>
+<p>Consider the following event:</p>
+<pre><code class="language-php">class UserRegistered
+{
+    private $userId;
+
+    public function __construct(UserId $userId)
+    {
+        $this-&gt;userId = $userId;
+    }
+
+    public function userId()
+    {
+        return $this-&gt;userId;
+    }
+}</code></pre>
+<p>This event conveys the information that &quot;a new user was registered&quot;. The message data consists of the unique identifier
+of the user that was registered. This information is required for event subscribers to act upon the event.</p>
+<p>A subscriber for this event looks like this:</p>
+<pre><code class="language-php">class SendWelcomeMailWhenUserRegistered
+{
+    ...
+
+    public function notify($message)
+    {
+        $user = $this-&gt;userRepository-&gt;byId($message-&gt;userId());
+
+        // send the welcome mail
+    }
+}</code></pre>
+<p>We should register this subscriber as a service and add the service id to the <a href="#event-subscriber-collection">event subscriber
+collection</a>. Since we have already fully configured the event bus, we can just start
+creating a new event object and let the event bus handle it. Eventually the event will be passed as a message to the
+<code>SendWelcomeMailWhenUserRegistered</code> event subscriber:</p>
+<pre><code class="language-php">$userId = $this-&gt;userRepository-&gt;nextIdentity();
+
+$event = new UserRegistered($userId);
+
+$eventBus-&gt;handle($event);</code></pre>
+<blockquote>
+<h4 id="implementing-your-own-event-bus-middleware">Implementing your own event bus middleware</h4>
+<p>It's very easy to extend the behavior of the event bus. You can create a class that implements
+<code>MessageBusMiddleware</code>:</p>
+<pre><code class="language-php">use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
+
+/**
+ * Marker interface for domain events that should be stored in the event store
+ */
+interface DomainEvent
+{
+}
+
+class StoreDomainEvents implements MessageBusMiddleware
+{
+    ...
+
+    public function handle($message, callable $next)
+    {
+        if ($message instanceof DomainEvent) {
+            // store the domain event
+            $this-&gt;eventStore-&gt;add($message);
+        }
+
+        // let other middlewares do their job
+        $next($message);
+    }
+}</code></pre>
+<p>You should add an instance of that class as middleware to any <code>MessageBusSupportingMiddleware</code> instance (like the
+event bus we created earlier):</p>
+<pre><code class="language-php">$eventBus-&gt;appendMiddleware(new StoreDomainEvents());</code></pre>
+<p>Make sure that you do this at the right place, before or after you add the other middlewares.</p>
+<p>Calling <code>$next($message)</code> will make sure that the next middleware in line is able to handle the message.</p>
+<h4 id="logging-messages">Logging messages</h4>
+<p>To log every message that passes through the event bus, add the <code>LoggingMiddleware</code> right before the
+<code>NotifiesMessageSubscribersMiddleware</code>. Make sure to set up a <a href="http://www.php-fig.org/psr/psr-3/">PSR-3 compliant
+logger</a> first:</p>
+<pre><code class="language-php">use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
+use SimpleBus\Message\Logging\LoggingMiddleware;
+
+// $logger is an instance of LoggerInterface
+$logger = ...;
+$loggingMiddleware = new LoggingMiddleware($logger, LogLevel::DEBUG);
+$eventBus-&gt;appendMiddleware($loggingMiddleware);</code></pre>
+</blockquote>
+<p>Continue to read about <a href="message_recorder.html">recording events and handling them</a>.</p>
+                </section>
+
+            </div>
+        </main>
+
+        <footer>
+            <div class="container-fluid">
+                <p class="text-muted">
+                    website generated with <a href="http://couscous.io" title="Markdown website generator">Couscous</a>
+                </p>
+            </div>
+        </footer>
+
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="//yastatic.net/highlightjs/8.2/highlight.min.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+                // Syntax highlighting
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+    </body>
+</html>

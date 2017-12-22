@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>SimpleBus/MessageBus</title>
+
+        <link rel="stylesheet" href="//simplebus.github.io/MessageBus/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//simplebus.github.io/MessageBus/css/font-awesome.min.css">
+        <link rel="stylesheet" href="//simplebus.github.io/MessageBus/css/highlight.dark.css">
+        <link rel="stylesheet" href="//simplebus.github.io/MessageBus/css/main.css">
+    </head>
+    <body>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <a class="navbar-brand" href="//simplebus.github.io/MessageBus/">
+                SimpleBus/MessageBus
+                <small class="hidden-xs hidden-sm">
+                    Generic classes and interfaces for command and event buses
+                </small>
+            </a>
+
+            
+        </header>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                
+                    <nav id="sidebar" class="col-sm-3 col-lg-2" role="navigation">
+
+                        <ul class="nav nav-pills nav-stacked">
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/">
+                                        Home
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/doc/getting_started.html">
+                                        Getting started
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/doc/command_bus.html">
+                                        Command bus
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/doc/event_bus.html">
+                                        Event bus
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="//simplebus.github.io/MessageBus/doc/message_recorder.html">
+                                        Recording events
+                                    </a>
+                                </li>
+                                                            <li class="active">
+                                    <a href="//simplebus.github.io/MessageBus/doc/upgrade_guide.html">
+                                        Upgrade guide
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="http://simplebus.github.io/DoctrineORMBridge/">
+                                        Doctrine ORM integration
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="http://simplebus.github.io/SymfonyBridge/">
+                                        Symfony integration
+                                    </a>
+                                </li>
+                                                    </ul>
+
+                    </nav>
+
+                
+                <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
+                    <h2 id="how-to-upgrade-from-messagebus">How to upgrade from MessageBus <code>1.x</code> to <code>2.0</code></h2>
+<h3 id="the">The <code>Message</code>, <code>Command</code> and <code>Event</code> interfaces have been removed</h3>
+<p>A message (command, event, etc.) can be any object now, so just remove any type-hint or replace type-hints by more
+specific ones.</p>
+<p>The <code>Message</code> type-hint has been removed from the following methods:</p>
+<ul>
+<li><code>SimpleBus\Message\Bus\MessageBus::handle</code></li>
+<li><code>SimpleBus\Message\Bus\Middleware\MessageBusMiddleware::handle</code></li>
+<li><code>SimpleBus\Message\Handler\Resolver\MessageHandlerResolver::resolve</code></li>
+<li><code>SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver::resolve</code></li>
+<li><code>SimpleBus\Message\Name\MessageNameResolver::resolve</code></li>
+</ul>
+<h3 id="the-1">The <code>MessageHandler</code> interface has been removed</h3>
+<p>Message handlers can be any callable now, so just remove the <code>implements MessageHandler</code> from your message handler
+class definitions.</p>
+<h3 id="the-2">The <code>MessageSubscriber</code> interface has been removed</h3>
+<p>Message subscribers can be any callable now, so just remove the <code>implements MessageSubscriber</code> from your message
+handler class definitions.</p>
+<h3><code>MessageHandlerMap</code> and <code>MessageSubscriberCollection</code> have been removed</h3>
+<p>Instead, handlers and subscribers can now be any callable you like. Also, they are assumed to be always lazy-loading
+(because they should never all be instantiated at the same time). See the updated documentation for examples on how to
+configure these objects.</p>
+                </section>
+
+            </div>
+        </main>
+
+        <footer>
+            <div class="container-fluid">
+                <p class="text-muted">
+                    website generated with <a href="http://couscous.io" title="Markdown website generator">Couscous</a>
+                </p>
+            </div>
+        </footer>
+
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="//yastatic.net/highlightjs/8.2/highlight.min.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+                // Syntax highlighting
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+    </body>
+</html>
