@@ -2,10 +2,11 @@
 
 namespace SimpleBus\Message\Tests\Logging;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
 use SimpleBus\Message\Logging\LoggingMiddleware;
 
-class LoggingMiddlewareTest extends \PHPUnit\Framework\TestCase
+class LoggingMiddlewareTest extends TestCase
 {
     /**
      * @test

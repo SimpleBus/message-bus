@@ -2,9 +2,10 @@
 
 namespace SimpleBus\Message\Tests\Recorder;
 
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Recorder\PublicMessageRecorder;
 
-class PublicMessageRecorderTest extends \PHPUnit\Framework\TestCase
+class PublicMessageRecorderTest extends TestCase
 {
     /**
      * @test

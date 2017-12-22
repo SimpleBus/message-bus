@@ -2,11 +2,12 @@
 
 namespace SimpleBus\Message\Tests\Subscriber\Resolver;
 
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\Name\MessageNameResolver;
 use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
 
-class NameBasedMessageSubscriberResolverTest extends \PHPUnit\Framework\TestCase
+class NameBasedMessageSubscriberResolverTest extends TestCase
 {
     /**
      * @test

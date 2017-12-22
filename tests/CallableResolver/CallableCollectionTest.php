@@ -2,10 +2,11 @@
 
 namespace SimpleBus\Message\Tests\CallableResolver;
 
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\CallableResolver\CallableResolver;
 
-class CallableCollectionTest extends \PHPUnit\Framework\TestCase
+class CallableCollectionTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|CallableResolver

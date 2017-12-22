@@ -2,10 +2,11 @@
 
 namespace SimpleBus\Message\Tests\CallableResolver;
 
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\CallableResolver\CallableResolver;
 
-class CallableMapTest extends \PHPUnit\Framework\TestCase
+class CallableMapTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|CallableResolver

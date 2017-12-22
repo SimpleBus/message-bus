@@ -3,11 +3,12 @@
 namespace SimpleBus\Message\Tests\Message;
 
 use Exception;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 use SimpleBus\Message\Tests\Bus\Fixtures\StubMessageBusMiddleware;
 
-class FinishesMessageBeforeHandlingNextTest extends \PHPUnit\Framework\TestCase
+class FinishesMessageBeforeHandlingNextTest extends TestCase
 {
     /**
      * @test

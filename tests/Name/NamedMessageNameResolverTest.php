@@ -2,11 +2,12 @@
 
 namespace SimpleBus\Message\Tests\Name;
 
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Name\NamedMessageNameResolver;
 use SimpleBus\Message\Tests\Name\Fixtures\StubNamedMessage;
 use stdClass;
 
-class NamedMessageNameResolverTest extends \PHPUnit\Framework\TestCase
+class NamedMessageNameResolverTest extends TestCase
 {
     /**
      * @test

@@ -2,10 +2,11 @@
 
 namespace SimpleBus\Message\Tests\Recorder;
 
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Recorder\AggregatesRecordedMessages;
 use SimpleBus\Message\Tests\Recorder\Fixtures\ContainsRecordedMessagesStub;
 
-class AggregatesRecordedMessagesTest extends \PHPUnit\Framework\TestCase
+class AggregatesRecordedMessagesTest extends TestCase
 {
     /**
      * @test

@@ -3,12 +3,13 @@
 namespace SimpleBus\Message\Tests\Recorder;
 
 use Exception;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\MessageBus;
 use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 use SimpleBus\Message\Recorder\ContainsRecordedMessages;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
-class HandlesRecordedMessagesMiddlewareTest extends \PHPUnit\Framework\TestCase
+class HandlesRecordedMessagesMiddlewareTest extends TestCase
 {
     /**
      * @test

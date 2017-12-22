@@ -2,10 +2,11 @@
 
 namespace SimpleBus\Message\Tests\Name;
 
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Name\ClassBasedNameResolver;
 use SimpleBus\Message\Tests\Handler\Resolver\Fixtures\DummyMessage;
 
-class ClassBasedNameResolverTest extends \PHPUnit\Framework\TestCase
+class ClassBasedNameResolverTest extends TestCase
 {
     /**
      * @test

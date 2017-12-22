@@ -2,12 +2,13 @@
 
 namespace SimpleBus\Message\Tests\Subscriber;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
 use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 use SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
-class NotifiesMessageSubscribersMiddlewareTest extends \PHPUnit\Framework\TestCase
+class NotifiesMessageSubscribersMiddlewareTest extends TestCase
 {
     /**
      * @test

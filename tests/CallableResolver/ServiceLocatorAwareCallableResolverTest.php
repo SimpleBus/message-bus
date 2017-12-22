@@ -2,12 +2,13 @@
 
 namespace SimpleBus\Message\Tests\CallableResolver;
 
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
 use SimpleBus\Message\Tests\CallableResolver\Fixtures\LegacyHandler;
 use SimpleBus\Message\Tests\CallableResolver\Fixtures\LegacySubscriber;
 use SimpleBus\Message\Tests\CallableResolver\Fixtures\SubscriberWithCustomNotify;
 
-class ServiceLocatorAwareCallableResolverTest extends \PHPUnit\Framework\TestCase
+class ServiceLocatorAwareCallableResolverTest extends TestCase
 {
     /**
      * @var ServiceLocatorAwareCallableResolver

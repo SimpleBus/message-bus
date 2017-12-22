@@ -2,11 +2,12 @@
 
 namespace SimpleBus\Message\Tests\Handler;
 
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
-class DelegatesToMessageHandlerMiddlewareTest extends \PHPUnit\Framework\TestCase
+class DelegatesToMessageHandlerMiddlewareTest extends TestCase
 {
     /**
      * @test
