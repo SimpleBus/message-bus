@@ -1,14 +1,21 @@
 language: php
 
-php:
-  - 7.1
-  - 7.2
+matrix:
+  include:
+    - php: 7.1
+    - php: 7.1
+      env: COMPOSER_FLAGS="--prefer-lowest"
+    - php: 7.2
+
+env:
+  global:
+    - COMPOSER_FLAGS="--prefer-dist"
 
 before_script:
   - composer self-update
 
 install:
-  - composer install --prefer-dist
+  - composer update $COMPOSER_FLAGS
 
 script:
   - vendor/bin/phpunit
