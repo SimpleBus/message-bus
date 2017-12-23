@@ -35,6 +35,8 @@ class MessageBusSupportingMiddlewareTest extends TestCase
         $message = $this->dummyMessage();
         $messageBusStack = new MessageBusSupportingMiddleware([]);
         $messageBusStack->handle($message);
+
+        $this->assertTrue(true);
     }
 
     /**
