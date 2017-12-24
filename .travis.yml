@@ -1,21 +1,31 @@
+sudo: false
+
 language: php
 
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
 matrix:
+  fast_finish: true
   include:
     - php: 7.1
-    - php: 7.1
-      env: COMPOSER_FLAGS="--prefer-lowest"
     - php: 7.2
+    - php: 7.2
+      env: COMPOSER_FLAGS="--prefer-lowest"
+  allow_failures:
+    - env: COMPOSER_FLAGS="--prefer-lowest"
 
 env:
   global:
-    - COMPOSER_FLAGS="--prefer-dist"
+    - COMPOSER_FLAGS=""
+    - EXTRA_PHPUNIT_PARAMS=""
 
-before_script:
+before_install:
   - composer self-update
 
 install:
-  - composer update $COMPOSER_FLAGS
+  - composer update --prefer-dist $COMPOSER_FLAGS
 
 script:
-  - vendor/bin/phpunit
+  - ./vendor/bin/phpunit $EXTRA_PHPUNIT_PARAMS
