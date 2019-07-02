@@ -2,7 +2,7 @@
 
 namespace SimpleBus\Message\Bus\Middleware;
 
-use Exception;
+use Throwable;
 
 class FinishesHandlingMessageBeforeHandlingNext implements MessageBusMiddleware
 {
@@ -32,7 +32,7 @@ class FinishesHandlingMessageBeforeHandlingNext implements MessageBusMiddleware
             while ($message = array_shift($this->queue)) {
                 try {
                     $next($message);
-                } catch (Exception $exception) {
+                } catch (Throwable $exception) {
                     $this->isHandling = false;
 
                     throw $exception;

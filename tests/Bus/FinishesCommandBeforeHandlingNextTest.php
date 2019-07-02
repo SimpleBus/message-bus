@@ -2,7 +2,7 @@
 
 namespace SimpleBus\Message\Tests\Message;
 
-use Exception;
+use Throwable;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
@@ -59,7 +59,7 @@ class FinishesMessageBeforeHandlingNextTest extends TestCase
         $message1 = $this->dummyMessage();
         $message2 = $this->dummyMessage();
         $handledMessages = [];
-        $exceptionForMessage1 = new Exception();
+        $exceptionForMessage1 = new \TypeError();
 
         $messageBus = new MessageBusSupportingMiddleware();
         $messageBus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
@@ -80,7 +80,7 @@ class FinishesMessageBeforeHandlingNextTest extends TestCase
         try {
             $messageBus->handle($message1);
             $this->fail('An exception should have been thrown');
-        } catch (Exception $actualException) {
+        } catch (Throwable $actualException) {
             $this->assertSame($exceptionForMessage1, $actualException);
         }
 
