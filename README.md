@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/SimpleBus/MessageBus.svg?branch=master)](https://travis-ci.org/SimpleBus/MessageBus)
 
-By [Matthias Noback](http://php-and-symfony.matthiasnoback.nl/)
+By [Matthias Noback](http://php-and-symfony.matthiasnoback.nl/), Cliff Odijk, Ruud Kamphuis
 
 This package contains generic classes and interfaces which can be used to create message buses, like a [command
 bus](https://simplebus.github.io/MessageBus/doc/command_bus.html) or an [event
