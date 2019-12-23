@@ -16,7 +16,7 @@
     </php>
 
     <testsuites>
-        <testsuite>
+        <testsuite name="Everything">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
