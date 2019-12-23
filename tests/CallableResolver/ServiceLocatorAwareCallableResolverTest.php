@@ -19,7 +19,7 @@ class ServiceLocatorAwareCallableResolverTest extends TestCase
 
     private $serviceLocator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->services = [];
         $this->serviceLocator = function ($serviceId) {

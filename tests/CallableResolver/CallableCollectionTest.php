@@ -13,7 +13,7 @@ class CallableCollectionTest extends TestCase
      */
     private $callableResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->callableResolver = $this->createMock('SimpleBus\Message\CallableResolver\CallableResolver');
     }

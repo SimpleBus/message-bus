@@ -14,7 +14,7 @@ class CallableMapTest extends TestCase
     private $callableResolver;
     private $map;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->callableResolver = $this->createMock('SimpleBus\Message\CallableResolver\CallableResolver');
     }
