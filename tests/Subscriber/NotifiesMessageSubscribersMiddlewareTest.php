@@ -86,7 +86,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
     /**
      * @param object $message
      * @param array $messageSubscribers
-     * @return \PHPUnit_Framework_MockObject_MockObject|MessageSubscribersResolver
+     * @return \PHPUnit\Framework\MockObject\MockObject|MessageSubscribersResolver
      */
     private function mockMessageSubscribersResolver($message, array $messageSubscribers)
     {
@@ -102,7 +102,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
+     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
      */
     private function dummyMessage()
     {

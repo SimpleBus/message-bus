@@ -28,7 +28,7 @@ class DelegatesToMessageHandlerMiddlewareTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
+     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
      */
     private function dummyMessage()
     {
@@ -38,7 +38,7 @@ class DelegatesToMessageHandlerMiddlewareTest extends TestCase
     /**
      * @param object $message
      * @param callable $resolvedMessageHandler
-     * @return \PHPUnit_Framework_MockObject_MockObject|MessageHandlerResolver
+     * @return \PHPUnit\Framework\MockObject\MockObject|MessageHandlerResolver
      */
     private function mockMessageHandlerResolverShouldResolve($message, $resolvedMessageHandler)
     {

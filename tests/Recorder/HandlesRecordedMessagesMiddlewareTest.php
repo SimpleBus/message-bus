@@ -73,7 +73,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
 
     /**
      * @param array $actuallyHandledMessages
-     * @return \PHPUnit_Framework_MockObject_MockObject|MessageBus
+     * @return \PHPUnit\Framework\MockObject\MockObject|MessageBus
      */
     private function messageBusSpy(array &$actuallyHandledMessages)
     {
@@ -94,7 +94,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
+     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
      */
     private function dummyMessage()
     {
@@ -102,7 +102,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|ContainsRecordedMessages
+     * @return \PHPUnit\Framework\MockObject\MockObject|ContainsRecordedMessages
      */
     private function mockMessageRecorder()
     {
@@ -110,7 +110,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|MessageBus
+     * @return \PHPUnit\Framework\MockObject\MockObject|MessageBus
      */
     private function dummyMessageBus()
     {

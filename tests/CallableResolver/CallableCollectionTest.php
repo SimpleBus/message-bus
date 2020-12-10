@@ -9,7 +9,7 @@ use SimpleBus\Message\CallableResolver\CallableResolver;
 class CallableCollectionTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|CallableResolver
+     * @var \PHPUnit\Framework\MockObject\MockObject|CallableResolver
      */
     private $callableResolver;
 

@@ -35,7 +35,7 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\stdClass
+     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
      */
     private function dummyMessage()
     {
@@ -45,7 +45,7 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
     /**
      * @param $message
      * @param $messageName
-     * @return \PHPUnit_Framework_MockObject_MockObject|MessageNameResolver
+     * @return \PHPUnit\Framework\MockObject\MockObject|MessageNameResolver
      */
     private function stubMessageNameResolver($message, $messageName)
     {
@@ -62,7 +62,7 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
 
     /**
      * @param callable[] $messageSubscribersByMessageName
-     * @return \PHPUnit_Framework_MockObject_MockObject|CallableCollection
+     * @return \PHPUnit\Framework\MockObject\MockObject|CallableCollection
      */
     private function stubMessageSubscribersCollection(array $messageSubscribersByMessageName)
     {

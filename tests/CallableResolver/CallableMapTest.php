@@ -9,7 +9,7 @@ use SimpleBus\Message\CallableResolver\CallableResolver;
 class CallableMapTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|CallableResolver
+     * @var \PHPUnit\Framework\MockObject\MockObject|CallableResolver
      */
     private $callableResolver;
     private $map;
