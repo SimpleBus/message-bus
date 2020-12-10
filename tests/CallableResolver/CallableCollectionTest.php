@@ -50,21 +50,14 @@ class CallableCollectionTest extends TestCase
             $this->callableResolver
         );
 
-        $this->callableResolverShouldResolve([$message1Callable1, $message1Callable2]);
+        $this->callableResolver
+            ->expects($this->exactly(2))
+            ->method('resolve')
+            ->withConsecutive([$message1Callable1], [$message1Callable2])
+            ->willReturnOnConsecutiveCalls($this->returnValue($message1Callable1), $this->returnValue($message1Callable2));
 
         $callables = $collection->filter('message1');
 
         $this->assertSame([$message1Callable1, $message1Callable2], $callables);
-    }
-
-    private function callableResolverShouldResolve(array $callables)
-    {
-        foreach ($callables as $index => $callable) {
-            $this->callableResolver
-                ->expects($this->at($index))
-                ->method('resolve')
-                ->with($this->identicalTo($callable))
-                ->will($this->returnValue($callable));
-        }
     }
 }

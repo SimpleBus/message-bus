@@ -58,21 +58,14 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
 
         $middleware = new NotifiesMessageSubscribersMiddleware($resolver, $logger, $level);
 
-        $logger->expects($this->at(0))
+        $logger->expects($this->exactly(4))
             ->method('log')
-            ->with($level, 'Started notifying a subscriber');
-
-        $logger->expects($this->at(1))
-            ->method('log')
-            ->with($level, 'Finished notifying a subscriber');
-
-        $logger->expects($this->at(2))
-            ->method('log')
-            ->with($level, 'Started notifying a subscriber');
-
-        $logger->expects($this->at(3))
-            ->method('log')
-            ->with($level, 'Finished notifying a subscriber');
+            ->withConsecutive(
+                [$level, 'Started notifying a subscriber'],
+                [$level, 'Finished notifying a subscriber'],
+                [$level, 'Started notifying a subscriber'],
+                [$level, 'Finished notifying a subscriber']
+            );
 
         $next = new CallableSpy();
 

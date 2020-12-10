@@ -21,13 +21,13 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
 
         // first recorded messages should be fetched
         $messageRecorder
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('recordedMessages')
             ->will($this->returnValue($messages));
 
         // then immediately erased
         $messageRecorder
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('eraseMessages');
 
         $actuallyHandledMessages = [];
