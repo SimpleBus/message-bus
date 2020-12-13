@@ -54,7 +54,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
         $middleware = new HandlesRecordedMessagesMiddleware($messageRecorder, $this->dummyMessageBus());
 
         $exception = new Exception();
-        $nextAlwaysFails = function() use ($exception) {
+        $nextAlwaysFails = function () use ($exception) {
             throw $exception;
         };
 

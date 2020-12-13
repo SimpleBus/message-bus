@@ -2,7 +2,6 @@
 
 namespace SimpleBus\Message\Tests\Fixtures;
 
-
 class CallableSpy
 {
     private $hasBeenCalled = 0;

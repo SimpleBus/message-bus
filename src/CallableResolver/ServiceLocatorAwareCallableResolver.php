@@ -48,7 +48,7 @@ class ServiceLocatorAwareCallableResolver implements CallableResolver
                 $serviceId = $maybeCallable['serviceId'];
                 $method = $maybeCallable['method'];
             } else {
-                list($serviceId, $method) = $maybeCallable;
+                [$serviceId, $method] = $maybeCallable;
             }
 
             if (is_string($serviceId)) {

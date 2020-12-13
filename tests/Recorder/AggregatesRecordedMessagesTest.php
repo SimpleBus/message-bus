@@ -17,17 +17,17 @@ class AggregatesRecordedMessagesTest extends TestCase
         $message2 = $this->dummyMessage();
 
         $aggregator = new AggregatesRecordedMessages(
-            array(
-                new ContainsRecordedMessagesStub(array($message1)),
-                new ContainsRecordedMessagesStub(array($message2))
-            )
+            [
+                new ContainsRecordedMessagesStub([$message1]),
+                new ContainsRecordedMessagesStub([$message2])
+            ]
         );
 
         $this->assertSame(
-            array(
+            [
                 $message1,
                 $message2
-            ),
+            ],
             $aggregator->recordedMessages()
         );
     }
@@ -38,16 +38,16 @@ class AggregatesRecordedMessagesTest extends TestCase
     public function it_erases_messages_recorded_by_all_message_recorders()
     {
         $message1 = $this->dummyMessage();
-        $messageRecorder1 = new ContainsRecordedMessagesStub(array($message1));
+        $messageRecorder1 = new ContainsRecordedMessagesStub([$message1]);
 
         $message2 = $this->dummyMessage();
-        $messageRecorder2 = new ContainsRecordedMessagesStub(array($message2));
+        $messageRecorder2 = new ContainsRecordedMessagesStub([$message2]);
 
         $aggregator = new AggregatesRecordedMessages(
-            array(
+            [
                 $messageRecorder1,
                 $messageRecorder2
-            )
+            ]
         );
 
         $aggregator->eraseMessages();
