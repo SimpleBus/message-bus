@@ -2,7 +2,6 @@
 
 namespace SimpleBus\Message\Handler;
 
-use SimpleBus\Message\Bus;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
 

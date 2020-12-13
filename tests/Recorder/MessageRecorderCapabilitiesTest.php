@@ -10,7 +10,7 @@ class MessageRecorderCapabilitiesStubTest extends TestCase
     /**
      * @test
      */
-    public function it_records_messages()
+    public function itRecordsMessages()
     {
         $messageRecorder = new PrivateMessageRecorderCapabilitiesStub();
         $message1 = $this->dummyMessage();
@@ -25,7 +25,7 @@ class MessageRecorderCapabilitiesStubTest extends TestCase
     /**
      * @test
      */
-    public function it_erases_messages()
+    public function itErasesMessages()
     {
         $messageRecorder = new PrivateMessageRecorderCapabilitiesStub();
         $messageRecorder->publicRecord($this->dummyMessage());

@@ -21,7 +21,7 @@ class CallableCollectionTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_an_empty_array_if_no_callables_are_defined()
+    public function itReturnsAnEmptyArrayIfNoCallablesAreDefined()
     {
         $collection = new CallableCollection([], $this->callableResolver);
         $this->assertSame([], $collection->filter('undefined_name'));
@@ -30,7 +30,7 @@ class CallableCollectionTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_many_resolved_callables_for_a_given_name()
+    public function itReturnsManyResolvedCallablesForAGivenName()
     {
         $message1Callable1 = function () {
         };
@@ -40,14 +40,14 @@ class CallableCollectionTest extends TestCase
             [
                 'message1' => [
                     $message1Callable1,
-                    $message1Callable2
+                    $message1Callable2,
                 ],
                 'message2' => [
                     function () {
                     },
                     function () {
-                    }
-                ]
+                    },
+                ],
             ],
             $this->callableResolver
         );

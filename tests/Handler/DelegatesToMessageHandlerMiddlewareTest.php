@@ -12,7 +12,7 @@ class DelegatesToMessageHandlerMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_resolves_the_message_handler_and_lets_it_handle_the_message()
+    public function itResolvesTheMessageHandlerAndLetsItHandleTheMessage()
     {
         $message = $this->dummyMessage();
         $messageHandler = new CallableSpy();
@@ -36,8 +36,9 @@ class DelegatesToMessageHandlerMiddlewareTest extends TestCase
     }
 
     /**
-     * @param object $message
+     * @param object   $message
      * @param callable $resolvedMessageHandler
+     *
      * @return \PHPUnit\Framework\MockObject\MockObject|MessageHandlerResolver
      */
     private function mockMessageHandlerResolverShouldResolve($message, $resolvedMessageHandler)

@@ -5,8 +5,8 @@ namespace SimpleBus\Message\Tests\Recorder;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\MessageBus;
-use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 use SimpleBus\Message\Recorder\ContainsRecordedMessages;
+use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
 class HandlesRecordedMessagesMiddlewareTest extends TestCase
@@ -14,7 +14,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_handles_recorded_messages()
+    public function itHandlesRecordedMessages()
     {
         $messages = [$this->dummyMessage(), $this->dummyMessage()];
         $messageRecorder = $this->mockMessageRecorder();
@@ -47,7 +47,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_rethrows_a_caught_exception_but_first_clears_any_recorded_messages()
+    public function itRethrowsACaughtExceptionButFirstClearsAnyRecordedMessages()
     {
         $messageRecorder = $this->mockMessageRecorder();
 
@@ -72,7 +72,6 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     }
 
     /**
-     * @param array $actuallyHandledMessages
      * @return \PHPUnit\Framework\MockObject\MockObject|MessageBus
      */
     private function messageBusSpy(array &$actuallyHandledMessages)

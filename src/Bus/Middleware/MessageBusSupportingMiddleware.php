@@ -22,7 +22,7 @@ class MessageBusSupportingMiddleware implements MessageBus
      * Appends new middleware for this message bus. Should only be used at configuration time.
      *
      * @private
-     * @param MessageBusMiddleware $middleware
+     *
      * @return void
      */
     public function appendMiddleware(MessageBusMiddleware $middleware)
@@ -34,6 +34,7 @@ class MessageBusSupportingMiddleware implements MessageBus
      * Returns a list of middlewares. Should only be used for introspection.
      *
      * @private
+     *
      * @return array<MessageBusMiddleware>
      */
     public function getMiddlewares()
@@ -45,7 +46,7 @@ class MessageBusSupportingMiddleware implements MessageBus
      * Prepends new middleware for this message bus. Should only be used at configuration time.
      *
      * @private
-     * @param MessageBusMiddleware $middleware
+     *
      * @return void
      */
     public function prependMiddleware(MessageBusMiddleware $middleware)

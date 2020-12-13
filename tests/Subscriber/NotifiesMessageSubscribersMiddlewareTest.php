@@ -13,7 +13,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_notifies_all_the_relevant_message_subscribers()
+    public function itNotifiesAllTheRelevantMessageSubscribers()
     {
         $message = $this->dummyMessage();
 
@@ -22,7 +22,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
 
         $messageSubscribers = [
             $messageSubscriber1,
-            $messageSubscriber2
+            $messageSubscriber2,
         ];
 
         $resolver = $this->mockMessageSubscribersResolver($message, $messageSubscribers);
@@ -40,7 +40,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_logs_every_call_to_a_subscriber()
+    public function itLogsEveryCallToASubscriber()
     {
         $message = $this->dummyMessage();
 
@@ -49,7 +49,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
 
         $messageSubscribers = [
             $messageSubscriber1,
-            $messageSubscriber2
+            $messageSubscriber2,
         ];
 
         $resolver = $this->mockMessageSubscribersResolver($message, $messageSubscribers);
@@ -78,7 +78,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
 
     /**
      * @param object $message
-     * @param array $messageSubscribers
+     *
      * @return \PHPUnit\Framework\MockObject\MockObject|MessageSubscribersResolver
      */
     private function mockMessageSubscribersResolver($message, array $messageSubscribers)

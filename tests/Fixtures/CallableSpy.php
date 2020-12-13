@@ -9,7 +9,7 @@ class CallableSpy
 
     public function __invoke($message)
     {
-        $this->hasBeenCalled++;
+        ++$this->hasBeenCalled;
         $this->receivedMessages[] = $message;
     }
 

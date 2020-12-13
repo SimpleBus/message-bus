@@ -11,7 +11,7 @@ class ClassBasedNameResolverTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_the_full_class_name_as_the_unique_name_of_a_message()
+    public function itReturnsTheFullClassNameAsTheUniqueNameOfAMessage()
     {
         $resolver = new ClassBasedNameResolver();
         $message = new DummyMessage();

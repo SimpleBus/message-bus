@@ -11,7 +11,7 @@ class LoggingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_logs_messages_before_and_after_handling_it()
+    public function itLogsMessagesBeforeAndAfterHandlingIt()
     {
         $orderOfEvents = [];
         $message = $this->dummyMessage();
@@ -23,7 +23,7 @@ class LoggingMiddlewareTest extends TestCase
             ->expects($this->exactly(2))
             ->method('log')
             ->will($this->returnCallback(function ($actualLevel, $logMessage, array $context) use (&$orderOfEvents, $message, $logLevel) {
-                $orderOfEvents[] = 'Logged: ' . $logMessage;
+                $orderOfEvents[] = 'Logged: '.$logMessage;
                 $this->assertSame(['message' => $message], $context);
                 $this->assertSame($logLevel, $actualLevel);
             }));
@@ -40,7 +40,7 @@ class LoggingMiddlewareTest extends TestCase
             [
                 'Logged: Started handling a message',
                 'Called next middleware',
-                'Logged: Finished handling a message'
+                'Logged: Finished handling a message',
             ],
             $orderOfEvents
         );

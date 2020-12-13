@@ -2,8 +2,8 @@
 
 namespace SimpleBus\Message\Tests\Recorder\Fixtures;
 
-use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
 use SimpleBus\Message\Recorder\ContainsRecordedMessages;
+use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
 
 class PrivateMessageRecorderCapabilitiesStub implements ContainsRecordedMessages
 {

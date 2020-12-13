@@ -28,6 +28,7 @@ class CallableCollection
 
     /**
      * @param string $name
+     *
      * @return callable[]
      */
     public function filter($name)

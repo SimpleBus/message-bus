@@ -1,6 +1,5 @@
 <?php
 
-
 namespace SimpleBus\Message\Recorder;
 
 /**

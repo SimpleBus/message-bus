@@ -33,7 +33,7 @@ class NotifiesMessageSubscribersMiddleware implements MessageBusMiddleware
         $this->messageSubscribersResolver = $messageSubscribersResolver;
 
         if (null === $logger) {
-            $logger = new NullLogger;
+            $logger = new NullLogger();
         }
 
         $this->logger = $logger;

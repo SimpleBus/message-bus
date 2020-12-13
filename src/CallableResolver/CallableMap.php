@@ -26,17 +26,13 @@ class CallableMap
 
     /**
      * @param string $name
+     *
      * @return callable
      */
     public function get($name)
     {
         if (!array_key_exists($name, $this->callablesByName)) {
-            throw new UndefinedCallable(
-                sprintf(
-                    'Could not find a callable for name "%s"',
-                    $name
-                )
-            );
+            throw new UndefinedCallable(sprintf('Could not find a callable for name "%s"', $name));
         }
 
         $callable = $this->callablesByName[$name];

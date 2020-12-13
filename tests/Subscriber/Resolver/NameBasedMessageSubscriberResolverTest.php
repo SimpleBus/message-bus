@@ -12,7 +12,7 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_message_subscribers_from_the_handler_collection_by_its_name()
+    public function itReturnsMessageSubscribersFromTheHandlerCollectionByItsName()
     {
         $message = $this->dummyMessage();
         $messageName = 'message_name';
@@ -45,6 +45,7 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
     /**
      * @param $message
      * @param $messageName
+     *
      * @return \PHPUnit\Framework\MockObject\MockObject|MessageNameResolver
      */
     private function stubMessageNameResolver($message, $messageName)
@@ -62,6 +63,7 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
 
     /**
      * @param callable[] $messageSubscribersByMessageName
+     *
      * @return \PHPUnit\Framework\MockObject\MockObject|CallableCollection
      */
     private function stubMessageSubscribersCollection(array $messageSubscribersByMessageName)

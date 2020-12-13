@@ -2,18 +2,18 @@
 
 namespace SimpleBus\Message\Tests\Message;
 
-use Throwable;
 use PHPUnit\Framework\TestCase;
-use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
+use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\Tests\Bus\Fixtures\StubMessageBusMiddleware;
+use Throwable;
 
 class FinishesMessageBeforeHandlingNextTest extends TestCase
 {
     /**
      * @test
      */
-    public function it_finishes_handling_a_message_before_handling_the_next()
+    public function itFinishesHandlingAMessageBeforeHandlingTheNext()
     {
         $originalMessage = $this->dummyMessage();
         $newMessage = $this->dummyMessage();
@@ -45,7 +45,7 @@ class FinishesMessageBeforeHandlingNextTest extends TestCase
                 'start handling original message',
                 'finished handling original message',
                 'start handling new message',
-                'finished handling new message'
+                'finished handling new message',
             ],
             $whatHappened
         );
@@ -54,7 +54,7 @@ class FinishesMessageBeforeHandlingNextTest extends TestCase
     /**
      * @test
      */
-    public function it_rethrows_a_caught_exceptions_and_is_able_to_handle_new_messages_afterwards()
+    public function itRethrowsACaughtExceptionsAndIsAbleToHandleNewMessagesAfterwards()
     {
         $message1 = $this->dummyMessage();
         $message2 = $this->dummyMessage();
@@ -66,7 +66,7 @@ class FinishesMessageBeforeHandlingNextTest extends TestCase
         $messageBus->appendMiddleware(
             // the next message bus that will be called
             new StubMessageBusMiddleware(
-                function ($actualMessage) use ($message1, $message2, $exceptionForMessage1, &$handledMessages) {
+                function ($actualMessage) use ($message1, $exceptionForMessage1, &$handledMessages) {
                     $handledMessages[] = $actualMessage;
 
                     if ($message1 === $actualMessage) {

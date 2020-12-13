@@ -9,7 +9,7 @@ interface MessageBusMiddleware
      * Its only argument should be a Message object (usually the same as the originally provided message).
      *
      * @param object $message
-     * @param callable $next
+     *
      * @return void
      */
     public function handle($message, callable $next);

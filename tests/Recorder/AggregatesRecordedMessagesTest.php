@@ -11,7 +11,7 @@ class AggregatesRecordedMessagesTest extends TestCase
     /**
      * @test
      */
-    public function it_collects_messages_recorded_by_all_message_recorders()
+    public function itCollectsMessagesRecordedByAllMessageRecorders()
     {
         $message1 = $this->dummyMessage();
         $message2 = $this->dummyMessage();
@@ -19,14 +19,14 @@ class AggregatesRecordedMessagesTest extends TestCase
         $aggregator = new AggregatesRecordedMessages(
             [
                 new ContainsRecordedMessagesStub([$message1]),
-                new ContainsRecordedMessagesStub([$message2])
+                new ContainsRecordedMessagesStub([$message2]),
             ]
         );
 
         $this->assertSame(
             [
                 $message1,
-                $message2
+                $message2,
             ],
             $aggregator->recordedMessages()
         );
@@ -35,7 +35,7 @@ class AggregatesRecordedMessagesTest extends TestCase
     /**
      * @test
      */
-    public function it_erases_messages_recorded_by_all_message_recorders()
+    public function itErasesMessagesRecordedByAllMessageRecorders()
     {
         $message1 = $this->dummyMessage();
         $messageRecorder1 = new ContainsRecordedMessagesStub([$message1]);
@@ -46,7 +46,7 @@ class AggregatesRecordedMessagesTest extends TestCase
         $aggregator = new AggregatesRecordedMessages(
             [
                 $messageRecorder1,
-                $messageRecorder2
+                $messageRecorder2,
             ]
         );
 

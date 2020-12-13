@@ -10,14 +10,14 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_lets_all_stacked_message_buses_handle_the_message()
+    public function itLetsAllStackedMessageBusesHandleTheMessage()
     {
         $actualMessageBusesCalled = [];
 
         $stackedMessageBuses = [
             $this->mockStackedMessageBus($actualMessageBusesCalled),
             $this->mockStackedMessageBus($actualMessageBusesCalled),
-            $this->mockStackedMessageBus($actualMessageBusesCalled)
+            $this->mockStackedMessageBus($actualMessageBusesCalled),
         ];
 
         $message = $this->dummyMessage();
@@ -30,7 +30,7 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_works_with_no_message_buses()
+    public function itWorksWithNoMessageBuses()
     {
         $message = $this->dummyMessage();
         $messageBusStack = new MessageBusSupportingMiddleware([]);
@@ -42,7 +42,7 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_works_with_one_message_bus()
+    public function itWorksWithOneMessageBus()
     {
         $actualMessageBusesCalled = [];
 
@@ -60,7 +60,7 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_can_prepend_middleware()
+    public function itCanPrependMiddleware()
     {
         $actualMessageBusesCalled = [];
 
@@ -81,11 +81,11 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function it_can_return_an_array_with_its_middlewares()
+    public function itCanReturnAnArrayWithItsMiddlewares()
     {
         $stackedMessageBuses = [
             $this->createMock('SimpleBus\Message\Bus\Middleware\MessageBusMiddleware'),
-            $this->createMock('SimpleBus\Message\Bus\Middleware\MessageBusMiddleware')
+            $this->createMock('SimpleBus\Message\Bus\Middleware\MessageBusMiddleware'),
         ];
 
         $messageBusStack = new MessageBusSupportingMiddleware($stackedMessageBuses);

@@ -18,6 +18,7 @@ class ServiceLocatorAwareCallableResolver implements CallableResolver
 
     /**
      * @param $maybeCallable
+     *
      * @return callable
      */
     public function resolve($maybeCallable)
@@ -41,7 +42,7 @@ class ServiceLocatorAwareCallableResolver implements CallableResolver
             return [$maybeCallable, 'notify'];
         }
 
-        if (is_array($maybeCallable) && count($maybeCallable) === 2) {
+        if (is_array($maybeCallable) && 2 === count($maybeCallable)) {
             // Symfony 3.3 supports services by classname. This interferes with `is_callable` above
             // so the SymfonyBridge will now use an array with `serviceId`, `method` keys.
             if (array_key_exists('serviceId', $maybeCallable)) {

@@ -4,15 +4,15 @@ namespace SimpleBus\Message\Tests\Handler\Resolver;
 
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableMap;
-use SimpleBus\Message\Name\MessageNameResolver;
 use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
+use SimpleBus\Message\Name\MessageNameResolver;
 
 class NameBasedMessageHandlerResolverTest extends TestCase
 {
     /**
      * @test
      */
-    public function it_returns_a_message_handler_from_the_handler_collection_by_its_name()
+    public function itReturnsAMessageHandlerFromTheHandlerCollectionByItsName()
     {
         $message = $this->dummyMessage();
         $messageName = 'message_name';
@@ -46,6 +46,7 @@ class NameBasedMessageHandlerResolverTest extends TestCase
     /**
      * @param $message
      * @param $messageName
+     *
      * @return \PHPUnit\Framework\MockObject\MockObject|MessageNameResolver
      */
     private function stubMessageNameResolver($message, $messageName)
@@ -63,6 +64,7 @@ class NameBasedMessageHandlerResolverTest extends TestCase
 
     /**
      * @param callable[] $messageHandlersByMessageName
+     *
      * @return \PHPUnit\Framework\MockObject\MockObject|CallableMap
      */
     private function messageHandlerMap(array $messageHandlersByMessageName)

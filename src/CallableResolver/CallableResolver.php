@@ -8,7 +8,9 @@ interface CallableResolver
 {
     /**
      * @param $maybeCallable
+     *
      * @throws CouldNotResolveCallable
+     *
      * @return callable
      */
     public function resolve($maybeCallable);

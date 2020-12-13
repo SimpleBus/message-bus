@@ -22,7 +22,7 @@ class CallableMapTest extends TestCase
     /**
      * @test
      */
-    public function it_fails_if_no_callable_is_defined_for_a_given_name()
+    public function itFailsIfNoCallableIsDefinedForAGivenName()
     {
         $map = new CallableMap([], $this->callableResolver);
 
@@ -33,7 +33,7 @@ class CallableMapTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_many_resolved_callables_for_a_given_name()
+    public function itReturnsManyResolvedCallablesForAGivenName()
     {
         $message1Callable = function () {
         };
@@ -41,7 +41,7 @@ class CallableMapTest extends TestCase
             [
                 'message1' => $message1Callable,
                 'message2' => function () {
-                }
+                },
             ],
             $this->callableResolver
         );
