@@ -6,6 +6,10 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
 use SimpleBus\Message\Logging\LoggingMiddleware;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class LoggingMiddlewareTest extends TestCase
 {
     /**

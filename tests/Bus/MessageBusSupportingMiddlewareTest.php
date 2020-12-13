@@ -5,6 +5,10 @@ namespace SimpleBus\Message\Tests\Bus;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class MessageBusSupportingMiddlewareTest extends TestCase
 {
     /**

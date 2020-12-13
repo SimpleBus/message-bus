@@ -8,6 +8,10 @@ use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 use SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class NotifiesMessageSubscribersMiddlewareTest extends TestCase
 {
     /**
@@ -79,7 +83,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
     /**
      * @param object $message
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|MessageSubscribersResolver
+     * @return MessageSubscribersResolver|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockMessageSubscribersResolver($message, array $messageSubscribers)
     {

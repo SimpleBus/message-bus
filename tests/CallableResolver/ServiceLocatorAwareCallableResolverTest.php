@@ -8,6 +8,10 @@ use SimpleBus\Message\Tests\CallableResolver\Fixtures\LegacyHandler;
 use SimpleBus\Message\Tests\CallableResolver\Fixtures\LegacySubscriber;
 use SimpleBus\Message\Tests\CallableResolver\Fixtures\SubscriberWithCustomNotify;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ServiceLocatorAwareCallableResolverTest extends TestCase
 {
     /**

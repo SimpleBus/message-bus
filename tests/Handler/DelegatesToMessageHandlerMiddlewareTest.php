@@ -7,6 +7,10 @@ use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DelegatesToMessageHandlerMiddlewareTest extends TestCase
 {
     /**
@@ -39,7 +43,7 @@ class DelegatesToMessageHandlerMiddlewareTest extends TestCase
      * @param object   $message
      * @param callable $resolvedMessageHandler
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|MessageHandlerResolver
+     * @return MessageHandlerResolver|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockMessageHandlerResolverShouldResolve($message, $resolvedMessageHandler)
     {

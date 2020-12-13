@@ -8,6 +8,10 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\Tests\Bus\Fixtures\StubMessageBusMiddleware;
 use Throwable;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class FinishesMessageBeforeHandlingNextTest extends TestCase
 {
     /**

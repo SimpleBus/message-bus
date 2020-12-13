@@ -6,6 +6,10 @@ use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Recorder\AggregatesRecordedMessages;
 use SimpleBus\Message\Tests\Recorder\Fixtures\ContainsRecordedMessagesStub;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class AggregatesRecordedMessagesTest extends TestCase
 {
     /**

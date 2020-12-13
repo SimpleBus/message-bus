@@ -5,6 +5,10 @@ namespace SimpleBus\Message\Tests\Recorder;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Recorder\PublicMessageRecorder;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class PublicMessageRecorderTest extends TestCase
 {
     /**

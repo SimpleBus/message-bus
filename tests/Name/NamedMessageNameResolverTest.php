@@ -7,6 +7,10 @@ use SimpleBus\Message\Name\NamedMessageNameResolver;
 use SimpleBus\Message\Tests\Name\Fixtures\StubNamedMessage;
 use stdClass;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class NamedMessageNameResolverTest extends TestCase
 {
     /**

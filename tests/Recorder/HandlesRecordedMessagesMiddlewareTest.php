@@ -9,6 +9,10 @@ use SimpleBus\Message\Recorder\ContainsRecordedMessages;
 use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class HandlesRecordedMessagesMiddlewareTest extends TestCase
 {
     /**
@@ -72,7 +76,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|MessageBus
+     * @return MessageBus|\PHPUnit\Framework\MockObject\MockObject
      */
     private function messageBusSpy(array &$actuallyHandledMessages)
     {
@@ -101,7 +105,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|ContainsRecordedMessages
+     * @return ContainsRecordedMessages|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockMessageRecorder()
     {
@@ -109,7 +113,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|MessageBus
+     * @return MessageBus|\PHPUnit\Framework\MockObject\MockObject
      */
     private function dummyMessageBus()
     {

@@ -7,6 +7,10 @@ use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\Name\MessageNameResolver;
 use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class NameBasedMessageSubscriberResolverTest extends TestCase
 {
     /**
@@ -46,7 +50,7 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
      * @param $message
      * @param $messageName
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|MessageNameResolver
+     * @return MessageNameResolver|\PHPUnit\Framework\MockObject\MockObject
      */
     private function stubMessageNameResolver($message, $messageName)
     {
@@ -64,7 +68,7 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
     /**
      * @param callable[] $messageSubscribersByMessageName
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|CallableCollection
+     * @return CallableCollection|\PHPUnit\Framework\MockObject\MockObject
      */
     private function stubMessageSubscribersCollection(array $messageSubscribersByMessageName)
     {

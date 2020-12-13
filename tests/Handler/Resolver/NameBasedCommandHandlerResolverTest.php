@@ -7,6 +7,10 @@ use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
 use SimpleBus\Message\Name\MessageNameResolver;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class NameBasedMessageHandlerResolverTest extends TestCase
 {
     /**
@@ -47,7 +51,7 @@ class NameBasedMessageHandlerResolverTest extends TestCase
      * @param $message
      * @param $messageName
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|MessageNameResolver
+     * @return MessageNameResolver|\PHPUnit\Framework\MockObject\MockObject
      */
     private function stubMessageNameResolver($message, $messageName)
     {
@@ -65,7 +69,7 @@ class NameBasedMessageHandlerResolverTest extends TestCase
     /**
      * @param callable[] $messageHandlersByMessageName
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|CallableMap
+     * @return CallableMap|\PHPUnit\Framework\MockObject\MockObject
      */
     private function messageHandlerMap(array $messageHandlersByMessageName)
     {
