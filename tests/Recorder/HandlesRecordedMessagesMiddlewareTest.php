@@ -3,11 +3,13 @@
 namespace SimpleBus\Message\Tests\Recorder;
 
 use Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\MessageBus;
 use SimpleBus\Message\Recorder\ContainsRecordedMessages;
 use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
+use stdClass;
 
 /**
  * @internal
@@ -18,7 +20,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itHandlesRecordedMessages()
+    public function itHandlesRecordedMessages(): void
     {
         $messages = [$this->dummyMessage(), $this->dummyMessage()];
         $messageRecorder = $this->mockMessageRecorder();
@@ -34,6 +36,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('eraseMessages');
 
+        /** @var stdClass[] $actuallyHandledMessages */
         $actuallyHandledMessages = [];
         $messageBus = $this->messageBusSpy($actuallyHandledMessages);
         $middleware = new HandlesRecordedMessagesMiddleware(
@@ -51,7 +54,7 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itRethrowsACaughtExceptionButFirstClearsAnyRecordedMessages()
+    public function itRethrowsACaughtExceptionButFirstClearsAnyRecordedMessages(): void
     {
         $messageRecorder = $this->mockMessageRecorder();
 
@@ -76,11 +79,13 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
     }
 
     /**
-     * @return MessageBus|\PHPUnit\Framework\MockObject\MockObject
+     * @param stdClass[] $actuallyHandledMessages
+     *
+     * @return MessageBus|MockObject
      */
     private function messageBusSpy(array &$actuallyHandledMessages)
     {
-        $messageBus = $this->createMock('SimpleBus\Message\Bus\MessageBus');
+        $messageBus = $this->createMock(MessageBus::class);
 
         $messageBus
             ->expects($this->any())
@@ -96,27 +101,24 @@ class HandlesRecordedMessagesMiddlewareTest extends TestCase
         return $messageBus;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
-     */
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 
     /**
-     * @return ContainsRecordedMessages|\PHPUnit\Framework\MockObject\MockObject
+     * @return ContainsRecordedMessages|MockObject
      */
     private function mockMessageRecorder()
     {
-        return $this->createMock('SimpleBus\Message\Recorder\ContainsRecordedMessages');
+        return $this->createMock(ContainsRecordedMessages::class);
     }
 
     /**
-     * @return MessageBus|\PHPUnit\Framework\MockObject\MockObject
+     * @return MessageBus|MockObject
      */
     private function dummyMessageBus()
     {
-        return $this->createMock('SimpleBus\Message\Bus\MessageBus');
+        return $this->createMock(MessageBus::class);
     }
 }

@@ -6,9 +6,9 @@ use SimpleBus\Message\Name\NamedMessage;
 
 class StubNamedMessage implements NamedMessage
 {
-    public static $name;
+    public static string $name;
 
-    public static function messageName()
+    public static function messageName(): string
     {
         return self::$name;
     }

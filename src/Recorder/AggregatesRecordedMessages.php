@@ -7,8 +7,11 @@ class AggregatesRecordedMessages implements ContainsRecordedMessages
     /**
      * @var ContainsRecordedMessages[]
      */
-    private $messageRecorders;
+    private array $messageRecorders;
 
+    /**
+     * @param ContainsRecordedMessages[] $messageRecorders
+     */
     public function __construct(array $messageRecorders)
     {
         foreach ($messageRecorders as $messageRecorder) {
@@ -19,9 +22,9 @@ class AggregatesRecordedMessages implements ContainsRecordedMessages
     /**
      * Get messages recorded by all known message recorders.
      *
-     * {@inheritdoc}
+     * @return object[]
      */
-    public function recordedMessages()
+    public function recordedMessages(): array
     {
         $allRecordedMessages = [];
 
@@ -34,17 +37,15 @@ class AggregatesRecordedMessages implements ContainsRecordedMessages
 
     /**
      * Erase messages recorded by all known message recorders.
-     *
-     * {@inheritdoc}
      */
-    public function eraseMessages()
+    public function eraseMessages(): void
     {
         foreach ($this->messageRecorders as $messageRecorder) {
             $messageRecorder->eraseMessages();
         }
     }
 
-    private function addMessageRecorder(ContainsRecordedMessages $messageRecorder)
+    private function addMessageRecorder(ContainsRecordedMessages $messageRecorder): void
     {
         $this->messageRecorders[] = $messageRecorder;
     }

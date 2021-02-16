@@ -2,9 +2,14 @@
 
 namespace SimpleBus\Message\CallableResolver\Exception;
 
-class CouldNotResolveCallable extends \LogicException
+use LogicException;
+
+class CouldNotResolveCallable extends LogicException
 {
-    public static function createFor($value)
+    /**
+     * @param mixed $value
+     */
+    public static function createFor($value): self
     {
         return new self(
             sprintf(
@@ -14,11 +19,19 @@ class CouldNotResolveCallable extends \LogicException
         );
     }
 
-    private static function printValue($value)
+    /**
+     * @param mixed $value
+     */
+    private static function printValue($value): string
     {
         return str_replace('  ', '', str_replace("\n", '', print_r(self::convertValue($value), true)));
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
     private static function convertValue($value)
     {
         if (is_array($value)) {
@@ -30,6 +43,11 @@ class CouldNotResolveCallable extends \LogicException
         return self::convertObject($value);
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
     private static function convertObject($value)
     {
         if (is_object($value)) {

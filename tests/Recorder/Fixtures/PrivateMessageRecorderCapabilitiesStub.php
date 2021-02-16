@@ -9,7 +9,7 @@ class PrivateMessageRecorderCapabilitiesStub implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 
-    public function publicRecord($message)
+    public function publicRecord(object $message): void
     {
         $this->record($message);
     }

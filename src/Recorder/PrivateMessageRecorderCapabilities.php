@@ -8,30 +8,28 @@ namespace SimpleBus\Message\Recorder;
  */
 trait PrivateMessageRecorderCapabilities
 {
-    private $messages = [];
+    /**
+     * @var object[]
+     */
+    private array $messages = [];
 
     /**
-     * {@inheritdoc}
+     * @return object[]
      */
-    public function recordedMessages()
+    public function recordedMessages(): array
     {
         return $this->messages;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function eraseMessages()
+    public function eraseMessages(): void
     {
         $this->messages = [];
     }
 
     /**
      * Record a message.
-     *
-     * @param object $message
      */
-    protected function record($message)
+    protected function record(object $message): void
     {
         $this->messages[] = $message;
     }

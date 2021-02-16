@@ -10,37 +10,23 @@ use SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver;
 
 class NotifiesMessageSubscribersMiddleware implements MessageBusMiddleware
 {
-    /**
-     * @var MessageSubscribersResolver
-     */
-    private $messageSubscribersResolver;
+    private MessageSubscribersResolver $messageSubscribersResolver;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var string
-     */
-    private $level;
+    private string $level;
 
     public function __construct(
         MessageSubscribersResolver $messageSubscribersResolver,
         LoggerInterface $logger = null,
-        $level = LogLevel::DEBUG
+        string $level = null
     ) {
         $this->messageSubscribersResolver = $messageSubscribersResolver;
-
-        if (null === $logger) {
-            $logger = new NullLogger();
-        }
-
-        $this->logger = $logger;
-        $this->level = $level;
+        $this->logger = $logger ?? new NullLogger();
+        $this->level = $level ?? LogLevel::DEBUG;
     }
 
-    public function handle($message, callable $next)
+    public function handle(object $message, callable $next): void
     {
         $messageSubscribers = $this->messageSubscribersResolver->resolve($message);
 

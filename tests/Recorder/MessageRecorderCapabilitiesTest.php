@@ -4,6 +4,7 @@ namespace SimpleBus\Message\Tests\Recorder;
 
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Tests\Recorder\Fixtures\PrivateMessageRecorderCapabilitiesStub;
+use stdClass;
 
 /**
  * @internal
@@ -14,7 +15,7 @@ class MessageRecorderCapabilitiesStubTest extends TestCase
     /**
      * @test
      */
-    public function itRecordsMessages()
+    public function itRecordsMessages(): void
     {
         $messageRecorder = new PrivateMessageRecorderCapabilitiesStub();
         $message1 = $this->dummyMessage();
@@ -29,7 +30,7 @@ class MessageRecorderCapabilitiesStubTest extends TestCase
     /**
      * @test
      */
-    public function itErasesMessages()
+    public function itErasesMessages(): void
     {
         $messageRecorder = new PrivateMessageRecorderCapabilitiesStub();
         $messageRecorder->publicRecord($this->dummyMessage());
@@ -40,11 +41,8 @@ class MessageRecorderCapabilitiesStubTest extends TestCase
         $this->assertSame([], $messageRecorder->recordedMessages());
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
-     */
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 }

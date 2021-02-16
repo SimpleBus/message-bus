@@ -7,23 +7,17 @@ use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 
 class LoggingMiddleware implements MessageBusMiddleware
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var string
-     */
-    private $level;
+    private string $level;
 
-    public function __construct(LoggerInterface $logger, $level)
+    public function __construct(LoggerInterface $logger, string $level)
     {
         $this->logger = $logger;
         $this->level = $level;
     }
 
-    public function handle($message, callable $next)
+    public function handle(object $message, callable $next): void
     {
         $this->logger->log($this->level, 'Started handling a message', ['message' => $message]);
 

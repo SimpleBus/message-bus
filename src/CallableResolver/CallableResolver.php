@@ -7,11 +7,9 @@ use SimpleBus\Message\CallableResolver\Exception\CouldNotResolveCallable;
 interface CallableResolver
 {
     /**
-     * @param $maybeCallable
+     * @param callable|mixed|object|string $maybeCallable
      *
      * @throws CouldNotResolveCallable
-     *
-     * @return callable
      */
-    public function resolve($maybeCallable);
+    public function resolve($maybeCallable): callable;
 }

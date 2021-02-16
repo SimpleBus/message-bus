@@ -6,7 +6,9 @@ use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\Tests\Bus\Fixtures\StubMessageBusMiddleware;
+use stdClass;
 use Throwable;
+use TypeError;
 
 /**
  * @internal
@@ -17,7 +19,7 @@ class FinishesMessageBeforeHandlingNextTest extends TestCase
     /**
      * @test
      */
-    public function itFinishesHandlingAMessageBeforeHandlingTheNext()
+    public function itFinishesHandlingAMessageBeforeHandlingTheNext(): void
     {
         $originalMessage = $this->dummyMessage();
         $newMessage = $this->dummyMessage();
@@ -58,12 +60,12 @@ class FinishesMessageBeforeHandlingNextTest extends TestCase
     /**
      * @test
      */
-    public function itRethrowsACaughtExceptionsAndIsAbleToHandleNewMessagesAfterwards()
+    public function itRethrowsACaughtExceptionsAndIsAbleToHandleNewMessagesAfterwards(): void
     {
         $message1 = $this->dummyMessage();
         $message2 = $this->dummyMessage();
         $handledMessages = [];
-        $exceptionForMessage1 = new \TypeError();
+        $exceptionForMessage1 = new TypeError();
 
         $messageBus = new MessageBusSupportingMiddleware();
         $messageBus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
@@ -94,11 +96,8 @@ class FinishesMessageBeforeHandlingNextTest extends TestCase
         $this->assertSame([$message1, $message2], $handledMessages);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
-     */
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 }

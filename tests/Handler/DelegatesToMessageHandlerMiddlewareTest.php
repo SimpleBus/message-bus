@@ -2,10 +2,12 @@
 
 namespace SimpleBus\Message\Tests\Handler;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
 use SimpleBus\Message\Handler\Resolver\MessageHandlerResolver;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
+use stdClass;
 
 /**
  * @internal
@@ -16,7 +18,7 @@ class DelegatesToMessageHandlerMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itResolvesTheMessageHandlerAndLetsItHandleTheMessage()
+    public function itResolvesTheMessageHandlerAndLetsItHandleTheMessage(): void
     {
         $message = $this->dummyMessage();
         $messageHandler = new CallableSpy();
@@ -31,23 +33,17 @@ class DelegatesToMessageHandlerMiddlewareTest extends TestCase
         $this->assertSame([$message], $messageHandler->receivedMessages());
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
-     */
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 
     /**
-     * @param object   $message
-     * @param callable $resolvedMessageHandler
-     *
-     * @return MessageHandlerResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @return MessageHandlerResolver|MockObject
      */
-    private function mockMessageHandlerResolverShouldResolve($message, $resolvedMessageHandler)
+    private function mockMessageHandlerResolverShouldResolve(object $message, callable $resolvedMessageHandler)
     {
-        $messageHandlerResolver = $this->createMock('SimpleBus\Message\Handler\Resolver\MessageHandlerResolver');
+        $messageHandlerResolver = $this->createMock(MessageHandlerResolver::class);
 
         $messageHandlerResolver
             ->expects($this->once())

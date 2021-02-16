@@ -2,10 +2,12 @@
 
 namespace SimpleBus\Message\Tests\Subscriber\Resolver;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\Name\MessageNameResolver;
 use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
+use stdClass;
 
 /**
  * @internal
@@ -16,45 +18,34 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsMessageSubscribersFromTheHandlerCollectionByItsName()
+    public function itReturnsMessageSubscribersFromTheHandlerCollectionByItsName(): void
     {
         $message = $this->dummyMessage();
         $messageName = 'message_name';
-        $messageHandler = $this->dummyMessageHandler();
+        $messageHandler = new stdClass();
 
         $messageNameResolver = $this->stubMessageNameResolver($message, $messageName);
-        $messageHandlerCollection = $this->stubMessageSubscribersCollection([$messageName => $messageHandler]);
+        $messageHandlerCollection = $this->stubMessageSubscribersCollection([$messageName => [$messageHandler]]);
 
         $nameBasedHandlerResolver = new NameBasedMessageSubscriberResolver(
             $messageNameResolver,
             $messageHandlerCollection
         );
 
-        $this->assertSame($messageHandler, $nameBasedHandlerResolver->resolve($message));
+        $this->assertSame([$messageHandler], $nameBasedHandlerResolver->resolve($message));
     }
 
-    private function dummyMessageHandler()
+    private function dummyMessage(): stdClass
     {
-        return $this->getMockBuilder('SimpleBus\Message\Handler\MessageHandler')->getMock();
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
-     */
-    private function dummyMessage()
-    {
-        return new \stdClass();
+        return new stdClass();
     }
 
     /**
-     * @param $message
-     * @param $messageName
-     *
-     * @return MessageNameResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @return MessageNameResolver|MockObject
      */
-    private function stubMessageNameResolver($message, $messageName)
+    private function stubMessageNameResolver(object $message, string $messageName)
     {
-        $messageNameResolver = $this->createMock('SimpleBus\Message\Name\MessageNameResolver');
+        $messageNameResolver = $this->createMock(MessageNameResolver::class);
 
         $messageNameResolver
             ->expects($this->any())
@@ -66,13 +57,13 @@ class NameBasedMessageSubscriberResolverTest extends TestCase
     }
 
     /**
-     * @param callable[] $messageSubscribersByMessageName
+     * @param array<string, object[]> $messageSubscribersByMessageName
      *
-     * @return CallableCollection|\PHPUnit\Framework\MockObject\MockObject
+     * @return CallableCollection|MockObject
      */
     private function stubMessageSubscribersCollection(array $messageSubscribersByMessageName)
     {
-        $messageSubscribersCollection = $this->getMockBuilder('SimpleBus\Message\CallableResolver\CallableCollection')
+        $messageSubscribersCollection = $this->getMockBuilder(CallableCollection::class)
             ->disableOriginalConstructor()
             ->getMock();
 

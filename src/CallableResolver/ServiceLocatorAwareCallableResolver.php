@@ -17,11 +17,9 @@ class ServiceLocatorAwareCallableResolver implements CallableResolver
     }
 
     /**
-     * @param $maybeCallable
-     *
-     * @return callable
+     * @param callable|mixed|object|string $maybeCallable
      */
-    public function resolve($maybeCallable)
+    public function resolve($maybeCallable): callable
     {
         if (is_callable($maybeCallable)) {
             return $maybeCallable;
@@ -60,7 +58,7 @@ class ServiceLocatorAwareCallableResolver implements CallableResolver
         throw CouldNotResolveCallable::createFor($maybeCallable);
     }
 
-    private function loadService($serviceId)
+    private function loadService(string $serviceId): object
     {
         return call_user_func($this->serviceLocator, $serviceId);
     }

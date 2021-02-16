@@ -2,11 +2,14 @@
 
 namespace SimpleBus\Message\Tests\Subscriber;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 use SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
+use stdClass;
 
 /**
  * @internal
@@ -17,7 +20,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itNotifiesAllTheRelevantMessageSubscribers()
+    public function itNotifiesAllTheRelevantMessageSubscribers(): void
     {
         $message = $this->dummyMessage();
 
@@ -44,7 +47,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itLogsEveryCallToASubscriber()
+    public function itLogsEveryCallToASubscriber(): void
     {
         $message = $this->dummyMessage();
 
@@ -57,7 +60,7 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
         ];
 
         $resolver = $this->mockMessageSubscribersResolver($message, $messageSubscribers);
-        $logger = $this->createMock('Psr\Log\LoggerInterface');
+        $logger = $this->createMock(LoggerInterface::class);
         $level = LogLevel::CRITICAL;
 
         $middleware = new NotifiesMessageSubscribersMiddleware($resolver, $logger, $level);
@@ -81,13 +84,13 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
     }
 
     /**
-     * @param object $message
+     * @param CallableSpy[] $messageSubscribers
      *
-     * @return MessageSubscribersResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @return MessageSubscribersResolver|MockObject
      */
-    private function mockMessageSubscribersResolver($message, array $messageSubscribers)
+    private function mockMessageSubscribersResolver(object $message, array $messageSubscribers)
     {
-        $resolver = $this->createMock('SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver');
+        $resolver = $this->createMock(MessageSubscribersResolver::class);
 
         $resolver
             ->expects($this->any())
@@ -98,11 +101,8 @@ class NotifiesMessageSubscribersMiddlewareTest extends TestCase
         return $resolver;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
-     */
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 }

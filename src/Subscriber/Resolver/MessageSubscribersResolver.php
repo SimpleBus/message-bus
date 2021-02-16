@@ -7,9 +7,7 @@ interface MessageSubscribersResolver
     /**
      * Resolve the message subscriber callables that should be notified.
      *
-     * @param object $message
-     *
      * @return callable[]
      */
-    public function resolve($message);
+    public function resolve(object $message): array;
 }

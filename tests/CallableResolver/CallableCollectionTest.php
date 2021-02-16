@@ -2,6 +2,7 @@
 
 namespace SimpleBus\Message\Tests\CallableResolver;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\CallableResolver\CallableResolver;
@@ -13,19 +14,19 @@ use SimpleBus\Message\CallableResolver\CallableResolver;
 class CallableCollectionTest extends TestCase
 {
     /**
-     * @var CallableResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @var CallableResolver|MockObject
      */
     private $callableResolver;
 
     protected function setUp(): void
     {
-        $this->callableResolver = $this->createMock('SimpleBus\Message\CallableResolver\CallableResolver');
+        $this->callableResolver = $this->createMock(CallableResolver::class);
     }
 
     /**
      * @test
      */
-    public function itReturnsAnEmptyArrayIfNoCallablesAreDefined()
+    public function itReturnsAnEmptyArrayIfNoCallablesAreDefined(): void
     {
         $collection = new CallableCollection([], $this->callableResolver);
         $this->assertSame([], $collection->filter('undefined_name'));
@@ -34,7 +35,7 @@ class CallableCollectionTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsManyResolvedCallablesForAGivenName()
+    public function itReturnsManyResolvedCallablesForAGivenName(): void
     {
         $message1Callable1 = function () {
         };

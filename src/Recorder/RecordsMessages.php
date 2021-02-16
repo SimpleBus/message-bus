@@ -6,8 +6,6 @@ interface RecordsMessages extends ContainsRecordedMessages
 {
     /**
      * Record a message.
-     *
-     * @param object $message
      */
-    public function record($message);
+    public function record(object $message): void;
 }

@@ -16,7 +16,7 @@ class StubMessageBusMiddleware implements MessageBusMiddleware
         $this->handler = $handler;
     }
 
-    public function handle($message, callable $next)
+    public function handle(object $message, callable $next): void
     {
         call_user_func($this->handler, $message);
 

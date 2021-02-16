@@ -7,15 +7,9 @@ use SimpleBus\Message\Name\MessageNameResolver;
 
 class NameBasedMessageSubscriberResolver implements MessageSubscribersResolver
 {
-    /**
-     * @var MessageNameResolver
-     */
-    private $messageNameResolver;
+    private MessageNameResolver $messageNameResolver;
 
-    /**
-     * @var CallableCollection
-     */
-    private $messageSubscribers;
+    private CallableCollection $messageSubscribers;
 
     public function __construct(MessageNameResolver $messageNameResolver, CallableCollection $messageSubscribers)
     {
@@ -23,10 +17,7 @@ class NameBasedMessageSubscriberResolver implements MessageSubscribersResolver
         $this->messageSubscribers = $messageSubscribers;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function resolve($message)
+    public function resolve(object $message): array
     {
         $name = $this->messageNameResolver->resolve($message);
 

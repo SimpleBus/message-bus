@@ -5,6 +5,7 @@ namespace SimpleBus\Message\Tests\Recorder;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Recorder\AggregatesRecordedMessages;
 use SimpleBus\Message\Tests\Recorder\Fixtures\ContainsRecordedMessagesStub;
+use stdClass;
 
 /**
  * @internal
@@ -15,7 +16,7 @@ class AggregatesRecordedMessagesTest extends TestCase
     /**
      * @test
      */
-    public function itCollectsMessagesRecordedByAllMessageRecorders()
+    public function itCollectsMessagesRecordedByAllMessageRecorders(): void
     {
         $message1 = $this->dummyMessage();
         $message2 = $this->dummyMessage();
@@ -39,7 +40,7 @@ class AggregatesRecordedMessagesTest extends TestCase
     /**
      * @test
      */
-    public function itErasesMessagesRecordedByAllMessageRecorders()
+    public function itErasesMessagesRecordedByAllMessageRecorders(): void
     {
         $message1 = $this->dummyMessage();
         $messageRecorder1 = new ContainsRecordedMessagesStub([$message1]);
@@ -60,8 +61,8 @@ class AggregatesRecordedMessagesTest extends TestCase
         $this->assertSame([], $messageRecorder2->recordedMessages());
     }
 
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 }

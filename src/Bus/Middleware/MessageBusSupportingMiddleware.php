@@ -9,8 +9,11 @@ class MessageBusSupportingMiddleware implements MessageBus
     /**
      * @var MessageBusMiddleware[]
      */
-    private $middlewares = [];
+    private array $middlewares = [];
 
+    /**
+     * @param MessageBusMiddleware[] $middlewares
+     */
     public function __construct(array $middlewares = [])
     {
         foreach ($middlewares as $middleware) {
@@ -23,7 +26,7 @@ class MessageBusSupportingMiddleware implements MessageBus
      *
      * @private
      */
-    public function appendMiddleware(MessageBusMiddleware $middleware)
+    public function appendMiddleware(MessageBusMiddleware $middleware): void
     {
         $this->middlewares[] = $middleware;
     }
@@ -33,9 +36,9 @@ class MessageBusSupportingMiddleware implements MessageBus
      *
      * @private
      *
-     * @return array<MessageBusMiddleware>
+     * @return MessageBusMiddleware[]
      */
-    public function getMiddlewares()
+    public function getMiddlewares(): array
     {
         return $this->middlewares;
     }
@@ -45,17 +48,17 @@ class MessageBusSupportingMiddleware implements MessageBus
      *
      * @private
      */
-    public function prependMiddleware(MessageBusMiddleware $middleware)
+    public function prependMiddleware(MessageBusMiddleware $middleware): void
     {
         array_unshift($this->middlewares, $middleware);
     }
 
-    public function handle($message)
+    public function handle(object $message): void
     {
         call_user_func($this->callableForNextMiddleware(0), $message);
     }
 
-    private function callableForNextMiddleware($index)
+    private function callableForNextMiddleware(int $index): callable
     {
         if (!isset($this->middlewares[$index])) {
             return function () {

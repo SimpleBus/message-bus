@@ -6,10 +6,6 @@ interface MessageHandlerResolver
 {
     /**
      * Resolve the message handler callable for the given message.
-     *
-     * @param object $message
-     *
-     * @return callable
      */
-    public function resolve($message);
+    public function resolve(object $message): callable;
 }

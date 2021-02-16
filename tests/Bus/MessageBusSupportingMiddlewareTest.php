@@ -2,8 +2,12 @@
 
 namespace SimpleBus\Message\Tests\Bus;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use SimpleBus\Message\Bus\MessageBus;
+use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
+use stdClass;
 
 /**
  * @internal
@@ -14,8 +18,9 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itLetsAllStackedMessageBusesHandleTheMessage()
+    public function itLetsAllStackedMessageBusesHandleTheMessage(): void
     {
+        /** @var MessageBus[] $actualMessageBusesCalled */
         $actualMessageBusesCalled = [];
 
         $stackedMessageBuses = [
@@ -34,7 +39,7 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itWorksWithNoMessageBuses()
+    public function itWorksWithNoMessageBuses(): void
     {
         $message = $this->dummyMessage();
         $messageBusStack = new MessageBusSupportingMiddleware([]);
@@ -46,7 +51,7 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itWorksWithOneMessageBus()
+    public function itWorksWithOneMessageBus(): void
     {
         $actualMessageBusesCalled = [];
 
@@ -64,7 +69,7 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itCanPrependMiddleware()
+    public function itCanPrependMiddleware(): void
     {
         $actualMessageBusesCalled = [];
 
@@ -85,11 +90,11 @@ class MessageBusSupportingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itCanReturnAnArrayWithItsMiddlewares()
+    public function itCanReturnAnArrayWithItsMiddlewares(): void
     {
         $stackedMessageBuses = [
-            $this->createMock('SimpleBus\Message\Bus\Middleware\MessageBusMiddleware'),
-            $this->createMock('SimpleBus\Message\Bus\Middleware\MessageBusMiddleware'),
+            $this->createMock(MessageBusMiddleware::class),
+            $this->createMock(MessageBusMiddleware::class),
         ];
 
         $messageBusStack = new MessageBusSupportingMiddleware($stackedMessageBuses);
@@ -97,9 +102,14 @@ class MessageBusSupportingMiddlewareTest extends TestCase
         $this->assertEquals($stackedMessageBuses, $messageBusStack->getMiddlewares());
     }
 
+    /**
+     * @param MessageBus[] $actualMessageBusesCalled
+     *
+     * @return MessageBusMiddleware|MockObject
+     */
     private function mockStackedMessageBus(&$actualMessageBusesCalled)
     {
-        $messageBus = $this->createMock('SimpleBus\Message\Bus\Middleware\MessageBusMiddleware');
+        $messageBus = $this->createMock(MessageBusMiddleware::class);
 
         $messageBus
             ->expects($this->once())
@@ -116,11 +126,8 @@ class MessageBusSupportingMiddlewareTest extends TestCase
         return $messageBus;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
-     */
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 }

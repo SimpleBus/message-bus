@@ -2,6 +2,8 @@
 
 namespace SimpleBus\Message\CallableResolver\Exception;
 
-class UndefinedCallable extends \LogicException
+use LogicException;
+
+class UndefinedCallable extends LogicException
 {
 }

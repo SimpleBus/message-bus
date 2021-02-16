@@ -6,7 +6,7 @@ use LogicException;
 
 class CouldNotResolveMessageName extends LogicException
 {
-    public static function forMessage($message, $exceptionMessage)
+    public static function forMessage(object $message, string $exceptionMessage): self
     {
         return new self(
             sprintf(

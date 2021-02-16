@@ -15,12 +15,12 @@ class ClassBasedNameResolverTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsTheFullClassNameAsTheUniqueNameOfAMessage()
+    public function itReturnsTheFullClassNameAsTheUniqueNameOfAMessage(): void
     {
         $resolver = new ClassBasedNameResolver();
         $message = new DummyMessage();
         $this->assertSame(
-            'SimpleBus\Message\Tests\Handler\Resolver\Fixtures\DummyMessage',
+            DummyMessage::class,
             $resolver->resolve($message)
         );
     }

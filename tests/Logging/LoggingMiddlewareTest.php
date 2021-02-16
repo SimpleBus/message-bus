@@ -3,8 +3,10 @@
 namespace SimpleBus\Message\Tests\Logging;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use SimpleBus\Message\Logging\LoggingMiddleware;
+use stdClass;
 
 /**
  * @internal
@@ -15,14 +17,14 @@ class LoggingMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function itLogsMessagesBeforeAndAfterHandlingIt()
+    public function itLogsMessagesBeforeAndAfterHandlingIt(): void
     {
         $orderOfEvents = [];
         $message = $this->dummyMessage();
 
         $logLevel = LogLevel::DEBUG;
 
-        $logger = $this->createMock('Psr\Log\LoggerInterface');
+        $logger = $this->createMock(LoggerInterface::class);
         $logger
             ->expects($this->exactly(2))
             ->method('log')
@@ -50,8 +52,8 @@ class LoggingMiddlewareTest extends TestCase
         );
     }
 
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 }

@@ -7,15 +7,15 @@ use SimpleBus\Message\CallableResolver\Exception\UndefinedCallable;
 class CallableMap
 {
     /**
-     * @var array
+     * @var array<string, callable>
      */
-    private $callablesByName;
+    private array $callablesByName;
+
+    private CallableResolver $callableResolver;
 
     /**
-     * @var CallableResolver
+     * @param array<string, callable> $callablesByName
      */
-    private $callableResolver;
-
     public function __construct(
         array $callablesByName,
         CallableResolver $callableResolver
@@ -24,12 +24,7 @@ class CallableMap
         $this->callableResolver = $callableResolver;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return callable
-     */
-    public function get($name)
+    public function get(string $name): callable
     {
         if (!array_key_exists($name, $this->callablesByName)) {
             throw new UndefinedCallable(sprintf('Could not find a callable for name "%s"', $name));

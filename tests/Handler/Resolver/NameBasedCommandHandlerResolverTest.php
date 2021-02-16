@@ -2,10 +2,13 @@
 
 namespace SimpleBus\Message\Tests\Handler\Resolver;
 
+use Closure;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
 use SimpleBus\Message\Name\MessageNameResolver;
+use stdClass;
 
 /**
  * @internal
@@ -16,7 +19,7 @@ class NameBasedMessageHandlerResolverTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsAMessageHandlerFromTheHandlerCollectionByItsName()
+    public function itReturnsAMessageHandlerFromTheHandlerCollectionByItsName(): void
     {
         $message = $this->dummyMessage();
         $messageName = 'message_name';
@@ -33,29 +36,23 @@ class NameBasedMessageHandlerResolverTest extends TestCase
         $this->assertSame($messageHandler, $nameBasedHandlerResolver->resolve($message));
     }
 
-    private function dummyMessageHandler()
+    private function dummyMessageHandler(): Closure
     {
         return function () {
         };
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
-     */
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 
     /**
-     * @param $message
-     * @param $messageName
-     *
-     * @return MessageNameResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @return MessageNameResolver|MockObject
      */
-    private function stubMessageNameResolver($message, $messageName)
+    private function stubMessageNameResolver(object $message, string $messageName)
     {
-        $messageNameResolver = $this->createMock('SimpleBus\Message\Name\MessageNameResolver');
+        $messageNameResolver = $this->createMock(MessageNameResolver::class);
 
         $messageNameResolver
             ->expects($this->any())
@@ -69,11 +66,11 @@ class NameBasedMessageHandlerResolverTest extends TestCase
     /**
      * @param callable[] $messageHandlersByMessageName
      *
-     * @return CallableMap|\PHPUnit\Framework\MockObject\MockObject
+     * @return CallableMap|MockObject
      */
     private function messageHandlerMap(array $messageHandlersByMessageName)
     {
-        $messageHandlerMap = $this->getMockBuilder('SimpleBus\Message\CallableResolver\CallableMap')
+        $messageHandlerMap = $this->getMockBuilder(CallableMap::class)
             ->disableOriginalConstructor()
             ->getMock();
         $messageHandlerMap

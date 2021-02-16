@@ -7,22 +7,16 @@ use Throwable;
 class FinishesHandlingMessageBeforeHandlingNext implements MessageBusMiddleware
 {
     /**
-     * @var array
+     * @var object[]
      */
-    private $queue = [];
+    private array $queue = [];
+
+    private bool $isHandling = false;
 
     /**
-     * @var bool
+     * Completely finishes handling the current message, before allowing other middlewares to start handling new messages.
      */
-    private $isHandling = false;
-
-    /**
-     * Completely finishes handling the current message, before allowing other middlewares to start handling new
-     * messages.
-     *
-     * {@inheritdoc}
-     */
-    public function handle($message, callable $next)
+    public function handle(object $message, callable $next): void
     {
         $this->queue[] = $message;
 

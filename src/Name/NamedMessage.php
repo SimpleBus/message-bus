@@ -6,8 +6,6 @@ interface NamedMessage
 {
     /**
      * The name of this particular type of message.
-     *
-     * @return string
      */
-    public static function messageName();
+    public static function messageName(): string;
 }

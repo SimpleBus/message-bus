@@ -6,19 +6,28 @@ use SimpleBus\Message\Recorder\ContainsRecordedMessages;
 
 class ContainsRecordedMessagesStub implements ContainsRecordedMessages
 {
-    private $messages;
+    /**
+     * @var object[]
+     */
+    private array $messages;
 
+    /**
+     * @param object[] $messages
+     */
     public function __construct(array $messages)
     {
         $this->messages = $messages;
     }
 
-    public function eraseMessages()
+    public function eraseMessages(): void
     {
         $this->messages = [];
     }
 
-    public function recordedMessages()
+    /**
+     * @return object[]
+     */
+    public function recordedMessages(): array
     {
         return $this->messages;
     }

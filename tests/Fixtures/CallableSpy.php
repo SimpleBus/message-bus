@@ -4,21 +4,28 @@ namespace SimpleBus\Message\Tests\Fixtures;
 
 class CallableSpy
 {
-    private $hasBeenCalled = 0;
-    private $receivedMessages = [];
+    private int $hasBeenCalled = 0;
 
-    public function __invoke($message)
+    /**
+     * @var object[]
+     */
+    private array $receivedMessages = [];
+
+    public function __invoke(object $message): void
     {
         ++$this->hasBeenCalled;
         $this->receivedMessages[] = $message;
     }
 
-    public function hasBeenCalled()
+    public function hasBeenCalled(): int
     {
         return $this->hasBeenCalled;
     }
 
-    public function receivedMessages()
+    /**
+     * @return object[]
+     */
+    public function receivedMessages(): array
     {
         return $this->receivedMessages;
     }

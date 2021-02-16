@@ -9,10 +9,10 @@ interface ContainsRecordedMessages
      *
      * @return object[]
      */
-    public function recordedMessages();
+    public function recordedMessages(): array;
 
     /**
      * Erase messages that were recorded since the last call to eraseMessages().
      */
-    public function eraseMessages();
+    public function eraseMessages(): void;
 }

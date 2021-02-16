@@ -2,9 +2,11 @@
 
 namespace SimpleBus\Message\Tests\CallableResolver;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\CallableResolver\CallableResolver;
+use SimpleBus\Message\CallableResolver\Exception\UndefinedCallable;
 
 /**
  * @internal
@@ -13,35 +15,34 @@ use SimpleBus\Message\CallableResolver\CallableResolver;
 class CallableMapTest extends TestCase
 {
     /**
-     * @var CallableResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @var CallableResolver|MockObject
      */
     private $callableResolver;
-    private $map;
 
     protected function setUp(): void
     {
-        $this->callableResolver = $this->createMock('SimpleBus\Message\CallableResolver\CallableResolver');
+        $this->callableResolver = $this->createMock(CallableResolver::class);
     }
 
     /**
      * @test
      */
-    public function itFailsIfNoCallableIsDefinedForAGivenName()
+    public function itFailsIfNoCallableIsDefinedForAGivenName(): void
     {
         $map = new CallableMap([], $this->callableResolver);
 
-        $this->expectException('SimpleBus\Message\CallableResolver\Exception\UndefinedCallable');
+        $this->expectException(UndefinedCallable::class);
         $map->get('undefined_name');
     }
 
     /**
      * @test
      */
-    public function itReturnsManyResolvedCallablesForAGivenName()
+    public function itReturnsManyResolvedCallablesForAGivenName(): void
     {
         $message1Callable = function () {
         };
-        $this->map = new CallableMap(
+        $map = new CallableMap(
             [
                 'message1' => $message1Callable,
                 'message2' => function () {
@@ -52,12 +53,12 @@ class CallableMapTest extends TestCase
 
         $this->callableResolverShouldResolve($message1Callable);
 
-        $callable = $this->map->get('message1');
+        $callable = $map->get('message1');
 
         $this->assertSame($message1Callable, $callable);
     }
 
-    private function callableResolverShouldResolve($callable)
+    private function callableResolverShouldResolve(callable $callable): void
     {
         $this->callableResolver
             ->expects($this->once())

@@ -3,6 +3,7 @@
 namespace SimpleBus\Message\Tests\Name;
 
 use PHPUnit\Framework\TestCase;
+use SimpleBus\Message\Name\Exception\CouldNotResolveMessageName;
 use SimpleBus\Message\Name\NamedMessageNameResolver;
 use SimpleBus\Message\Tests\Name\Fixtures\StubNamedMessage;
 use stdClass;
@@ -16,7 +17,7 @@ class NamedMessageNameResolverTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsTheNameOfTheNamedMessage()
+    public function itReturnsTheNameOfTheNamedMessage(): void
     {
         $messageName = 'message_name';
         StubNamedMessage::$name = $messageName;
@@ -30,22 +31,7 @@ class NamedMessageNameResolverTest extends TestCase
     /**
      * @test
      */
-    public function itFailsWhenTheNameIsNotAString()
-    {
-        $notAString = new stdClass();
-        StubNamedMessage::$name = $notAString;
-        $message = new StubNamedMessage();
-
-        $resolver = new NamedMessageNameResolver();
-
-        $this->expectException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
-        $resolver->resolve($message);
-    }
-
-    /**
-     * @test
-     */
-    public function itFailsWhenTheNameIsAnEmptyString()
+    public function itFailsWhenTheNameIsAnEmptyString(): void
     {
         $emptyString = '';
         StubNamedMessage::$name = $emptyString;
@@ -53,27 +39,24 @@ class NamedMessageNameResolverTest extends TestCase
 
         $resolver = new NamedMessageNameResolver();
 
-        $this->expectException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
+        $this->expectException(CouldNotResolveMessageName::class);
         $resolver->resolve($message);
     }
 
     /**
      * @test
      */
-    public function itFailsWhenTheMessageIsNotANamedMessage()
+    public function itFailsWhenTheMessageIsNotANamedMessage(): void
     {
         $resolver = new NamedMessageNameResolver();
 
-        $this->expectException('SimpleBus\Message\Name\Exception\CouldNotResolveMessageName');
+        $this->expectException(CouldNotResolveMessageName::class);
         $notANamedMessage = $this->dummyMessage();
         $resolver->resolve($notANamedMessage);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\stdClass
-     */
-    private function dummyMessage()
+    private function dummyMessage(): stdClass
     {
-        return new \stdClass();
+        return new stdClass();
     }
 }
