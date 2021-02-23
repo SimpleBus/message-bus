@@ -2,7 +2,12 @@
     "name": "simple-bus/message-bus",
     "type": "library",
     "description": "Generic classes and interfaces for messages and message buses",
-    "keywords": ["message", "message bus", "event bus", "command bus"],
+    "keywords": [
+        "message",
+        "message bus",
+        "event bus",
+        "command bus"
+    ],
     "homepage": "http://github.com/SimpleBus/MessageBus",
     "license": "MIT",
     "authors": [
