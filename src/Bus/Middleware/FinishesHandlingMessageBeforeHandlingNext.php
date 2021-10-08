@@ -18,12 +18,12 @@ class FinishesHandlingMessageBeforeHandlingNext implements MessageBusMiddleware
      */
     public function handle(object $message, callable $next): void
     {
-        $this->queue[] = $message;
+        $this->queue[] = [$message, $next];
 
         if (!$this->isHandling) {
             $this->isHandling = true;
 
-            while ($message = array_shift($this->queue)) {
+            while ([$message, $next] = array_shift($this->queue)) {
                 try {
                     $next($message);
                 } catch (Throwable $exception) {
