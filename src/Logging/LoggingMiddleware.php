@@ -9,9 +9,14 @@ class LoggingMiddleware implements MessageBusMiddleware
 {
     private LoggerInterface $logger;
 
-    private string $level;
+    /**
+     * @var mixed
+     */
+    private $level;
 
-    public function __construct(LoggerInterface $logger, string $level)
+    /**
+     * @param mixed $level
+    public function __construct(LoggerInterface $logger, $level)
     {
         $this->logger = $logger;
         $this->level = $level;
