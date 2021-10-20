@@ -14,7 +14,7 @@ class CouldNotResolveCallable extends LogicException
         return new self(
             sprintf(
                 '%s could not be resolved to a valid callable',
-                static::printValue($value)
+                self::printValue($value)
             )
         );
     }
