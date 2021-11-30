@@ -32,7 +32,7 @@
     "require-dev": {
         "ergebnis/composer-normalize": "^2.11",
         "phpunit/phpunit": "^9.5.5",
-        "symfony/phpunit-bridge": "^5.3.7"
+        "symfony/phpunit-bridge": "^6.0"
     },
     "config": {
         "sort-packages": true
