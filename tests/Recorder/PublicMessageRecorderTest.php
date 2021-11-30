@@ -6,10 +6,6 @@ use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Recorder\PublicMessageRecorder;
 use stdClass;
 
-/**
- * @internal
- * @coversNothing
- */
 class PublicMessageRecorderTest extends TestCase
 {
     /**

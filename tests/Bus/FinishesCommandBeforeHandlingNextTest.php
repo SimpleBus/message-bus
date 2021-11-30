@@ -10,10 +10,6 @@ use stdClass;
 use Throwable;
 use TypeError;
 
-/**
- * @internal
- * @coversNothing
- */
 class FinishesMessageBeforeHandlingNextTest extends TestCase
 {
     /**

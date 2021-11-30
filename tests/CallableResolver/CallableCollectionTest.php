@@ -7,10 +7,6 @@ use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\CallableResolver\CallableCollection;
 use SimpleBus\Message\CallableResolver\CallableResolver;
 
-/**
- * @internal
- * @coversNothing
- */
 class CallableCollectionTest extends TestCase
 {
     /**

@@ -6,10 +6,6 @@ use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Tests\Recorder\Fixtures\PrivateMessageRecorderCapabilitiesStub;
 use stdClass;
 
-/**
- * @internal
- * @coversNothing
- */
 class MessageRecorderCapabilitiesStubTest extends TestCase
 {
     /**

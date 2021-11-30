@@ -11,10 +11,6 @@ use SimpleBus\Message\Recorder\HandlesRecordedMessagesMiddleware;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 use stdClass;
 
-/**
- * @internal
- * @coversNothing
- */
 class HandlesRecordedMessagesMiddlewareTest extends TestCase
 {
     /**

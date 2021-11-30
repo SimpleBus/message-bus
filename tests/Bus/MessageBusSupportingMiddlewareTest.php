@@ -9,10 +9,6 @@ use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use stdClass;
 
-/**
- * @internal
- * @coversNothing
- */
 class MessageBusSupportingMiddlewareTest extends TestCase
 {
     /**

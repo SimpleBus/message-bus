@@ -11,10 +11,6 @@ use SimpleBus\Message\Subscriber\Resolver\MessageSubscribersResolver;
 use SimpleBus\Message\Tests\Fixtures\CallableSpy;
 use stdClass;
 
-/**
- * @internal
- * @coversNothing
- */
 class NotifiesMessageSubscribersMiddlewareTest extends TestCase
 {
     /**

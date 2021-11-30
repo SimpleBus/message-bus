@@ -8,10 +8,6 @@ use SimpleBus\Message\CallableResolver\CallableMap;
 use SimpleBus\Message\CallableResolver\CallableResolver;
 use SimpleBus\Message\CallableResolver\Exception\UndefinedCallable;
 
-/**
- * @internal
- * @coversNothing
- */
 class CallableMapTest extends TestCase
 {
     /**

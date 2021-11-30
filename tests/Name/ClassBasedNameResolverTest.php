@@ -6,10 +6,6 @@ use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Name\ClassBasedNameResolver;
 use SimpleBus\Message\Tests\Handler\Resolver\Fixtures\DummyMessage;
 
-/**
- * @internal
- * @coversNothing
- */
 class ClassBasedNameResolverTest extends TestCase
 {
     /**

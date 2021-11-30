@@ -10,10 +10,6 @@ use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
 use SimpleBus\Message\Name\MessageNameResolver;
 use stdClass;
 
-/**
- * @internal
- * @coversNothing
- */
 class NameBasedMessageHandlerResolverTest extends TestCase
 {
     /**
