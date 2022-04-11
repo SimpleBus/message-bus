@@ -5,14 +5,14 @@ namespace SimpleBus\Message\CallableResolver;
 class CallableCollection
 {
     /**
-     * @var array<string, callable[]>
+     * @var array<string, mixed[]>
      */
     private array $callablesByName;
 
     private CallableResolver $callableResolver;
 
     /**
-     * @param array<string, callable[]> $callablesByName
+     * @param array<string, mixed[]> $callablesByName
      */
     public function __construct(
         array $callablesByName,
